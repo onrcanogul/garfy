@@ -1,57 +1,51 @@
 package com.petstagram.socialmedia.service.comment.impl;
 
-import com.petstagram.socialmedia.configuration.mapper.mapping.CommentMapper;
+import com.petstagram.socialmedia.configuration.mapper.Mapper;
 import com.petstagram.socialmedia.configuration.response.ServiceResponse;
 import com.petstagram.socialmedia.dto.comment.CommentDto;
 import com.petstagram.socialmedia.entity.comment.Comment;
 import com.petstagram.socialmedia.repository.comment.CommentRepository;
+import com.petstagram.socialmedia.service.base.impl.BaseServiceImpl;
 import com.petstagram.socialmedia.service.comment.CommentService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+
 @Service
-public class CommentServiceImpl implements CommentService {
+public class CommentServiceImpl extends BaseServiceImpl<Comment, CommentDto> implements CommentService {
+
 
     private final CommentRepository repository;
-    private final CommentMapper mapper;
+    private final Mapper<Comment, CommentDto> mapper;
 
-    public CommentServiceImpl(CommentRepository repository, CommentMapper mapper) {
+
+    public CommentServiceImpl(CommentRepository repository, Mapper<Comment, CommentDto> mapper) {
+        super(repository, mapper);
         this.repository = repository;
         this.mapper = mapper;
     }
-
-    @Override
-    public ServiceResponse<List<CommentDto>> get(UUID postId) {
-        List<CommentDto> comments = repository.findByPost(postId).stream().map(mapper::toDto).toList();
-        return ServiceResponse.success(comments, 200);
+    public ServiceResponse<List<CommentDto>> get(int page, int size, UUID postId) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Comment> comments = repository.findByPostId(postId, pageable);
+        List<CommentDto> commentDtos = comments.getContent()
+                .stream()
+                .map(mapper::toDto)
+                .toList();
+        return ServiceResponse.success(commentDtos, 200);
     }
-
     @Override
-    public ServiceResponse<CommentDto> create(CommentDto model) {
-        Comment comment = mapper.toEntity(model);
-        Comment createdComment = repository.save(comment);
-        return ServiceResponse.success(mapper.toDto(createdComment), 201);
-    }
-
-    @Override
-    public ServiceResponse<CommentDto> update(CommentDto model) {
-        Comment comment = repository.findById(model.getId()).orElseThrow(() -> new NullPointerException());
-        comment.setContent(model.getContent());
-        comment.setStatus(model.getStatus());
-        comment.setCreatedDate(model.getCreatedDate());
-        comment.setUpdatedDate(model.getUpdatedDate());
-        comment.setCreatedBy(model.getCreatedBy());
-        comment.setUpdatedBy(model.getUpdatedBy());
-        Comment updatedComment = repository.save(comment);
-        return ServiceResponse.success(mapper.toDto(updatedComment), 200);
-    }
-
-    @Override
-    public ServiceResponse<Void> delete(UUID id) {
-        Comment comment = repository.findById(id).orElseThrow(() -> new NullPointerException());
-        repository.delete(comment);
-        return ServiceResponse.success(204);
+    protected void updateEntity(CommentDto dto, Comment entity) {
+        entity.setContent(dto.getContent());
+        entity.setCreatedDate(dto.getCreatedDate());
+        entity.setUpdatedDate(dto.getUpdatedDate());
+        entity.setCreatedBy(dto.getCreatedBy());
+        entity.setUpdatedBy(dto.getUpdatedBy());
     }
 }
+
+

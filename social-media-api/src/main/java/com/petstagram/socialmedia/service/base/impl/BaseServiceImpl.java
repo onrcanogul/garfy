@@ -1,6 +1,6 @@
 package com.petstagram.socialmedia.service.base.impl;
 
-import com.petstagram.socialmedia.configuration.mapper.Mapping;
+import com.petstagram.socialmedia.configuration.mapper.Mapper;
 import com.petstagram.socialmedia.configuration.response.ServiceResponse;
 import com.petstagram.socialmedia.dto.base.BaseDto;
 import com.petstagram.socialmedia.entity.base.BaseEntity;
@@ -18,16 +18,16 @@ import java.util.stream.Stream;
 @Service
 public abstract class BaseServiceImpl<T extends BaseEntity, D extends BaseDto> implements BaseService<T, D> {
     private final BaseRepository<T> repository;
-    private final Mapping<T, D> mapper;
-    public BaseServiceImpl(BaseRepository<T> repository, Mapping<T, D> mapper) {
+    private final Mapper<T, D> mapper;
+    public BaseServiceImpl(BaseRepository<T> repository, Mapper<T, D> mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
 
-    public ServiceResponse<List<D>> get(int page , int size, Optional<Predicate<? super T>> predicate) {
+    public ServiceResponse<List<D>> get(int page , int size, Predicate<T> predicate) {
         Stream<T> entityStream = repository.findAll().stream();
         if(predicate != null) {
-            entityStream = entityStream.filter(predicate.get());
+            entityStream = entityStream.filter(predicate);
         }
         if(page != 0 && size != 0) {
             entityStream = entityStream.skip((long) page * size).limit(size);

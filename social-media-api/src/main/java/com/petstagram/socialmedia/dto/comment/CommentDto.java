@@ -1,22 +1,48 @@
 package com.petstagram.socialmedia.dto.comment;
 
 import com.petstagram.socialmedia.dto.base.BaseDto;
-import com.petstagram.socialmedia.entity.post.Post;
-import com.petstagram.socialmedia.entity.status.CommentStatus;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.petstagram.socialmedia.dto.post.PostDto;
+import com.petstagram.socialmedia.dto.status.CommentStatusDto;
+
 
 import java.util.UUID;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class CommentDto extends BaseDto {
     private UUID userId;
     private String content;
-    private Post post;
-    private CommentStatus status;
+    private PostDto post;
+    private CommentStatusDto status;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public PostDto getPost() {
+        return post;
+    }
+
+    public void setPost(PostDto post) {
+        this.post = post;
+    }
+
+    public CommentStatusDto getStatus() {
+        return status;
+    }
+
+    public void setStatus(CommentStatusDto status) {
+        this.status = status;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
+    }
 }

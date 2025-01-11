@@ -26,7 +26,7 @@ public class PostController extends BaseController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ServiceResponse<PostDto>> getById(@PathVariable UUID id) {
-        return controllerResponse(service.getSingle(p -> p.getId() == id));
+        return controllerResponse(service.getSingle(p -> p.getId().equals(id)));
     }
 
     @PostMapping

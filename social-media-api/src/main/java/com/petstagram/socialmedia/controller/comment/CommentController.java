@@ -19,9 +19,9 @@ public class CommentController extends BaseController {
         this.service = service;
     }
 
-    @GetMapping("/{postId}")
-    public ResponseEntity<ServiceResponse<List<CommentDto>>> get(@PathVariable UUID postId) {
-        return controllerResponse(service.get(postId));
+    @GetMapping("/{page}/{size}/{postId}")
+    public ResponseEntity<ServiceResponse<List<CommentDto>>> get(@PathVariable UUID postId , @PathVariable int page, @PathVariable int size) {
+        return controllerResponse(service.get(page, size, postId));
     }
 
     @PostMapping
@@ -31,7 +31,7 @@ public class CommentController extends BaseController {
 
     @PutMapping
     public ResponseEntity<ServiceResponse<CommentDto>> update(@RequestBody CommentDto model) {
-        return controllerResponse(service.update(model));
+        return controllerResponse(service.update(model, model.getId()));
     }
 
     @DeleteMapping("/{id}")

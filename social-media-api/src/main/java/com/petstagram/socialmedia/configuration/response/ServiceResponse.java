@@ -1,17 +1,45 @@
 package com.petstagram.socialmedia.configuration.response;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter @Setter
 public class ServiceResponse<T> {
     private T data;
     private List<String> errors;
     private int statusCode;
     private boolean isSuccessful;
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public List<String> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(List<String> errors) {
+        this.errors = errors;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public boolean isSuccessful() {
+        return isSuccessful;
+    }
+
+    public void setSuccessful(boolean successful) {
+        isSuccessful = successful;
+    }
 
     public static <T> ServiceResponse<T> success(T data, int statusCode) {
         ServiceResponse<T> response = new ServiceResponse<>();
