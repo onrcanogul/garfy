@@ -1,9 +1,7 @@
 package com.petstagram.socialmedia.repository.status;
 
 import com.petstagram.socialmedia.entity.status.CommentStatus;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.petstagram.socialmedia.repository.base.BaseRepository;
 
-import java.util.UUID;
-
-public interface CommentStatusRepository extends JpaRepository<CommentStatus, UUID> {
+public interface CommentStatusRepository extends BaseRepository<CommentStatus> {
 }

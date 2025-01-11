@@ -21,5 +21,4 @@ public class Post extends BaseEntity {
     private List<Comment> comments = new ArrayList<>();
     @OneToOne(mappedBy = "post_status", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private PostStatus status;
-
 }

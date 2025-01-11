@@ -1,9 +1,7 @@
 package com.petstagram.socialmedia.repository.story;
 
 import com.petstagram.socialmedia.entity.story.Story;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.petstagram.socialmedia.repository.base.BaseRepository;
 
-import java.util.UUID;
-
-public interface StoryRepository extends JpaRepository<Story, UUID> {
+public interface StoryRepository extends BaseRepository<Story> {
 }
