@@ -1,3 +1,4 @@
+import { useNavigationState } from "@react-navigation/native";
 import React from "react";
 import {
   View,
@@ -16,21 +17,21 @@ interface HeaderProps {
   onSelectPress: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({
-  selectedValue,
-  onMenuPress,
-  onSelectPress,
-}) => {
+const Header: React.FC<HeaderProps> = ({ selectedValue, onSelectPress }) => {
+  const state = useNavigationState((state) => state);
+
+  // Ensure `state` and `state.routes` are defined
+  const currentTab = state?.routes?.[state.index]?.name || "";
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={onMenuPress}>
-          <Text style={styles.menuIcon}>☰</Text>
-        </TouchableOpacity>
-        <Text style={styles.title}>Uygulama Başlığı</Text>
-        <TouchableOpacity onPress={onSelectPress} style={styles.selectButton}>
-          <Text style={styles.selectText}>{selectedValue}</Text>
-        </TouchableOpacity>
+        <Text style={styles.title}>Petstagram</Text>
+        {currentTab === "Social Media" ? (
+          <TouchableOpacity onPress={onSelectPress} style={styles.selectButton}>
+            <Text style={styles.selectText}>{selectedValue}</Text>
+          </TouchableOpacity>
+        ) : null}
       </View>
     </SafeAreaView>
   );
@@ -38,26 +39,27 @@ const Header: React.FC<HeaderProps> = ({
 
 const styles = StyleSheet.create({
   safeArea: {
-    backgroundColor: "#333",
+    backgroundColor: "#213555",
+    flex: 0.07,
   },
   header: {
     width: "100%",
-    height: 50,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    backgroundColor: "#333",
-    paddingHorizontal: 10,
+    backgroundColor: "#213555",
+    paddingHorizontal: 5,
   },
   title: {
     color: "#fff",
-    fontSize: width * 0.045,
+    fontSize: width * 0.04,
+    textAlign: "center",
     fontWeight: "bold",
     marginLeft: 10,
   },
   selectButton: {
     marginLeft: "auto",
-    backgroundColor: "#555",
+    backgroundColor: "#213555",
     paddingVertical: 5,
     paddingHorizontal: 15,
     borderRadius: 5,
@@ -65,10 +67,6 @@ const styles = StyleSheet.create({
   selectText: {
     color: "#fff",
     fontSize: width * 0.04,
-  },
-  menuIcon: {
-    color: "#fff",
-    fontSize: width * 0.06,
   },
 });
 
