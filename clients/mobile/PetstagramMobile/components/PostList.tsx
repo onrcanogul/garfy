@@ -9,7 +9,7 @@ const posts = [
     username: "petlover123",
     profileImage: "https://picsum.photos/50/50", // Profil resmi
     images: [
-      "https://picsum.photos/300/300?random=1", // İlk resim
+      "https://picsum.photos/1000/1000?random=1", // İlk resim
       "https://picsum.photos/300/300?random=2", // İkinci resim
       "https://picsum.photos/300/300?random=3", // Üçüncü resim
     ],
@@ -21,7 +21,7 @@ const posts = [
     username: "doglover456",
     profileImage: "https://picsum.photos/50/50?random=4", // Profil resmi
     images: [
-      "https://picsum.photos/300/300?random=5", // İlk resim
+      "https://source.unsplash.com/random/1080x1080", // İlk resim
       "https://picsum.photos/300/300?random=6", // İkinci resim
     ],
     likes: 112,

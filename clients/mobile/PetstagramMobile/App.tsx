@@ -9,19 +9,19 @@ import PostList from "./components/PostList";
 const Tab = createBottomTabNavigator();
 
 const SocialMediaScreen = () => (
-  <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+  <View style={{ flex: 0.87, justifyContent: "center", alignItems: "center" }}>
     <PostList />
   </View>
 );
 
 const ProfileScreen = () => (
-  <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+  <View style={{ flex: 0.87, justifyContent: "center", alignItems: "center" }}>
     <Text>Profile Screen</Text>
   </View>
 );
 
 const SettingsScreen = () => (
-  <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+  <View style={{ flex: 0.87, justifyContent: "center", alignItems: "center" }}>
     <Text>Settings Screen</Text>
   </View>
 );

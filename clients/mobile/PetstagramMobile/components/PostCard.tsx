@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Icon from "react-native-vector-icons/Feather"; // İkonlar için Feather kütüphanesi
+import CommentModal from "./CommentModal";
 
 const { width } = Dimensions.get("window");
 
@@ -26,7 +27,22 @@ const PostCard: React.FC<PostCardProps> = ({
   likes,
   commentsCount,
 }) => {
+  const [isModalVisible, setModalVisible] = React.useState(false);
   const [activeIndex, setActiveIndex] = React.useState(0); // Aktif resmin indeksini tutar
+  const [comments, setComments] = React.useState([
+    {
+      id: 1,
+      username: "user123",
+      text: "Harika bir paylaşım!",
+      timestamp: "2 saat önce",
+    },
+    {
+      id: 2,
+      username: "doglover",
+      text: "Bunu çok sevdim!",
+      timestamp: "1 gün önce",
+    },
+  ]);
 
   const handleScroll = (event) => {
     const scrollX = event.nativeEvent.contentOffset.x;
@@ -39,7 +55,20 @@ const PostCard: React.FC<PostCardProps> = ({
   };
 
   const handleCommentPress = () => {
-    console.log("Yorum butonuna basıldı!");
+    setModalVisible(true);
+  };
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
+
+  const handleAddComment = (text: string) => {
+    const newComment = {
+      id: comments.length + 1,
+      username: "currentUser", // Yorum yapan kullanıcının adı
+      text,
+      timestamp: "Şimdi", // Yeni yorumun zaman damgası
+    };
+    setComments([...comments, newComment]); // Yorumları güncelle
   };
 
   return (
@@ -58,20 +87,20 @@ const PostCard: React.FC<PostCardProps> = ({
         data={images}
         keyExtractor={(item, index) => index.toString()}
         horizontal
-        onScroll={handleScroll}
-        showsHorizontalScrollIndicator={false}
+        pagingEnabled // Tam sayfa kaydırmayı etkinleştir
+        showsHorizontalScrollIndicator={false} // Kaydırma çubuğunu gizle
+        onScroll={handleScroll} // Aktif resmi takip et
+        snapToInterval={width} // Ekran genişliği kadar kaydır
+        snapToAlignment="start" // Kaydırma hizalamasını baştan başlat
+        decelerationRate="fast" // Daha hızlı kaydırma animasyonu
+        contentContainerStyle={{
+          paddingHorizontal: 0, // İçerik boşluklarını kaldır
+        }}
         renderItem={({ item }) => (
           <View style={styles.imageContainer}>
             <Image source={{ uri: item }} style={styles.postImage} />
           </View>
         )}
-        snapToInterval={width} // Tam genişlikte kaydırma
-        snapToAlignment="start"
-        decelerationRate="fast" // Daha yavaş kaydırma
-        scrollEventThrottle={16} // Daha pürüzsüz kaydırma animasyonu
-        pagingEnabled
-        contentContainerStyle={{ paddingHorizontal: 0 }} // FlatList'in padding'ini kaldır
-        style={{ margin: 0 }} // FlatList dış boşluklarını kaldır
       />
 
       <View style={styles.pagination}>
@@ -108,37 +137,41 @@ const PostCard: React.FC<PostCardProps> = ({
           {/* Feather'dan "share" ikonu */}
         </TouchableOpacity>
       </View>
+
+      <CommentModal
+        isVisible={isModalVisible}
+        comments={comments}
+        onClose={handleCloseModal}
+        onAddComment={handleAddComment}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 0,
-    width: "100%",
-    margin: 0,
-    padding: 0,
-    marginBottom: 20, // Kartlar arasındaki boşluk
+    borderRadius: 0, // Kart yuvarlatmasını sıfırla
+    width: "100%", // Kart genişliği ekran genişliği kadar
+    margin: 0, // Kartın dış boşluklarını sıfırla
+    padding: 0, // Kartın iç boşluklarını sıfırla
+    marginBottom: 20,
   },
   imageContainer: {
-    width: width, // Ekran genişliği kadar
+    width: width, // Cihazın tam genişliği
     height: width, // Kare görünüm
     overflow: "hidden", // Kenar taşmalarını engelle
-    margin: 0, // Herhangi bir dış boşluk bırakma
-    padding: 0, // İç boşluk bırakma
   },
   postImage: {
-    width: width, // Tam ekran genişliği
-    height: "100%", // Kapsayıcı yüksekliğini doldur
-    resizeMode: "cover", // Resmi kapsayıcıya oturt
-    margin: 0,
-    padding: 0,
+    width: width, // Kapsayıcı genişliğini tam doldur
+    height: "100%", // Kapsayıcı yüksekliğini tam doldur
+    resizeMode: "cover", // Görüntüyü düzgün bir şekilde ölçekle
   },
   profileContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between", // Kullanıcı adı ve ikon arasında boşluk
+    justifyContent: "space-between",
     marginBottom: 10,
+    paddingHorizontal: 10,
   },
   profileDetails: {
     flexDirection: "row",
@@ -173,19 +206,20 @@ const styles = StyleSheet.create({
     backgroundColor: "#C4C4C4",
   },
   actionsContainer: {
-    flexDirection: "row", // Yana doğru hizalama
+    flexDirection: "row",
     alignItems: "center",
     marginTop: 10,
-    justifyContent: "flex-start", // Başlangıçtan hizala
+    justifyContent: "flex-start",
+    paddingHorizontal: 10,
   },
   actionItem: {
-    flexDirection: "row", // İkon ve metin yana yana
+    flexDirection: "row",
     alignItems: "center",
-    marginRight: 15, // Her bir aksiyon arasında boşluk
+    marginRight: 15,
   },
   actionText: {
     fontSize: 14,
-    marginLeft: 5, // İkon ve sayı arasında boşluk
+    marginLeft: 5,
     color: "#000",
   },
 });

@@ -40,7 +40,7 @@ const Header: React.FC<HeaderProps> = ({ selectedValue, onSelectPress }) => {
 const styles = StyleSheet.create({
   safeArea: {
     backgroundColor: "#213555",
-    flex: 0.07,
+    flex: 0.13,
   },
   header: {
     width: "100%",
