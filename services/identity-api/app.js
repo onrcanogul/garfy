@@ -15,10 +15,6 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Something went wrong!' });
 });
 
-sequelize.sync({ force: true }).then(() => {
-    console.log('Database & tables created!');
-});
-
 const PORT = 9010;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
