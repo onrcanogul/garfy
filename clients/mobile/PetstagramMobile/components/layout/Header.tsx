@@ -24,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ selectedValue, onSelectPress }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
-        <Text style={styles.title}>Petstagram</Text>
+        <Text style={styles.title}>Garfy</Text>
         {currentTab === "Social Media" ? (
           <TouchableOpacity onPress={onSelectPress} style={styles.selectButton}>
             <Text style={styles.selectText}>{selectedValue}</Text>

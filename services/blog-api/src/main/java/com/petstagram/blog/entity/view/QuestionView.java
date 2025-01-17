@@ -4,21 +4,34 @@ import com.petstagram.blog.entity.base.BaseEntity;
 import com.petstagram.blog.entity.question.Question;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.UUID;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class QuestionView extends BaseEntity {
     private UUID userId;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id")
     private Question question;
+
+    public QuestionView() {
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
+    }
 }

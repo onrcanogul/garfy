@@ -1,38 +1,43 @@
 CREATE TABLE question (
-      id RAW(16) DEFAULT SYS_GUID() PRIMARY KEY,
-      user_id RAW(16) NOT NULL, -- UUID için RAW(16)
-      content CLOB NOT NULL,
-      title VARCHAR2(255) NOT NULL,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          id BINARY(16) NOT NULL PRIMARY KEY, -- UUID için BINARY(16)
+          user_id BINARY(16) NOT NULL, -- UUID için BINARY(16)
+          content TEXT NOT NULL,
+          shortContent VARCHAR(300) NOT NULL,
+          title VARCHAR(255) NOT NULL,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE answer (
-        id RAW(16) DEFAULT SYS_GUID() PRIMARY KEY,
-        content CLOB NOT NULL,
-        user_id RAW(16) NOT NULL, -- UUID için RAW(16)
-        question_id RAW(16) REFERENCES question (id) ON DELETE CASCADE,
+        id BINARY(16) NOT NULL PRIMARY KEY, -- UUID için BINARY(16)
+        content TEXT NOT NULL,
+        user_id BINARY(16) NOT NULL, -- UUID için BINARY(16)
+        question_id BINARY(16) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        FOREIGN KEY (question_id) REFERENCES question (id) ON DELETE CASCADE
 );
 
 CREATE TABLE tag (
-     id RAW(16) DEFAULT SYS_GUID() PRIMARY KEY,
-     name VARCHAR2(255) NOT NULL UNIQUE,
+     id BINARY(16) NOT NULL PRIMARY KEY, -- UUID için BINARY(16)
+     name VARCHAR(255) NOT NULL UNIQUE,
      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE question_tags (
-               question_id RAW(16) NOT NULL REFERENCES question (id) ON DELETE CASCADE,
-               tag_id RAW(16) NOT NULL REFERENCES tag (id) ON DELETE CASCADE,
-               PRIMARY KEY (question_id, tag_id)
+               question_id BINARY(16) NOT NULL,
+               tag_id BINARY(16) NOT NULL,
+               PRIMARY KEY (question_id, tag_id),
+               FOREIGN KEY (question_id) REFERENCES question (id) ON DELETE CASCADE,
+               FOREIGN KEY (tag_id) REFERENCES tag (id) ON DELETE CASCADE
 );
 
 CREATE TABLE question_view (
-               id RAW(16) DEFAULT SYS_GUID() PRIMARY KEY,
-               user_id RAW(16) NOT NULL, -- UUID için RAW(16)
-               question_id RAW(16) REFERENCES question (id) ON DELETE CASCADE,
+               id BINARY(16) NOT NULL PRIMARY KEY, -- UUID için BINARY(16)
+               user_id BINARY(16) NOT NULL, -- UUID için BINARY(16)
+               question_id BINARY(16) NOT NULL,
                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+               FOREIGN KEY (question_id) REFERENCES question (id) ON DELETE CASCADE
 );

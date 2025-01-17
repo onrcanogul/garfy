@@ -14,14 +14,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @MappedSuperclass
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class BaseEntity {
+public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "UUID")
+    @Column(columnDefinition = "BINARY(16)")
     private UUID id;
     @Column(updatable = false, name = "created_at")
     @CreatedDate

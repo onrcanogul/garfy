@@ -1,8 +1,16 @@
 package com.petstagram.blog.configuration.mapper;
 
 
+import com.petstagram.blog.dto.answer.AnswerDto;
 import com.petstagram.blog.dto.base.BaseDto;
+import com.petstagram.blog.dto.question.QuestionDto;
+import com.petstagram.blog.dto.tag.TagDto;
+import com.petstagram.blog.dto.view.QuestionViewDto;
+import com.petstagram.blog.entity.answer.Answer;
 import com.petstagram.blog.entity.base.BaseEntity;
+import com.petstagram.blog.entity.question.Question;
+import com.petstagram.blog.entity.tag.Tag;
+import com.petstagram.blog.entity.view.QuestionView;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,24 +21,20 @@ public class MapperConfiguration {
     public Mapper<BaseEntity, BaseDto> baseMapper() {
         return new Mapper<>(BaseEntity.class, BaseDto.class);
     }
-//    @Bean
-//    public Mapper<Comment, CommentDto> commentMapper() {
-//        return new Mapper<>(Comment.class, CommentDto.class);
-//    }
-//    @Bean
-//    public Mapper<Story, StoryDto> storyMapper() {
-//        return new Mapper<>(Story.class, StoryDto.class);
-//    }
-//    @Bean
-//    public Mapper<Post, PostDto> postMapper() {
-//        return new Mapper<>(Post.class, PostDto.class);
-//    }
-//    @Bean
-//    public Mapper<CommentStatus, CommentStatusDto> commentStatusMapper() {
-//        return new Mapper<>(CommentStatus.class, CommentStatusDto.class);
-//    }
-//    @Bean
-//    public Mapper<PostStatus, PostStatusDto> postStatusMapper() {
-//        return new Mapper<>(PostStatus.class, PostStatusDto.class);
-//    }
+    @Bean
+    public Mapper<Question, QuestionDto> commentMapper() {
+       return new Mapper<>(Question.class, QuestionDto.class);
+    }
+    @Bean
+    public Mapper<Answer, AnswerDto> answerMapper() {
+        return new Mapper<>(Answer.class, AnswerDto.class);
+    }
+    @Bean
+    public Mapper<Tag, TagDto> tagMapper() {
+        return new Mapper<>(Tag.class, TagDto.class);
+    }
+    @Bean
+    public Mapper<QuestionView, QuestionViewDto> questionViewMapper() {
+        return new Mapper<>(QuestionView.class, QuestionViewDto.class);
+    }
 }
