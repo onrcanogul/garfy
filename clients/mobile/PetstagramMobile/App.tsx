@@ -1,30 +1,14 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import Header from "./components/Header";
-import Ionicons from "react-native-vector-icons/Ionicons"; // For icons
-import PostList from "./components/PostList";
-
+import Header from "./components/layout/Header";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import SocialMediaScreen from "./screens/SocialMediaScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+import SettingsScreen from "./screens/SettingsScreen";
+import BlogScreen from "./screens/BlogScreen";
 const Tab = createBottomTabNavigator();
-
-const SocialMediaScreen = () => (
-  <View style={{ flex: 0.87, justifyContent: "center", alignItems: "center" }}>
-    <PostList />
-  </View>
-);
-
-const ProfileScreen = () => (
-  <View style={{ flex: 0.87, justifyContent: "center", alignItems: "center" }}>
-    <Text>Profile Screen</Text>
-  </View>
-);
-
-const SettingsScreen = () => (
-  <View style={{ flex: 0.87, justifyContent: "center", alignItems: "center" }}>
-    <Text>Settings Screen</Text>
-  </View>
-);
 
 const App: React.FC = () => {
   const [selectedValue, setSelectedValue] = useState<string>("Daily");
@@ -47,14 +31,17 @@ const App: React.FC = () => {
           onMenuPress={handleMenuPress}
           onSelectPress={handleSelectPress}
         />
+
         <Tab.Navigator
           screenOptions={({ route }) => ({
-            headerShown: false,
+            headerShown: false, // Sekme başlıklarını gizle
             tabBarIcon: ({ focused, color, size }) => {
               let iconName: string = "";
 
               if (route.name === "Social Media") {
                 iconName = focused ? "home" : "home-outline";
+              } else if (route.name === "Blog") {
+                iconName = focused ? "book" : "book-outline";
               } else if (route.name === "Profile") {
                 iconName = focused ? "person" : "person-outline";
               } else if (route.name === "Settings") {
@@ -69,6 +56,7 @@ const App: React.FC = () => {
           })}
         >
           <Tab.Screen name="Social Media" component={SocialMediaScreen} />
+          <Tab.Screen name="Blog" component={BlogScreen} />
           <Tab.Screen name="Profile" component={ProfileScreen} />
           <Tab.Screen name="Settings" component={SettingsScreen} />
         </Tab.Navigator>

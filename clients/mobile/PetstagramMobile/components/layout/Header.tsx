@@ -19,8 +19,6 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ selectedValue, onSelectPress }) => {
   const state = useNavigationState((state) => state);
-
-  // Ensure `state` and `state.routes` are defined
   const currentTab = state?.routes?.[state.index]?.name || "";
 
   return (
