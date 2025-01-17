@@ -7,42 +7,85 @@ import {
   TouchableOpacity,
 } from "react-native";
 import BlogCard from "../components/blog/BlogCard";
+import DetailScreen from "./BlogDetailScreen";
+import BlogList from "../components/blog/BlogList";
 
-const blogPosts = [
-  {
-    id: "1",
-    title: "Why Pets Are Awesome",
-    content: "Pets bring joy to our lives in so many ways!",
-    tags: [
-      { id: 1, name: "Pets" },
-      { id: 2, name: "Happiness" },
-    ],
-    likes: 120,
-    comments: 34,
-  },
-  {
-    id: "2",
-    title: "Caring for Your Dog",
-    content: "Tips to keep your dog happy and healthy.",
-    tags: [
-      { id: 3, name: "DogCare" },
-      { id: 4, name: "Tips" },
-    ],
-    likes: 85,
-    comments: 12,
-  },
-  {
-    id: "3",
-    title: "Top 10 Cat Breeds",
-    content: "Discover the most popular cat breeds in the world.",
-    tags: [
-      { id: 5, name: "Cats" },
-      { id: 6, name: "Breeds" },
-    ],
-    likes: 200,
-    comments: 45,
-  },
-];
+// Rastgele kullanıcı ve yorum oluşturmak için yardımcı fonksiyonlar
+const getRandomName = () => {
+  const names = [
+    "John Doe",
+    "Jane Smith",
+    "Alice Johnson",
+    "Bob Brown",
+    "Charlie White",
+  ];
+  return names[Math.floor(Math.random() * names.length)];
+};
+
+const getRandomAvatar = () => {
+  const ids = Array.from({ length: 10 }, (_, i) => i + 1);
+  const gender = Math.random() > 0.5 ? "men" : "women";
+  const id = ids[Math.floor(Math.random() * ids.length)];
+  return `https://randomuser.me/api/portraits/${gender}/${id}.jpg`;
+};
+
+const getRandomComment = () => {
+  const comments = [
+    "Great post!",
+    "Loved the content, very informative.",
+    "Thanks for sharing!",
+    "This is exactly what I needed.",
+    "Super helpful, appreciate it!",
+    "Amazing tips, keep up the good work!",
+    "Can't believe I didn't know this!",
+    "Great insights, very inspiring.",
+    "This changed my perspective!",
+    "Highly recommended reading.",
+  ];
+  return comments[Math.floor(Math.random() * comments.length)];
+};
+
+const getRandomTimestamp = () => {
+  const hours = Math.floor(Math.random() * 24) + 1;
+  return `${hours} hours ago`;
+};
+
+const generateComments = (count) => {
+  return Array.from({ length: count }, (_, i) => ({
+    id: i + 1,
+    user: {
+      name: getRandomName(),
+      avatar: getRandomAvatar(),
+    },
+    text: getRandomComment(),
+    timestamp: getRandomTimestamp(),
+    likes: Math.floor(Math.random() * 100),
+  }));
+};
+
+// Blog postlarını oluşturma
+const blogPosts = Array.from({ length: 100 }, (_, i) => ({
+  id: (i + 1).toString(),
+  title: `Blog Post ${i + 1}`,
+  content: `This is the content of blog post ${
+    i + 1
+  }. It's full of valuable information.`,
+  tags: [
+    { id: 1, name: "Tech" },
+    { id: 2, name: "Life" },
+    { id: 3, name: "Health" },
+    { id: 4, name: "Fitness" },
+    { id: 5, name: "Travel" },
+  ],
+  likes: Math.floor(Math.random() * 500),
+  comments: 100,
+  images: [
+    "https://picsum.photos/200/300",
+    "https://picsum.photos/300/200",
+    "https://picsum.photos/250/250",
+  ],
+  commentsList: generateComments(100),
+}));
 
 const BlogScreen: React.FC = () => {
   const [selectedPost, setSelectedPost] = useState(null); // Seçili gönderiyi tutar
@@ -83,7 +126,14 @@ const BlogScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {selectedPost ? renderDetailScreen() : renderBlogList()}
+      {selectedPost ? (
+        <DetailScreen
+          post={selectedPost}
+          onBack={() => setSelectedPost(null)}
+        />
+      ) : (
+        <BlogList posts={blogPosts} onSelectPost={setSelectedPost} />
+      )}
     </View>
   );
 };
