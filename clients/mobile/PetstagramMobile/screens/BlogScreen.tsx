@@ -88,41 +88,7 @@ const blogPosts = Array.from({ length: 100 }, (_, i) => ({
 }));
 
 const BlogScreen: React.FC = () => {
-  const [selectedPost, setSelectedPost] = useState(null); // Seçili gönderiyi tutar
-
-  const renderBlogList = () => (
-    <FlatList
-      data={blogPosts}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <BlogCard
-          title={item.title}
-          content={item.content}
-          tags={item.tags}
-          likes={item.likes}
-          comments={item.comments}
-          onPress={() => {
-            console.log(`Selected Post: ${item.title}`); // Tıklanan gönderi
-            setSelectedPost(item); // State güncellemesi
-          }}
-        />
-      )}
-      contentContainerStyle={{ paddingBottom: 20 }}
-    />
-  );
-
-  const renderDetailScreen = () => (
-    <View style={styles.detailContainer}>
-      <Text style={styles.title}>{selectedPost?.title}</Text>
-      <Text style={styles.content}>{selectedPost?.content}</Text>
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => setSelectedPost(null)}
-      >
-        <Text style={styles.backButtonText}>Back to List</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  const [selectedPost, setSelectedPost] = useState(null);
 
   return (
     <View style={styles.container}>

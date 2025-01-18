@@ -28,7 +28,7 @@ const PostCard: React.FC<PostCardProps> = ({
   commentsCount,
 }) => {
   const [isModalVisible, setModalVisible] = React.useState(false);
-  const [activeIndex, setActiveIndex] = React.useState(0); // Aktif resmin indeksini tutar
+  const [activeIndex, setActiveIndex] = React.useState(0);
   const [comments, setComments] = React.useState([
     {
       id: 1,

@@ -6,7 +6,6 @@ import Header from "./components/layout/Header";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import SocialMediaScreen from "./screens/SocialMediaScreen";
 import ProfileScreen from "./screens/ProfileScreen";
-import SettingsScreen from "./screens/SettingsScreen";
 import BlogScreen from "./screens/BlogScreen";
 const Tab = createBottomTabNavigator();
 
