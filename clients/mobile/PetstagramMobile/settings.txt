@@ -1,0 +1,43 @@
+return (
+    <ScrollView style={styles.container}>
+      {/* Hesap Ayarları */}
+      <SettingSection title="Account">
+        <SettingItem title="Edit Profile" iconName="person-outline" onPress={handleProfilePress} />
+        <SettingItem title="Change Password" iconName="lock-closed-outline" onPress={() => {}} />
+        <SettingItem title="Logout" iconName="log-out-outline" onPress={() => {}} />
+      </SettingSection>
+
+      {/* Bildirim Ayarları */}
+      <SettingSection title="Notifications">
+        <SettingItem
+          title="Push Notifications"
+          iconName="notifications-outline"
+          onPress={handleNotificationPress}
+        />
+      </SettingSection>
+
+      {/* Uygulama Ayarları */}
+      <SettingSection title="Application">
+        <SettingItem title="Theme" iconName="color-palette-outline" onPress={handleThemePress} />
+        <SettingItem title="Language" iconName="globe-outline" onPress={() => {}} />
+      </SettingSection>
+
+      {/* Gizlilik ve Hakkında */}
+      <SettingSection title="Privacy & About">
+        <SettingItem
+          title="Privacy Policy"
+          iconName="shield-checkmark-outline"
+          onPress={handlePrivacyPress}
+        />
+        <SettingItem title="About" iconName="information-circle-outline" onPress={handleAboutPress} />
+      </SettingSection>
+    </ScrollView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#f9f9f9",
+  },
+});
