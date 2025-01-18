@@ -58,7 +58,6 @@ const App: React.FC = () => {
           <Tab.Screen name="Social Media" component={SocialMediaScreen} />
           <Tab.Screen name="Blog" component={BlogScreen} />
           <Tab.Screen name="Profile" component={ProfileScreen} />
-          <Tab.Screen name="Settings" component={SettingsScreen} />
         </Tab.Navigator>
       </View>
     </NavigationContainer>
