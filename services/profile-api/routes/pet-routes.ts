@@ -8,7 +8,7 @@ import {
 
 const router = express.Router();
 
-router.get("/", getByProfile);
+router.get("/:profileId", getByProfile);
 router.post("/", create);
 router.put("/:id", update);
 router.delete("/:id", remove);

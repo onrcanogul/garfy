@@ -20,7 +20,7 @@ const ProfileSchema = new mongoose.Schema({
       message: "Rating must be a float or integer value",
     },
   },
-  pets: { type: [PetSchema], default: [] },
+  pets: [{ type: String, ref: "Pet" }],
 });
 
 export default mongoose.model("Profile", ProfileSchema);

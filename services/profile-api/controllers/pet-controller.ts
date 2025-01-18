@@ -2,7 +2,7 @@ import asyncHandler from "../helpers/asyncHelper";
 import Pet from "../models/Pet";
 
 export const getByProfile = asyncHandler(async (req, res) => {
-  const usersPets = await Pet.find({ profileId: req.params.profile });
+  const usersPets = await Pet.find({ profileId: req.params.profileId });
   return res.status(200).json({ success: true, result: usersPets });
 });
 
