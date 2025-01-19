@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+option csharp_namespace = "Media.Grpc";
+
+package media;
+
+service MediaProtoService {
+  rpc GetImage (GetRequest) returns (GetResponse);
+  rpc UploadImage (UploadRequest) returns (UploadResponse);
+}
+
+message UploadRequest {
+  string file_name = 1;
+  string content_type = 2;
+  bytes file_content = 3;
+  FileType file_type = 4;
+}
+
+message UploadResponse {
+  repeated UploadedFile files = 1;
+}
+
+message UploadedFile {
+  string file_name = 1;
+  string container = 2;
+}
+
+message GetRequest {
+  string id = 1;
+}
+
+message GetResponse {
+  repeated FileModel images = 1;
+}
+
+message FileModel {
+  string id = 1;
+  string name = 2;
+  string path = 3;
+}
+
+enum FileType {
+  UNKNOWN = 0;
+  POST_IMAGE = 1;
+  PROFILE_IMAGE = 2;
+  REELS_VIDEO = 3;
+}
