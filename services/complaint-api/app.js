@@ -1,5 +1,6 @@
 const express = require('express');
 const axios = require('axios');
+const { animals } = require('./animals');
 
 const app = express();
 const PORT = 9000;
@@ -24,7 +25,7 @@ app.post('/check-image', async (req, res) => {
     );
 
     const labels = response.data.responses[0].labelAnnotations.map(label => label.description);
-    const isAnimal = labels.some(label => ['Animal', 'Mammal', 'Bird', 'Fish', 'Reptile'].includes(label));
+    const isAnimal = labels.some(label => animals.includes(label));
 
     res.send({ isAnimal })
 });
