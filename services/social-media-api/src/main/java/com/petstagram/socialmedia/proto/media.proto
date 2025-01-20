@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-option csharp_namespace = "Media.Grpc";
-
-package media;
+option java_multiple_files = true;
+option java_package = "com.petstagram.socialmedia";
+option java_outer_classname = "MediaServiceProto";
 
 service MediaProtoService {
   rpc GetFiles (GetRequest) returns (GetResponse);

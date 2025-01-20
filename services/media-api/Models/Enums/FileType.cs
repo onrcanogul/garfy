@@ -2,6 +2,8 @@ namespace media_api.Models.Enums;
 
 public enum FileType
 {
-    Image,
-    Video
+    Unknown = 0,
+    PostImage = 1,
+    ProfileImage = 2,
+    ReelsVideo = 3
 }

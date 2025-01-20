@@ -20,3 +20,11 @@ logging:
       hibernate:
         SQL: debug
 
+grpc:
+  client:
+    media-grpc:
+      address: 'static://localhost:9050'
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+
