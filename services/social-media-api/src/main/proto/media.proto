@@ -1,9 +1,8 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "com.petstagram.socialmedia";
-option java_outer_classname = "MediaServiceProto";
 
+option java_package = "com.petstagram.socialmedia";
 service MediaProtoService {
   rpc GetFiles (GetRequest) returns (GetResponse);
   rpc UploadFiles (UploadRequest) returns (UploadResponse);

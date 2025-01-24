@@ -22,9 +22,7 @@ logging:
 
 grpc:
   client:
-    media-grpc:
-      address: 'static://localhost:9050'
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
+    media-service:
+      address: static://localhost:9050
       negotiationType: plaintext
 
