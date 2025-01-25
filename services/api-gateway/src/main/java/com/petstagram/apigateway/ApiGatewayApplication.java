@@ -1,11 +1,13 @@
-package com.petstagram.socialmedia;
+package com.petstagram.apigateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SocialMediaApplication {
+public class ApiGatewayApplication {
+
 	public static void main(String[] args) {
-		SpringApplication.run(SocialMediaApplication.class, args);
+		SpringApplication.run(ApiGatewayApplication.class, args);
 	}
+
 }

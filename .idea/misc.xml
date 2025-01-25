@@ -6,6 +6,9 @@
       <list>
         <option value="$PROJECT_DIR$/socialmedia/pom.xml" />
         <option value="$PROJECT_DIR$/social-media-api/pom.xml" />
+        <option value="$PROJECT_DIR$/services/social-media-api/pom.xml" />
+        <option value="$PROJECT_DIR$/services/blog-api/pom.xml" />
+        <option value="$PROJECT_DIR$/services/api-gateway/pom.xml" />
       </list>
     </option>
   </component>

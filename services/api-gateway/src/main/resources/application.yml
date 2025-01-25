@@ -1,0 +1,47 @@
+server:
+  port: 8000
+
+spring:
+  web:
+    resources:
+      add-mappings: false
+  cloud:
+    gateway:
+      routes:
+        - id: blog-api
+          uri: http://localhost:8090
+          predicates:
+            - Path=/**
+
+        - id: social-media-api
+          uri: http://localhost:8080
+          predicates:
+            - Path=/**
+          filters:
+            - StripPrefix=1
+
+        - id: profile-api
+          uri: http://localhost:9030
+          predicates:
+            - Path=/**
+          filters:
+            - StripPrefix=1
+
+
+logging:
+  level:
+    root: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.web: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    gateway:
+      enabled: true
+
+
+
