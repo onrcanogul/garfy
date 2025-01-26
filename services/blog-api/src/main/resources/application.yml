@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/blog-db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://blog-db/blog-db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
     password: Password12*
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -21,3 +21,19 @@ logging:
     org:
       hibernate:
         SQL: debug
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
+

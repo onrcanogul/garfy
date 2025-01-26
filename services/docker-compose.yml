@@ -1,0 +1,57 @@
+networks:
+  my-network:
+    driver: bridge
+
+services:
+  gateway:
+    image: garfy/api-gateway
+    container_name: api-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - SPRING_PROFILES_ACTIVE=default
+    depends_on:
+      blog-api:
+        condition: service_healthy
+#      - social-media-api
+#      - profile-api
+    networks:
+      - my-network
+
+  blog-db:
+    image: mysql:8
+    container_name: blog-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: Password12*
+      MYSQL_DATABASE: blog-db
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - my-network
+
+  blog-api:
+    image: garfy/blog
+    container_name: blog-api
+    ports:
+      - "8090:8090"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8090/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_DATASOURCE_URL: jdbc:mysql://blog-db:3306/blog-db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Password12*
+    depends_on:
+      blog-db:
+        condition: service_healthy
+    networks:
+      - my-network
