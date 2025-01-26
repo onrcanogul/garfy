@@ -3,6 +3,19 @@ networks:
     driver: bridge
 
 services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: dev-mem
+    command: start-dev
+    ports:
+      - "8070:8080"
+    networks:
+      - my-network
+
   gateway:
     image: garfy/api-gateway
     container_name: api-gateway

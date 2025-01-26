@@ -10,7 +10,6 @@ spring:
           predicates:
             - Path=/**
 
-
 logging:
   level:
     root: DEBUG
