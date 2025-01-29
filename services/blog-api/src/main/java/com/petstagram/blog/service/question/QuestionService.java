@@ -13,4 +13,7 @@ public interface QuestionService extends BaseService<Question, QuestionDto> {
     ServiceResponse<List<QuestionDto>> getByTag(int page, int size, UUID tagId);
     ServiceResponse<List<QuestionDto>> getByUser(int page, int size, UUID userId);
     ServiceResponse<QuestionDto> add(QuestionDto dto);
+    ServiceResponse<Void> like(UUID questionId, UUID userId);
+    ServiceResponse<Void> addSeen(UUID questionId, UUID userId);
+    ServiceResponse<Void> delete(UUID id);
 }
