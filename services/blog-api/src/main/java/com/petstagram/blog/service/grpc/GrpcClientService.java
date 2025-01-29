@@ -21,16 +21,16 @@ public class GrpcClientService {
     @GrpcClient("media-service")
     MediaProtoServiceGrpc.MediaProtoServiceBlockingStub blockingStub;
 
-    public ServiceResponse<GetResponse> getFiles(String id, FileType fileType) {
+    public GetResponse getFiles(String id, FileType fileType) {
         GetRequest request = GetRequest.newBuilder()
                 .setId(id)
                 .setFileType(fileType)
                 .build();
 
         GetResponse response = blockingStub.getFiles(request);
-        return ServiceResponse.success(response, 200);
+        return response;
     }
-    public ServiceResponse<com.petstagram.blog.UploadResponse> uploadFiles(UUID id, String fileName, String contentType , FileType fileType, String pathOrContainer, byte[] content) throws IOException {
+    public com.petstagram.blog.UploadResponse uploadFiles(UUID id, String fileName, String contentType , FileType fileType, String pathOrContainer, byte[] content) throws IOException {
         FileData fileData = FileData.newBuilder()
                 .setFileName(fileName)
                 .setContentType(contentType)
@@ -45,7 +45,7 @@ public class GrpcClientService {
                 .build();
 
         UploadResponse response = blockingStub.uploadFiles(request);
-        return ServiceResponse.success(response, 200);
+        return response;
     }
 
 }

@@ -34,10 +34,26 @@ CREATE TABLE question_tags (
 );
 
 CREATE TABLE question_view (
-               id BINARY(16) NOT NULL PRIMARY KEY, -- UUID için BINARY(16)
-               user_id BINARY(16) NOT NULL, -- UUID için BINARY(16)
-               question_id BINARY(16) NOT NULL,
-               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-               updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-               FOREIGN KEY (question_id) REFERENCES question (id) ON DELETE CASCADE
+           id BINARY(16) NOT NULL PRIMARY KEY, -- UUID için BINARY(16)
+           user_id BINARY(16) NOT NULL, -- UUID için BINARY(16)
+           question_id BINARY(16) NOT NULL,
+           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+           FOREIGN KEY (question_id) REFERENCES question (id) ON DELETE CASCADE
+);
+
+CREATE TABLE answer_status (
+            id UUID PRIMARY KEY DEFAULT default_uuid(),
+            answer_id UUID UNIQUE REFERENCES comment (id) ON DELETE CASCADE,
+            users UUID[] DEFAULT ARRAY[]::UUID[], -- UUID Listesi
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE question_status (
+        id UUID PRIMARY KEY DEFAULT default_uuid(),
+        question_id UUID UNIQUE REFERENCES post (id) ON DELETE CASCADE,
+        users UUID[] DEFAULT ARRAY[]::UUID[], -- UUID Listesi
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

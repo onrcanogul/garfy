@@ -4,6 +4,7 @@ import com.petstagram.blog.dto.answer.AnswerDto;
 import com.petstagram.blog.dto.base.BaseDto;
 import com.petstagram.blog.dto.tag.TagDto;
 import com.petstagram.blog.dto.view.QuestionViewDto;
+import com.petstagram.blog.entity.status.QuestionStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,8 @@ public class QuestionDto extends BaseDto {
     private List<AnswerDto> answers = new ArrayList<>();
     private List<QuestionViewDto> views = new ArrayList<>();
     private List<TagDto> tags = new ArrayList<>();
+//    private GetResponse images;
+    private QuestionStatus status;
 
     public List<AnswerDto> getAnswers() {
         return answers;
@@ -64,4 +67,20 @@ public class QuestionDto extends BaseDto {
     public void setViews(List<QuestionViewDto> views) {
         this.views = views;
     }
+
+    public QuestionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(QuestionStatus status) {
+        this.status = status;
+    }
+
+//    public GetResponse getImages() {
+//        return images;
+//    }
+//
+//    public void setImages(GetResponse images) {
+//        this.images = images;
+//    }
 }

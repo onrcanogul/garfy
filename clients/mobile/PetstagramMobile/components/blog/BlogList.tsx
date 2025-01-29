@@ -44,8 +44,8 @@ const BlogList = ({
           title={item.title}
           content={item.content}
           tags={item.tags}
-          likes={item.likes}
-          comments={item.comments}
+          likes={item.status.users.length}
+          comments={item.answers.length ?? 0}
           onPress={() => onSelectPost(item)} // Tıklanınca gönderiyi seç
         />
       )}

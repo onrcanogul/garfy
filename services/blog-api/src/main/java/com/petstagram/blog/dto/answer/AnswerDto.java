@@ -1,6 +1,7 @@
 package com.petstagram.blog.dto.answer;
 
 import com.petstagram.blog.dto.base.BaseDto;
+import com.petstagram.blog.entity.status.AnswerStatus;
 
 import java.util.UUID;
 
@@ -8,6 +9,7 @@ public class AnswerDto extends BaseDto {
     private String content;
     private UUID userId;
     private UUID questionId;
+    private AnswerStatus status;
 
     public String getContent() {
         return content;

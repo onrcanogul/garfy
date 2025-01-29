@@ -23,9 +23,19 @@ public class QuestionController extends BaseController {
         return controllerResponse(service.get(page, size, null));
     }
 
+    @GetMapping("/tag/{page}/{size}/{tagId}")
+    public ResponseEntity<ServiceResponse<List<QuestionDto>>> getByTag(@PathVariable int page, @PathVariable int size, @PathVariable UUID tagId) {
+        return controllerResponse(service.getByTag(page, size, tagId));
+    }
+
+    @GetMapping("/user/{page}/{size}/{userId}")
+    public ResponseEntity<ServiceResponse<List<QuestionDto>>> getByUser(@PathVariable int page, @PathVariable int size, @PathVariable UUID userId) {
+        return controllerResponse(service.getByUser(page, size, userId));
+    }
+
     @PostMapping
     public ResponseEntity<ServiceResponse<QuestionDto>> create(@RequestBody QuestionDto model) {
-        return controllerResponse(service.create(model));
+        return controllerResponse(service.add(model));
     }
 
     @PutMapping

@@ -1,10 +1,8 @@
 package com.petstagram.blog.entity.answer;
 import com.petstagram.blog.entity.base.BaseEntity;
 import com.petstagram.blog.entity.question.Question;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.petstagram.blog.entity.status.AnswerStatus;
+import jakarta.persistence.*;
 
 import java.util.UUID;
 
@@ -15,6 +13,9 @@ public class Answer extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "answer_id")
+    private AnswerStatus status;
 
     public Answer(String content, Question question, UUID userId) {
         this.content = content;

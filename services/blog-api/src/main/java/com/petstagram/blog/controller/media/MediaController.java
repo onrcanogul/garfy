@@ -24,14 +24,14 @@ public class MediaController extends BaseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ServiceResponse<GetResponse>> get(@PathVariable UUID id) {
-        return controllerResponse(grpcClientService.getFiles(id.toString(), FileType.POST_IMAGE));
+    public ResponseEntity<GetResponse> get(@PathVariable UUID id) {
+        return ResponseEntity.ok(grpcClientService.getFiles(id.toString(), FileType.POST_IMAGE));
     }
 
     @PostMapping
-    public ResponseEntity<ServiceResponse<UploadResponse>> upload(@RequestParam("file") MultipartFile file, @RequestParam("id") UUID id, @RequestParam("fileType") FileType fileType) throws IOException {
+    public ResponseEntity<UploadResponse> upload(@RequestParam("file") MultipartFile file, @RequestParam("id") UUID id, @RequestParam("fileType") FileType fileType) throws IOException {
         byte[] fileContent = file.getBytes();
-        ServiceResponse<UploadResponse> response = grpcClientService.uploadFiles(id, file.getOriginalFilename(), file.getContentType(), fileType, "blog-images", fileContent);
-        return controllerResponse(response);
+        UploadResponse response = grpcClientService.uploadFiles(id, file.getOriginalFilename(), file.getContentType(), fileType, "blog-images", fileContent);
+        return ResponseEntity.ok(response);
     }
 }

@@ -1,7 +1,9 @@
 package com.petstagram.blog.entity.question;
 
+import com.petstagram.blog.GetResponse;
 import com.petstagram.blog.entity.answer.Answer;
 import com.petstagram.blog.entity.base.BaseEntity;
+import com.petstagram.blog.entity.status.QuestionStatus;
 import com.petstagram.blog.entity.tag.Tag;
 import com.petstagram.blog.entity.view.QuestionView;
 import jakarta.persistence.*;
@@ -21,6 +23,9 @@ public class Question extends BaseEntity {
     private List<Answer> answers = new ArrayList<>();
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<QuestionView> views = new ArrayList<>();
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "question_id")
+    private QuestionStatus status;
 
     @JoinTable(
             name = "question_tags",
@@ -87,5 +92,13 @@ public class Question extends BaseEntity {
 
     public void setViews(List<QuestionView> views) {
         this.views = views;
+    }
+
+    public QuestionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(QuestionStatus status) {
+        this.status = status;
     }
 }

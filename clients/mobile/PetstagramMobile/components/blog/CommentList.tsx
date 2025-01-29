@@ -28,22 +28,22 @@ const CommentList = ({ comments }) => {
       renderItem={({ item }) => (
         <View style={styles.commentContainer}>
           {/* Profil Resmi */}
-          <Image source={{ uri: item.user.avatar }} style={styles.avatar} />
+          <Image style={styles.avatar} />
 
           {/* Kullanıcı Bilgileri ve Yorum */}
           <View style={styles.commentContent}>
             <View style={styles.commentHeader}>
-              <Text style={styles.username}>{item.user.name}</Text>
-              <Text style={styles.timestamp}>{item.timestamp}</Text>
+              <Text style={styles.username}>oogul</Text>
+              <Text style={styles.timestamp}>{item.createdDate}</Text>
             </View>
-            <Text style={styles.commentText}>{item.text}</Text>
+            <Text style={styles.commentText}>{item.content}</Text>
 
             {/* Beğeni Sayısı */}
             <View style={styles.likesContainer}>
               <TouchableOpacity onPress={() => handleLike(item.id)}>
                 <Ionicons name="heart" size={16} color="#f00" />
               </TouchableOpacity>
-              <Text style={styles.likesText}>{item.likes}</Text>
+              <Text style={styles.likesText}>{item.likes ?? 0}</Text>
             </View>
           </View>
         </View>
