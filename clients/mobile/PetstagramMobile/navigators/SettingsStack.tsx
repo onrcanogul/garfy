@@ -1,9 +1,9 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import SettingsScreen from "../screens/SettingsScreen";
-import ChangePasswordScreen from "../screens/ChangePasswordScreen";
-import ThemeUpdateScreen from "../screens/ThemeUpdateScreen";
-import LanguageUpdateScreen from "../screens/LanguageUpdateScreen";
+import SettingsScreen from "../screens/settings/SettingsScreen";
+import ChangePasswordScreen from "../screens/settings/ChangePasswordScreen";
+import ThemeUpdateScreen from "../screens/settings/ThemeUpdateScreen";
+import LanguageUpdateScreen from "../screens/settings/ThemeUpdateScreen";
 
 const Stack = createNativeStackNavigator();
 

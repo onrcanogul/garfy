@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { useTheme } from "../contexts/ThemeContext";
+import { useTheme } from "../../contexts/ThemeContext";
 
 const ThemeUpdateScreen: React.FC = () => {
   const { theme, setTheme } = useTheme(); // Context'ten tema bilgisi alınıyor

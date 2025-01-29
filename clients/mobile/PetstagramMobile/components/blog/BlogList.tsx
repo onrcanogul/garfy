@@ -2,14 +2,19 @@ import React from "react";
 import { FlatList, TextInput, StyleSheet } from "react-native";
 import BlogCard from "./BlogCard";
 
-const BlogList = ({ posts, onSelectPost }) => {
+const BlogList = ({
+  questions,
+  onSelectPost,
+  onEndReach,
+  onEndReachedThreshold,
+}) => {
   const [searchQuery, setSearchQuery] = React.useState(""); // Arama sorgusu
-  const [filteredPosts, setFilteredPosts] = React.useState(posts); // Filtrelenmiş gönderiler
+  const [filteredPosts, setFilteredPosts] = React.useState(questions); // Filtrelenmiş gönderiler
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
 
-    const filtered = posts.filter(
+    const filtered = questions.filter(
       (post) =>
         post.title.toLowerCase().includes(query.toLowerCase()) ||
         post.content.toLowerCase().includes(query.toLowerCase()) ||
@@ -22,8 +27,10 @@ const BlogList = ({ posts, onSelectPost }) => {
   };
   return (
     <FlatList
-      data={posts}
+      data={questions}
       keyExtractor={(item) => item.id}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={onEndReachedThreshold}
       ListHeaderComponent={
         <TextInput
           style={styles.searchInput}

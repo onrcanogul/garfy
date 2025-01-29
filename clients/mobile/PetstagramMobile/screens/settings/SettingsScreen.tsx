@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
-import SettingItem from "../components/settings/SettingItem";
-import SettingSection from "../components/settings/SettingSection";
+import SettingItem from "../../components/settings/SettingItem";
+import SettingSection from "../../components/settings/SettingSection";
 import { useNavigation } from "@react-navigation/native";
 
 const SettingsScreen: React.FC = () => {

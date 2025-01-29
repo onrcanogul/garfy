@@ -1,21 +1,12 @@
 package com.petstagram.blog.dto.view;
 
 import com.petstagram.blog.dto.base.BaseDto;
-import com.petstagram.blog.dto.question.QuestionDto;
 
 import java.util.UUID;
 
 public class QuestionViewDto extends BaseDto {
     private UUID userId;
-    private QuestionDto question;
-
-    public QuestionDto getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(QuestionDto question) {
-        this.question = question;
-    }
+    private UUID questionId;
 
     public UUID getUserId() {
         return userId;
@@ -23,5 +14,13 @@ public class QuestionViewDto extends BaseDto {
 
     public void setUserId(UUID userId) {
         this.userId = userId;
+    }
+
+    public UUID getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(UUID questionId) {
+        this.questionId = questionId;
     }
 }

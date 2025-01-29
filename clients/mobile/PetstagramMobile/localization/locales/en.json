@@ -1,0 +1,27 @@
+{
+  "success": "Successful",
+  "fail": "Hata",
+
+  "tag-create-success": "Tag created successfully.",
+  "tag-created-fail": "Error while creating tag.",
+  "tag-updated-success": "Tag updated successfully.",
+  "tag-updated-fail": "Error while updating tag.",
+  "tag-deleted-success": "Tag deleted successfully.",
+  "tag-deleted-fail": "Error while deleting tag.",
+
+  "question-get-fail": "Error while fetching questions.",
+  "question-create-success": "Question created successfully.",
+  "question-create-fail": "Error while creating question.",
+  "question-update-success": "Question updated successfully.",
+  "question-update-fail": "Error while updating question.",
+  "question-delete-success": "Question deleted successfully.",
+  "question-delete-fail": "Error while deleting question.",
+  "not-exist-question": "Questions does not exist :)",
+
+  "answer-create-success": "Answer created successfully.",
+  "answer-create-fail": "Error while creating answer.",
+  "answer-update-success": "Answer updated successfully.",
+  "answer-update-fail": "Error while updating answer.",
+  "answer-delete-success": "Answer deleted successfully.",
+  "answer-delete-fail": "Error while deleting answer."
+}

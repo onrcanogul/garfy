@@ -1,9 +1,9 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import SocialMediaScreen from "../screens/SocialMediaScreen";
-import BlogScreen from "../screens/BlogScreen";
-import ProfileScreen from "../screens/ProfileScreen";
+import SocialMediaScreen from "../screens/social-media/SocialMediaScreen";
+import BlogScreen from "../screens/blog/BlogScreen";
+import ProfileScreen from "../screens/profile/ProfileScreen";
 import SettingsStack from "./SettingsStack"; // SettingsStack ekliyoruz
 
 const Tab = createBottomTabNavigator();

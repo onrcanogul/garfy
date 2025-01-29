@@ -1,0 +1,27 @@
+{
+  "success": "Başarılı",
+  "fail": "Hata",
+
+  "tag-create-success": "Etiket başarıyla oluşturuldu.",
+  "tag-created-fail": "Etiket oluştururken hata meydana geldi.",
+  "tag-updated-success": "Etiket başarıyla güncellendi.",
+  "tag-updated-fail": "Etiket güncellerken hata meydana geldi.",
+  "tag-deleted-success": "Etiket başarıyla silindi.",
+  "tag-deleted-fail": "Etiket silinirken bir hata meydana geldi.",
+
+  "question-get-fail": "Sorular yüklenirken bir hata meydana geldi.",
+  "question-create-success": "Soru başarıyla oluşturuldu.",
+  "question-create-fail": "Soru yüklenirken bir hata meydana geldi",
+  "question-update-success": "Soru başarıyla güncellendi.",
+  "question-update-fail": "Soru güncellenirken bir hata meydana geldi",
+  "question-delete-success": "Soru başarıyla silindi.",
+  "question-delete-fail": "Soru silinirken bir hata meydana geldi",
+  "not-exist-question": "Soru bulanamadı :)",
+
+  "answer-create-success": "Cevap başarıyla oluşturuldu.",
+  "answer-create-fail": "Cevap yüklenirken bir hata meydana geldi",
+  "answer-update-success": "Cevap başarıyla güncellendi.",
+  "answer-update-fail": "Cevap güncellenirken bir hata meydana geldi",
+  "answer-delete-success": "Cevap başarıyla silindi.",
+  "answer-delete-fail": "Cevap silinirken bir hata meydana geldi"
+}

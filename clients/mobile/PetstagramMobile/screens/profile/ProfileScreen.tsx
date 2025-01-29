@@ -7,10 +7,10 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import ProfileHeader from "../components/profile/ProfileHeader";
-import ProfileStats from "../components/profile/ProfileStats";
-import ProfileActions from "../components/profile/ProfileActions";
-import PostList from "../components/profile/ProfilePostList";
+import ProfileHeader from "../../components/profile/ProfileHeader";
+import ProfileStats from "../../components/profile/ProfileStats";
+import ProfileActions from "../../components/profile/ProfileActions";
+import PostList from "../../components/profile/ProfilePostList";
 
 const ProfileScreen: React.FC = () => {
   const [selectedTab, setSelectedTab] = React.useState("Posts"); // Mevcut sekmeyi takip eder

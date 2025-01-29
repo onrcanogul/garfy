@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import ImageCarousel from "../components/blog/ImageCarousel";
-import CommentList from "../components/blog/CommentList";
+import ImageCarousel from "../../components/blog/ImageCarousel";
+import CommentList from "../../components/blog/CommentList";
 
 const DetailScreen = ({ post, onBack }) => {
   return (
