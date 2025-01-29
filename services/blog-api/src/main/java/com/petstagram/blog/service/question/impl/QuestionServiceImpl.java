@@ -25,6 +25,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, QuestionDto> 
     private final QuestionViewRepository viewRepository;
     private final Mapper<Question, QuestionDto> mapper;
     private final GrpcClientService grpcService;
+
     public QuestionServiceImpl(BaseRepository<Question> repository, QuestionStatusRepository statusRepository, QuestionViewRepository viewRepository, Mapper<Question, QuestionDto> mapper, GrpcClientService grpcService) {
         super(repository, mapper);
         this.repository = repository;
@@ -34,6 +35,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, QuestionDto> 
         this.mapper = mapper;
     }
 
+    @Override
     public ServiceResponse<List<QuestionDto>> get(int page, int size) {
         List<QuestionDto> questions = repository
                 .findAll()
@@ -45,6 +47,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, QuestionDto> 
         return ServiceResponse.success(questions, 200);
     }
 
+    @Override
     public ServiceResponse<List<QuestionDto>> getByTag(int page, int size, UUID tagId) {
         List<QuestionDto> questions = repository
                 .findAll()
@@ -56,6 +59,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, QuestionDto> 
         return ServiceResponse.success(questions, 200);
     }
 
+    @Override
     public ServiceResponse<List<QuestionDto>> getByUser(int page, int size, UUID userId) {
         List<QuestionDto> questions = repository
                 .findAll()
@@ -67,6 +71,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, QuestionDto> 
         return ServiceResponse.success(questions, 200);
     }
 
+    @Override
     public ServiceResponse<QuestionDto> add(QuestionDto dto) {
         Question question = mapper.toEntity(dto);
         Question createdQuestion = repository.save(question);
