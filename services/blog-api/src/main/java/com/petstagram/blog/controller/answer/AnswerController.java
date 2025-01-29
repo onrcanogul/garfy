@@ -28,6 +28,11 @@ public class AnswerController extends BaseController {
         return controllerResponse(service.create(model));
     }
 
+    @PostMapping("like")
+    public ResponseEntity<ServiceResponse<Void>> like(@RequestBody UUID answerId, @RequestBody UUID userId) {
+        return controllerResponse(service.like(answerId, userId));
+    }
+
     @PutMapping
     public ResponseEntity<ServiceResponse<AnswerDto>> update(@RequestBody AnswerDto model) {
         return controllerResponse(service.update(model, model.getId()));

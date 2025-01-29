@@ -2,6 +2,7 @@ package com.petstagram.blog.entity.answer;
 import com.petstagram.blog.entity.base.BaseEntity;
 import com.petstagram.blog.entity.question.Question;
 import com.petstagram.blog.entity.status.AnswerStatus;
+import com.petstagram.blog.entity.status.QuestionStatus;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -13,7 +14,7 @@ public class Answer extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "answer_id")
     private AnswerStatus status;
 
@@ -27,27 +28,26 @@ public class Answer extends BaseEntity {
 
     }
 
+    //getter setters
+
     public String getContent() {
         return content;
     }
-
     public void setContent(String content) {
         this.content = content;
     }
-
     public Question getQuestion() {
         return question;
     }
-
     public void setQuestion(Question question) {
         this.question = question;
     }
-
     public UUID getUserId() {
         return userId;
     }
-
     public void setUserId(UUID userId) {
         this.userId = userId;
     }
+    public AnswerStatus getStatus() { return status; }
+    public void setStatus(AnswerStatus status) { this.status = status; }
 }
