@@ -1,5 +1,6 @@
 package com.petstagram.blog.service.question;
 
+import com.petstagram.blog.configuration.response.NoContent;
 import com.petstagram.blog.configuration.response.ServiceResponse;
 import com.petstagram.blog.dto.question.QuestionDto;
 import com.petstagram.blog.entity.question.Question;
@@ -13,7 +14,7 @@ public interface QuestionService extends BaseService<Question, QuestionDto> {
     ServiceResponse<List<QuestionDto>> getByTag(int page, int size, UUID tagId);
     ServiceResponse<List<QuestionDto>> getByUser(int page, int size, UUID userId);
     ServiceResponse<QuestionDto> add(QuestionDto dto);
-    ServiceResponse<Void> like(UUID questionId, UUID userId);
-    ServiceResponse<Void> addSeen(UUID questionId, UUID userId);
-    ServiceResponse<Void> delete(UUID id);
+    ServiceResponse<NoContent> like(UUID questionId, UUID userId);
+    ServiceResponse<NoContent> addSeen(UUID questionId, UUID userId);
+    ServiceResponse<NoContent> delete(UUID id);
 }

@@ -2,9 +2,9 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import SocialMediaScreen from "../screens/social-media/SocialMediaScreen";
-import BlogScreen from "../screens/blog/BlogScreen";
 import ProfileScreen from "../screens/profile/ProfileScreen";
 import SettingsStack from "./SettingsStack"; // SettingsStack ekliyoruz
+import QuestionStack from "./QuestionStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -34,7 +34,7 @@ const TabNavigator: React.FC = () => {
       })}
     >
       <Tab.Screen name="Social Media" component={SocialMediaScreen} />
-      <Tab.Screen name="Blog" component={BlogScreen} />
+      <Tab.Screen name="Blog" component={QuestionStack} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
       <Tab.Screen name="Settings" component={SettingsStack} />
     </Tab.Navigator>

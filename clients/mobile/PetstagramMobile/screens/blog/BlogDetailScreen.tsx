@@ -20,7 +20,7 @@ const DetailScreen = ({ post, onBack }) => {
       {/* Yorumlar */}
       <View style={styles.commentsSection}>
         <Text style={styles.commentsHeader}>Comments</Text>
-        <CommentList comments={post.answers} />
+        <CommentList comments={post.answers} questionId={post.id} />
       </View>
 
       {/* Geri Butonu */}

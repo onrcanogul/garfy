@@ -5,25 +5,49 @@ import { baseUrl } from "../base";
 import NoContent from "../../contracts/base/nocontent";
 import Toast from "react-native-toast-message";
 import i18next from "i18next";
+import { currentUser } from "../auth-service";
 
 const url = `${baseUrl}/answer`;
 
-export const create = async (model: Partial<Answer>) => {
-  const response: ServiceResponse<Answer> = await axios.post(url, model);
+export const createAnswer = async (
+  model: Partial<Answer>,
+  successCallback: (data) => void,
+  errorCallback: () => void
+) => {
+  const response: ServiceResponse<Answer> = (await axios.post(url, model)).data;
   if (response.successful) {
     Toast.show({
       type: "success",
-      text1: i18next.t("success"),
-      text2: i18next.t("answer-create-success"),
+      text1: "asd",
+      text2: "asd",
       position: "top",
     });
+    console.log(response.data);
+    successCallback(response.data);
   } else {
     Toast.show({
       type: "error",
-      text1: i18next.t("fail"),
-      text2: i18next.t("answer-create-fail"),
+      text1: "fail",
+      text2: "fail",
       position: "top",
     });
+    errorCallback();
+  }
+};
+
+export const like = async (
+  answerId: string,
+  successCallback: (data) => void,
+  errorCallback: () => void
+) => {
+  const response: ServiceResponse<NoContent> = (
+    await axios.post(`${url}/like/${answerId}/${currentUser()}`)
+  ).data;
+  console.log(response);
+  if (response.successful) {
+    successCallback(response.data);
+  } else {
+    errorCallback();
   }
 };
 

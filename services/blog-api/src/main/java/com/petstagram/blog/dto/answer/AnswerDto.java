@@ -34,4 +34,12 @@ public class AnswerDto extends BaseDto {
     public void setQuestionId(UUID questionId) {
         this.questionId = questionId;
     }
+
+    public AnswerStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AnswerStatus status) {
+        this.status = status;
+    }
 }

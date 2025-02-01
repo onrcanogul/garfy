@@ -14,7 +14,7 @@ public class Answer extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "answer_id")
     private AnswerStatus status;
 

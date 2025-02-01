@@ -1,5 +1,6 @@
 package com.petstagram.blog.controller.tag;
 
+import com.petstagram.blog.configuration.response.NoContent;
 import com.petstagram.blog.configuration.response.ServiceResponse;
 import com.petstagram.blog.controller.base.BaseController;
 import com.petstagram.blog.dto.question.QuestionDto;
@@ -28,7 +29,7 @@ public class TagController extends BaseController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ServiceResponse<Void>> delete(@PathVariable UUID id) {
+    public ResponseEntity<ServiceResponse<NoContent>> delete(@PathVariable UUID id) {
         return controllerResponse(service.delete(id));
     }
 }

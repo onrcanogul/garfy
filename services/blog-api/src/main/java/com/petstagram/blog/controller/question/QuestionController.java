@@ -1,5 +1,6 @@
 package com.petstagram.blog.controller.question;
 
+import com.petstagram.blog.configuration.response.NoContent;
 import com.petstagram.blog.configuration.response.ServiceResponse;
 import com.petstagram.blog.controller.base.BaseController;
 import com.petstagram.blog.dto.question.QuestionDto;
@@ -39,12 +40,12 @@ public class QuestionController extends BaseController {
     }
 
     @PostMapping("like")
-    public ResponseEntity<ServiceResponse<Void>> create(@RequestBody UUID questionId, @RequestBody UUID userId) {
+    public ResponseEntity<ServiceResponse<NoContent>> create(@RequestBody UUID questionId, @RequestBody UUID userId) {
         return controllerResponse(service.like(questionId, userId));
     }
 
     @PostMapping("view")
-    public ResponseEntity<ServiceResponse<Void>> addSeen(@RequestBody UUID questionId, @RequestBody UUID userId) {
+    public ResponseEntity<ServiceResponse<NoContent>> addSeen(@RequestBody UUID questionId, @RequestBody UUID userId) {
         return controllerResponse(service.addSeen(questionId, userId));
     }
 
@@ -54,7 +55,7 @@ public class QuestionController extends BaseController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ServiceResponse<Void>> delete(@PathVariable UUID id) {
+    public ResponseEntity<ServiceResponse<NoContent>> delete(@PathVariable UUID id) {
         return controllerResponse(service.delete(id));
     }
 }

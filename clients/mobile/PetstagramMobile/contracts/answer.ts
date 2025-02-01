@@ -4,7 +4,7 @@ import Question from "./question";
 interface Answer extends BaseEntity {
   content: string;
   userId: string;
-  question: Question;
+  questionId: string;
 }
 
 export default Answer;

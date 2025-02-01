@@ -1,6 +1,7 @@
 package com.petstagram.blog.service.question.impl;
 
 import com.petstagram.blog.configuration.mapper.Mapper;
+import com.petstagram.blog.configuration.response.NoContent;
 import com.petstagram.blog.configuration.response.ServiceResponse;
 import com.petstagram.blog.dto.question.QuestionDto;
 import com.petstagram.blog.entity.question.Question;
@@ -83,7 +84,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, QuestionDto> 
     }
 
     @Override
-    public ServiceResponse<Void> like(UUID questionId, UUID userId) {
+    public ServiceResponse<NoContent> like(UUID questionId, UUID userId) {
         Question question = repository.findById(questionId).orElseThrow();
         question.getStatus().getUsers().add(userId);
         repository.save(question);
@@ -91,7 +92,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, QuestionDto> 
     }
 
     @Override
-    public ServiceResponse<Void> addSeen(UUID questionId, UUID userId) {
+    public ServiceResponse<NoContent> addSeen(UUID questionId, UUID userId) {
         boolean isExist = repository.findAll()
                 .stream()
                 .anyMatch(q -> q.getViews().stream().anyMatch(p -> p.getUserId() == userId) && q.getId() == questionId);
@@ -105,7 +106,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, QuestionDto> 
     }
 
     @Override
-    public ServiceResponse<Void> delete(UUID id) { //cascade
+    public ServiceResponse<NoContent> delete(UUID id) { //cascade
         repository.deleteById(id);
         viewRepository.deleteByQuestionId(id);
         statusRepository.deleteByQuestionId(id);

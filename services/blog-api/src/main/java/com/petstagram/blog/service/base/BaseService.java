@@ -1,5 +1,6 @@
 package com.petstagram.blog.service.base;
 
+import com.petstagram.blog.configuration.response.NoContent;
 import com.petstagram.blog.configuration.response.ServiceResponse;
 import com.petstagram.blog.dto.base.BaseDto;
 import com.petstagram.blog.entity.base.BaseEntity;
@@ -15,5 +16,5 @@ public interface BaseService<T extends BaseEntity, D extends BaseDto> {
     public ServiceResponse<D> getSingle(Predicate<T> predicate);
     public ServiceResponse<D> create(D dto);
     public ServiceResponse<D> update(D dto, UUID id);
-    public ServiceResponse<Void> delete(UUID id);
+    public ServiceResponse<NoContent> delete(UUID id);
 }

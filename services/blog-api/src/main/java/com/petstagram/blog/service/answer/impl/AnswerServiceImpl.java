@@ -9,7 +9,6 @@ import com.petstagram.blog.repository.base.BaseRepository;
 import com.petstagram.blog.repository.status.AnswerStatusRepository;
 import com.petstagram.blog.service.answer.AnswerService;
 import com.petstagram.blog.service.base.impl.BaseServiceImpl;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -27,28 +26,30 @@ public class AnswerServiceImpl extends BaseServiceImpl<Answer, AnswerDto> implem
     }
 
     @Override
-    public ServiceResponse<Void> like(UUID answerId, UUID userId) {
-        boolean isExist = repository
-                .findAll()
-                .stream()
-                .anyMatch(a -> a.getStatus().getAnswerId() == answerId && a.getStatus().getUsers().contains(userId));
-        if(!isExist) {
-            Answer answer = repository.findById(answerId).orElseThrow();
+    public ServiceResponse<String> like(UUID answerId, UUID userId) {
+        String status;
+        Answer answer = repository.findById(answerId).orElseThrow();
+        boolean isExist = answer.getStatus().getUsers().contains(userId);
+        if (!isExist) {
+            status = "Like";
             answer.getStatus().getUsers().add(userId);
-            repository.save(answer);
+        } else {
+            status = "Dislike";
+            answer.getStatus().getUsers().remove(userId);
         }
-        return ServiceResponse.success(204);
+        repository.save(answer);
+        return ServiceResponse.success(status, 200);
     }
 
     @Override
     public ServiceResponse<AnswerDto> create(AnswerDto model) {
-        Answer answer = new Answer();
+        Answer answer = mapper.toEntity(model);
         Answer createdAnswer = repository.save(answer);
         AnswerStatus status = new AnswerStatus();
         status.setAnswerId(createdAnswer.getId());
-        AnswerStatus createdStatus = statusRepository.save(status);
-        answer.setStatus(createdStatus);
-        return ServiceResponse.success(mapper.toDto(answer), 200);
+        answer.setStatus(status);
+        statusRepository.save(status);
+        return ServiceResponse.success(mapper.toDto(createdAnswer), 200);
     }
 
 

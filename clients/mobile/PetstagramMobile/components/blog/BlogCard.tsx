@@ -13,6 +13,7 @@ interface BlogCardProps {
   content: string;
   tags: { id: number; name: string }[];
   likes: number;
+  shortContent: string;
   comments: number;
   onPress: () => void;
 }
@@ -20,6 +21,7 @@ interface BlogCardProps {
 const BlogCard: React.FC<BlogCardProps> = ({
   title,
   content,
+  shortContent,
   tags,
   likes,
   comments,
@@ -35,7 +37,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
     >
       {/* Kart içeriği */}
       <Text style={styles.blogTitle}>{title}</Text>
-      <Text style={styles.blogContent}>{content.slice(0, 100)}...</Text>
+      <Text style={styles.blogContent}>{shortContent}...</Text>
 
       {/* Etiketler */}
       <FlatList

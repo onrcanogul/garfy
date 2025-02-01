@@ -1,6 +1,7 @@
 package com.petstagram.blog.service.base.impl;
 
 import com.petstagram.blog.configuration.mapper.Mapper;
+import com.petstagram.blog.configuration.response.NoContent;
 import com.petstagram.blog.configuration.response.ServiceResponse;
 import com.petstagram.blog.dto.base.BaseDto;
 import com.petstagram.blog.entity.base.BaseEntity;
@@ -53,7 +54,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, D extends BaseDto> i
         return ServiceResponse.success(dto, 200);
     }
 
-    public ServiceResponse<Void> delete(UUID id) {
+    public ServiceResponse<NoContent> delete(UUID id) {
         T entity = repository.findById(id).orElseThrow(() -> new NullPointerException("Not found"));
         repository.delete(entity);
         return ServiceResponse.success(204);

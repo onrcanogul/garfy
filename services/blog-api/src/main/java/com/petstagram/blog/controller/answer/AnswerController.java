@@ -1,5 +1,6 @@
 package com.petstagram.blog.controller.answer;
 
+import com.petstagram.blog.configuration.response.NoContent;
 import com.petstagram.blog.configuration.response.ServiceResponse;
 import com.petstagram.blog.controller.base.BaseController;
 import com.petstagram.blog.dto.answer.AnswerDto;
@@ -28,8 +29,8 @@ public class AnswerController extends BaseController {
         return controllerResponse(service.create(model));
     }
 
-    @PostMapping("like")
-    public ResponseEntity<ServiceResponse<Void>> like(@RequestBody UUID answerId, @RequestBody UUID userId) {
+    @PostMapping("/like/{answerId}/{userId}")
+    public ResponseEntity<ServiceResponse<String>> like(@PathVariable UUID answerId, @PathVariable UUID userId) {
         return controllerResponse(service.like(answerId, userId));
     }
 
@@ -39,7 +40,7 @@ public class AnswerController extends BaseController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ServiceResponse<Void>> delete(@PathVariable UUID id) {
+    public ResponseEntity<ServiceResponse<NoContent>> delete(@PathVariable UUID id) {
         return controllerResponse(service.delete(id));
     }
 }
