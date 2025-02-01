@@ -29,6 +29,11 @@ public class CommentController extends BaseController {
         return controllerResponse(service.create(model));
     }
 
+    @PostMapping("/like/{postId}/{userId}")
+    public ResponseEntity<ServiceResponse<String>> create(@PathVariable UUID postId, @PathVariable UUID userId) {
+        return controllerResponse(service.like(postId, userId));
+    }
+
     @PutMapping
     public ResponseEntity<ServiceResponse<CommentDto>> update(@RequestBody CommentDto model) {
         return controllerResponse(service.update(model, model.getId()));

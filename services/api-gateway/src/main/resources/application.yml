@@ -8,7 +8,15 @@ spring:
         - id: blog-api
           uri: http://blog-api:8090
           predicates:
-            - Path=/**
+            - Path=/blog/**
+          filters:
+            - RewritePath=/blog/(?<segment>.*), /$\{segment}
+        - id: social-media-api
+          uri: http://social-media-api:8080
+          predicates:
+            - Path=/social-media/**
+          filters:
+            - RewritePath=/social-media/(?<segment>.*), /$\{segment}
 
 logging:
   level:

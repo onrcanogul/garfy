@@ -7,9 +7,11 @@ import com.petstagram.socialmedia.dto.status.PostStatusDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 public class PostDto extends BaseDto {
+    private UUID userId;
     private String title;
     private String description;
     private List<CommentDto> comments = new ArrayList<>();
@@ -45,5 +47,13 @@ public class PostDto extends BaseDto {
 
     public void setStatus(PostStatusDto status) {
         this.status = status;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 }

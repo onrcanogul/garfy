@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import DetailScreen from "./BlogDetailScreen";
 import BlogList from "../../components/blog/BlogList";
 import { getQuestion } from "../../services/blog/question-service";
-import Question from "../../contracts/question";
+import Question from "../../contracts/blog/question";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 const BlogScreen: React.FC = () => {
@@ -14,7 +14,6 @@ const BlogScreen: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
-  // Soruları getiren fonksiyon
   const fetchQuestions = async () => {
     if (loading || !hasMore) return;
     setLoading(true);
@@ -32,10 +31,8 @@ const BlogScreen: React.FC = () => {
     setLoading(false);
   };
 
-  // Ekran her odaklandığında (focus olduğunda) fetchQuestions çağrılır
   useFocusEffect(
     useCallback(() => {
-      // Sayfayı sıfırlayıp yeniden veri çekme işlemi
       setQuestions([]);
       setPage(0);
       setHasMore(true);

@@ -26,8 +26,8 @@ services:
     depends_on:
       blog-api:
         condition: service_healthy
-#      - social-media-api
-#      - profile-api
+      social-media-api:
+        condition: service_healthy
     networks:
       - my-network
 
@@ -68,3 +68,52 @@ services:
         condition: service_healthy
     networks:
       - my-network
+
+  social-media-api:
+    image: garfy/socialmedia
+    container_name: social-media-api
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_DATASOURCE_URL: jdbc:postgresql://social-media-db:5432/social-media-db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      social-media-db:
+        condition: service_healthy
+    networks:
+      - my-network
+
+
+  social-media-db:
+    image: postgres:latest
+    container_name: social-media-db
+    restart: always
+    environment:
+      POSTGRES_DB: social-media-db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - my-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d social-media-db" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  postgres_data:

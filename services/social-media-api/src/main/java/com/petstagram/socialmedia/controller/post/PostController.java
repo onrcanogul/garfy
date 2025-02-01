@@ -34,6 +34,11 @@ public class PostController extends BaseController {
         return controllerResponse(service.create(model));
     }
 
+    @PostMapping("/like/{postId}/{userId}")
+    public ResponseEntity<ServiceResponse<String>> like(@PathVariable UUID postId, @PathVariable UUID userId) {
+        return controllerResponse(service.like(postId, userId));
+    }
+
     @PutMapping
     public ResponseEntity<ServiceResponse<PostDto>> update(@RequestBody PostDto model) {
         return controllerResponse(service.update(model, model.getId()));

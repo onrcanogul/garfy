@@ -1,13 +1,15 @@
 package com.petstagram.socialmedia.dto.status;
 
-import com.petstagram.socialmedia.dto.comment.CommentDto;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.UUID;
 
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
 public class CommentStatusDto extends StatusDto {
-    private CommentDto comment;
+    private UUID commentId;
+
+    public UUID getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(UUID commentId) {
+        this.commentId = commentId;
+    }
 }

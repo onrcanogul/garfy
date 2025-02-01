@@ -1,12 +1,12 @@
 import axios from "axios";
 import { baseUrl } from "../base";
 import ServiceResponse from "../../contracts/base/response";
-import Question from "../../contracts/question";
+import Question from "../../contracts/blog/question";
 import NoContent from "../../contracts/base/nocontent";
 import Toast from "react-native-toast-message";
 import i18next from "i18next";
 
-const url = `${baseUrl}/question`;
+const url = `${baseUrl}/blog/api/question`;
 
 export const getQuestion = async (page: number, size: number) => {
   const response = await axios.get(`${url}//${page}/${size}`);

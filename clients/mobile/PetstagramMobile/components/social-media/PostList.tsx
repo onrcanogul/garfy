@@ -1,8 +1,11 @@
-import React from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
 import PostCard from "./PostCard";
+import Post from "../../contracts/social-media/post";
+import { getPosts } from "../../services/social-media/post-service";
+import axios from "axios";
 
-const posts = [
+const oldPosts = [
   {
     id: 1,
     username: "petlover123",
@@ -29,14 +32,38 @@ const posts = [
 ];
 
 const PostList: React.FC = () => {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const pageSize = 10;
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const fetchPosts = async () => {
+    if (loading) return;
+    setLoading(true);
+
+    getPosts(
+      page,
+      pageSize,
+      (data) => {
+        setPosts((prevPosts) => [...prevPosts, data]);
+        setPage((prevPage) => prevPage + 1);
+      },
+      (error) => {}
+    );
+  };
+
   return (
     <View style={styles.container}>
       <FlatList
-        data={posts}
+        data={oldPosts}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <PostCard
-            username={item.username}
+            username={"oogul"}
             profileImage={item.profileImage}
             images={item.images}
             likes={item.likes}
@@ -44,6 +71,11 @@ const PostList: React.FC = () => {
           />
         )}
         showsVerticalScrollIndicator={false}
+        onEndReached={fetchPosts}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={
+          loading ? <ActivityIndicator size="large" color="#0000ff" /> : null
+        }
       />
     </View>
   );

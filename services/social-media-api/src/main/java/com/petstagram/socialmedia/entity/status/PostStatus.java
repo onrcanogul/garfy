@@ -7,10 +7,17 @@ import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Entity
-@Getter @Setter
 public class PostStatus extends Status {
-    @OneToOne
-    @JoinColumn(name = "post_id", referencedColumnName = "id")
-    private Post post;
+    private UUID postId;
+
+    public UUID getPostId() {
+        return postId;
+    }
+
+    public void setPostId(UUID postId) {
+        this.postId = postId;
+    }
 }

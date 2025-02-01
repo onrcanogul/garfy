@@ -13,6 +13,7 @@ import java.util.UUID;
 public class QuestionDto extends BaseDto {
     private UUID userId;
     private String content;
+    private String shortContent;
     private String title;
     private List<AnswerDto> answers = new ArrayList<>();
     private List<QuestionViewDto> views = new ArrayList<>();
@@ -74,6 +75,14 @@ public class QuestionDto extends BaseDto {
 
     public void setStatus(QuestionStatus status) {
         this.status = status;
+    }
+
+    public String getShortContent() {
+        return shortContent;
+    }
+
+    public void setShortContent(String shortContent) {
+        this.shortContent = shortContent;
     }
 
 //    public GetResponse getImages() {

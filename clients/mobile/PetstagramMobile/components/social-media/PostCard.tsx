@@ -64,11 +64,11 @@ const PostCard: React.FC<PostCardProps> = ({
   const handleAddComment = (text: string) => {
     const newComment = {
       id: comments.length + 1,
-      username: "currentUser", // Yorum yapan kullanıcının adı
+      username: "currentUser",
       text,
-      timestamp: "Şimdi", // Yeni yorumun zaman damgası
+      timestamp: "Şimdi",
     };
-    setComments([...comments, newComment]); // Yorumları güncelle
+    setComments([...comments, newComment]);
   };
 
   return (
@@ -87,14 +87,14 @@ const PostCard: React.FC<PostCardProps> = ({
         data={images}
         keyExtractor={(item, index) => index.toString()}
         horizontal
-        pagingEnabled // Tam sayfa kaydırmayı etkinleştir
-        showsHorizontalScrollIndicator={false} // Kaydırma çubuğunu gizle
-        onScroll={handleScroll} // Aktif resmi takip et
-        snapToInterval={width} // Ekran genişliği kadar kaydır
-        snapToAlignment="start" // Kaydırma hizalamasını baştan başlat
-        decelerationRate="fast" // Daha hızlı kaydırma animasyonu
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        onScroll={handleScroll}
+        snapToInterval={width}
+        snapToAlignment="start"
+        decelerationRate="fast"
         contentContainerStyle={{
-          paddingHorizontal: 0, // İçerik boşluklarını kaldır
+          paddingHorizontal: 0,
         }}
         renderItem={({ item }) => (
           <View style={styles.imageContainer}>
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   activeDot: {
-    backgroundColor: "black",
+    backgroundColor: "#213555",
   },
   inactiveDot: {
     backgroundColor: "#C4C4C4",

@@ -11,7 +11,7 @@ import java.util.UUID;
 public class CommentDto extends BaseDto {
     private UUID userId;
     private String content;
-    private PostDto post;
+    private UUID postId;
     private CommentStatusDto status;
 
     public String getContent() {
@@ -20,14 +20,6 @@ public class CommentDto extends BaseDto {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public PostDto getPost() {
-        return post;
-    }
-
-    public void setPost(PostDto post) {
-        this.post = post;
     }
 
     public CommentStatusDto getStatus() {
@@ -44,5 +36,13 @@ public class CommentDto extends BaseDto {
 
     public void setUserId(UUID userId) {
         this.userId = userId;
+    }
+
+    public UUID getPostId() {
+        return postId;
+    }
+
+    public void setPostId(UUID postId) {
+        this.postId = postId;
     }
 }

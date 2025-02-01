@@ -37,7 +37,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
     >
       {/* Kart içeriği */}
       <Text style={styles.blogTitle}>{title}</Text>
-      <Text style={styles.blogContent}>{shortContent}...</Text>
+      <Text style={styles.blogContent}>{shortContent}</Text>
 
       {/* Etiketler */}
       <FlatList
@@ -55,11 +55,11 @@ const BlogCard: React.FC<BlogCardProps> = ({
       {/* Beğeni ve Yorum Sayıları */}
       <View style={styles.statsContainer}>
         <View style={styles.stat}>
-          <Ionicons name="heart-outline" size={16} color="#000" />
+          <Ionicons name="heart-outline" size={20} color="#000" />
           <Text style={styles.statText}>{likes}</Text>
         </View>
         <View style={styles.stat}>
-          <Ionicons name="chatbubble-outline" size={16} color="#000" />
+          <Ionicons name="chatbubble-outline" size={20} color="#000" />
           <Text style={styles.statText}>{comments}</Text>
         </View>
       </View>
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   blogTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 8,
     color: "#213555",
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   tagText: {
-    fontSize: 12,
+    fontSize: 10,
     color: "#213555",
     fontWeight: "bold",
   },
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   },
   statText: {
     marginLeft: 4,
-    fontSize: 12,
+    fontSize: 13,
     color: "#555",
   },
 });
