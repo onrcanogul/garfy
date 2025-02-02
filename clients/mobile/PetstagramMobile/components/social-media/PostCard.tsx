@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/Feather"; // İkonlar için Feather kütüphanesi
 import CommentModal from "./CommentModal";
+import Comment from "../../contracts/social-media/comment";
 
 const { width } = Dimensions.get("window");
 
@@ -19,6 +20,8 @@ interface PostCardProps {
   images: string[];
   likes: number;
   commentsCount: number;
+  description: string;
+  postComments: Comment[];
 }
 const PostCard: React.FC<PostCardProps> = ({
   username,
@@ -26,6 +29,8 @@ const PostCard: React.FC<PostCardProps> = ({
   images,
   likes,
   commentsCount,
+  description,
+  postComments,
 }) => {
   const [isModalVisible, setModalVisible] = React.useState(false);
   const [activeIndex, setActiveIndex] = React.useState(0);
@@ -115,6 +120,8 @@ const PostCard: React.FC<PostCardProps> = ({
         ))}
       </View>
 
+      {/* Description ekleme */}
+
       <View style={styles.actionsContainer}>
         <TouchableOpacity onPress={handleLikePress} style={styles.actionItem}>
           <Icon name="heart" size={24} color="#000" />
@@ -128,19 +135,18 @@ const PostCard: React.FC<PostCardProps> = ({
           <Text style={styles.actionText}>{commentsCount}</Text>
         </TouchableOpacity>
 
-        {/* Paylaş İkonu */}
         <TouchableOpacity
           onPress={() => console.log("Paylaş butonuna basıldı!")}
           style={styles.actionItem}
         >
-          <Icon name="share-2" size={24} color="#000" />{" "}
-          {/* Feather'dan "share" ikonu */}
+          <Icon name="share-2" size={24} color="#000" />
         </TouchableOpacity>
       </View>
+      <Text style={styles.description}>{description}</Text>
 
       <CommentModal
         isVisible={isModalVisible}
-        comments={comments}
+        comments={postComments}
         onClose={handleCloseModal}
         onAddComment={handleAddComment}
       />
@@ -150,21 +156,21 @@ const PostCard: React.FC<PostCardProps> = ({
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 0, // Kart yuvarlatmasını sıfırla
-    width: "100%", // Kart genişliği ekran genişliği kadar
-    margin: 0, // Kartın dış boşluklarını sıfırla
-    padding: 0, // Kartın iç boşluklarını sıfırla
+    borderRadius: 0,
+    width: "100%",
+    margin: 0,
+    padding: 0,
     marginBottom: 20,
   },
   imageContainer: {
-    width: width, // Cihazın tam genişliği
-    height: width, // Kare görünüm
-    overflow: "hidden", // Kenar taşmalarını engelle
+    width: width,
+    height: width,
+    overflow: "hidden",
   },
   postImage: {
-    width: width, // Kapsayıcı genişliğini tam doldur
-    height: "100%", // Kapsayıcı yüksekliğini tam doldur
-    resizeMode: "cover", // Görüntüyü düzgün bir şekilde ölçekle
+    width: width,
+    height: "100%",
+    resizeMode: "cover",
   },
   profileContainer: {
     flexDirection: "row",
@@ -221,6 +227,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginLeft: 5,
     color: "#000",
+  },
+  description: {
+    marginTop: 10,
+    paddingHorizontal: 10,
+    fontSize: 14,
+    color: "#333",
   },
 });
 

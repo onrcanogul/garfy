@@ -13,15 +13,9 @@ import {
   Keyboard,
   Platform,
 } from "react-native";
+import Comment from "../../contracts/social-media/comment";
 
 const { width, height } = Dimensions.get("window");
-
-interface Comment {
-  id: number;
-  username: string;
-  text: string;
-  timestamp: string;
-}
 
 interface CommentModalProps {
   isVisible: boolean;
@@ -60,19 +54,24 @@ const CommentModal: React.FC<CommentModalProps> = ({
           >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
               <View style={styles.modalContainer}>
-                {/* Modal içeriği */}
+                {/* Yorum Listesi */}
                 <FlatList
                   data={comments}
                   keyExtractor={(item) => item.id.toString()}
-                  inverted
                   renderItem={({ item }) => (
                     <View style={styles.commentItem}>
-                      <Text style={styles.username}>{item.username}</Text>
-                      <Text style={styles.commentText}>{item.text}</Text>
-                      <Text style={styles.timestamp}>{item.timestamp}</Text>
+                      <Text style={styles.username}>{"oogul"}</Text>
+                      <Text style={styles.commentText}>{item.content}</Text>
+                      <Text style={styles.timestamp}>
+                        {item.createdDate
+                          ? item.createdDate.toString()
+                          : formatDate(Date.now())}
+                      </Text>
                     </View>
                   )}
-                  contentContainerStyle={{ paddingTop: 10 }}
+                  contentContainerStyle={{ paddingBottom: 20 }} // Alt boşluk ekler
+                  showsVerticalScrollIndicator={false} // Kaydırma çubuğunu gizle
+                  style={{ flexGrow: 1 }} // Listeyi tam genişlikte yap
                 />
                 {/* Yorum ekleme alanı */}
                 <View style={styles.addCommentContainer}>
@@ -97,6 +96,16 @@ const CommentModal: React.FC<CommentModalProps> = ({
       </TouchableWithoutFeedback>
     </Modal>
   );
+};
+
+const formatDate = (timestamp) => {
+  const date = new Date(timestamp); // Timestamp'i Date nesnesine çevir
+
+  const day = String(date.getDate()).padStart(2, "0"); // Gün (2 basamak)
+  const month = date.toLocaleString("tr-TR", { month: "long" }); // Ay adı (uzun format, Türkçe)
+  const year = date.getFullYear(); // Yıl (4 basamak)
+
+  return `${day} ${month} ${year}`;
 };
 
 const styles = StyleSheet.create({

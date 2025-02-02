@@ -49,8 +49,10 @@ const PostList: React.FC = () => {
       page,
       pageSize,
       (data) => {
-        setPosts((prevPosts) => [...prevPosts, data]);
+        console.log(data.data);
+        setPosts(data.data);
         setPage((prevPage) => prevPage + 1);
+        console.log(posts);
       },
       (error) => {}
     );
@@ -59,23 +61,29 @@ const PostList: React.FC = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={oldPosts}
+        data={posts}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <PostCard
             username={"oogul"}
-            profileImage={item.profileImage}
-            images={item.images}
-            likes={item.likes}
-            commentsCount={item.commentsCount}
+            profileImage={"https://picsum.photos/50/50"}
+            images={[
+              "https://picsum.photos/1000/1000?random=1", // İlk resim
+              "https://picsum.photos/300/300?random=2", // İkinci resim
+              "https://picsum.photos/300/300?random=3", // Üçüncü resim
+            ]}
+            likes={item.status.users.length}
+            commentsCount={item.comments.length}
+            description={item.description}
+            postComments={item.comments}
           />
         )}
         showsVerticalScrollIndicator={false}
         onEndReached={fetchPosts}
         onEndReachedThreshold={0.5}
-        ListFooterComponent={
-          loading ? <ActivityIndicator size="large" color="#0000ff" /> : null
-        }
+        // ListFooterComponent={
+        //   loading ? <ActivityIndicator size="large" color="#0000ff" /> : null
+        // }
       />
     </View>
   );
