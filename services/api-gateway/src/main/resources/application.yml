@@ -17,6 +17,12 @@ spring:
             - Path=/social-media/**
           filters:
             - RewritePath=/social-media/(?<segment>.*), /$\{segment}
+        - id: profile-api
+          uri: http://profile-api:9040
+          predicates:
+            - Path=/profile/**
+          filters:
+            - RewritePath=/profile/(?<segment>.*), /$\{segment}
 
 logging:
   level:
@@ -32,6 +38,3 @@ management:
   endpoint:
     gateway:
       enabled: true
-
-
-

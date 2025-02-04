@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  View,
+  Text,
+} from "react-native";
 import PostCard from "./PostCard";
 import Post from "../../contracts/social-media/post";
 import { getPosts } from "../../services/social-media/post-service";
-import axios from "axios";
 
 const oldPosts = [
   {
@@ -58,8 +63,9 @@ const PostList: React.FC = () => {
     );
   };
 
-  return (
+  return posts.length > 0 ? (
     <View style={styles.container}>
+      {posts.length > 0}
       <FlatList
         data={posts}
         keyExtractor={(item) => item.id.toString()}
@@ -81,11 +87,13 @@ const PostList: React.FC = () => {
         showsVerticalScrollIndicator={false}
         onEndReached={fetchPosts}
         onEndReachedThreshold={0.5}
-        // ListFooterComponent={
-        //   loading ? <ActivityIndicator size="large" color="#0000ff" /> : null
-        // }
+        ListFooterComponent={
+          loading ? <ActivityIndicator size="large" color="#0000ff" /> : null
+        }
       />
     </View>
+  ) : (
+    <Text>Bir gönderi bulunamadı.</Text>
   );
 };
 
