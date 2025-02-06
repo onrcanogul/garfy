@@ -6,36 +6,23 @@ namespace profile_api.Controllers;
 
 [ApiController]
 [Route("/api/[controller]")]
-public class ProfileController(IProfileService service): ControllerBase
+public class ProfileController(IProfileService service): BaseController
 {
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> Get(Guid id)
-    {
-        var data = await service.GetProfile(id);
-        return Ok(data);
-    }
+        => ApiResult(await service.GetProfile(id));
 
     [HttpPost]
-    public async Task<IActionResult> Create(Profile profile)
-    {
-        await service.Create(profile);
-        return Created();
-    }
+    public async Task<IActionResult> Create(ProfileDto profile)
+        => ApiResult(await service.Create(profile));
 
     [HttpPut]
-    public async Task<IActionResult> Update(Profile profile)
-    {
-        await service.Update(profile);
-        return NoContent();
-    }
+    public async Task<IActionResult> Update(ProfileDto profile)
+        => ApiResult(await service.Update(profile));
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
-    {
-        await service.Delete(id);
-        return NoContent();
-    }
-
+        => ApiResult(await service.Delete(id));
 
     [HttpGet("/health")]
     public async Task<IActionResult> Health()
