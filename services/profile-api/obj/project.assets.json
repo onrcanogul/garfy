@@ -5264,35 +5264,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\oogul\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/onurcanogul/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Personal\\garfy\\services\\profile-api\\profile-api.csproj",
+      "projectUniqueName": "/Users/onurcanogul/Desktop/petstagram-application-spring/services/profile-api/profile-api.csproj",
       "projectName": "profile-api",
-      "projectPath": "D:\\Personal\\garfy\\services\\profile-api\\profile-api.csproj",
-      "packagesPath": "C:\\Users\\oogul\\.nuget\\packages\\",
-      "outputPath": "D:\\Personal\\garfy\\services\\profile-api\\obj\\",
+      "projectPath": "/Users/onurcanogul/Desktop/petstagram-application-spring/services/profile-api/profile-api.csproj",
+      "packagesPath": "/Users/onurcanogul/.nuget/packages/",
+      "outputPath": "/Users/onurcanogul/Desktop/petstagram-application-spring/services/profile-api/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\oogul\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/onurcanogul/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://pkgs.dev.azure.com/fodevops/_packaging/FONUGET%40Local/nuget/v3/index.json": {},
-        "https://pkgs.dev.azure.com/fodevops/_packaging/TESTFONUGET%40Local/nuget/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
@@ -5365,7 +5355,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
