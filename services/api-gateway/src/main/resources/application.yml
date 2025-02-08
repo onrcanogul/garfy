@@ -18,11 +18,11 @@ spring:
           filters:
             - RewritePath=/social-media/(?<segment>.*), /$\{segment}
         - id: profile-api
-          uri: http://profile-api:9040
+          uri: http://profile-api:8080
           predicates:
-            - Path=/profile/**
+            - Path=/prof/**
           filters:
-            - RewritePath=/profile/(?<segment>.*), /$\{segment}
+            - RewritePath=/prof/(?<segment>.*), /$\{segment}
 
 logging:
   level:

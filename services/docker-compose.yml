@@ -105,8 +105,6 @@ services:
       POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     networks:
       - my-network
     healthcheck:
@@ -121,22 +119,26 @@ services:
       context: ./profile-api
       dockerfile: Dockerfile
     container_name: profile-api
+    restart: always
     ports:
       - "9040:8080"
     depends_on:
       redis:
         condition: service_healthy
-      sqlserver:
+      profile-db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9040/health"]
+      test: ["CMD", "curl", "-f", "http://profile-api:8080/health"]
       interval: 10s
       timeout: 5s
       retries: 3
+      start_period: 30s
+    command: ["sh", "-c", "dotnet ef database update && dotnet profile-api.dll"]
     environment:
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=ProfileDb;User Id=sa;Password=Password12*;
+      - ConnectionStrings__DefaultConnection:Host=profile-db;Port=5432;Database=profile-db;Username=postgres;Password=password
       - Redis__Host=redis
       - Redis__Port=6379
+      - ASPNETCORE_ENVIRONMENT=Development
     networks:
       - my-network
 
@@ -154,34 +156,22 @@ services:
       timeout: 5s
       retries: 3
 
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: sql_server
+  profile-db:
+    image: postgres:latest
+    container_name: profile-db
     restart: always
-    ports:
-      - "1434:1433"
     environment:
-      SA_PASSWORD: "Password12*"
-      ACCEPT_EULA: "Y"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: profile-db
+    ports:
+      - "5433:5432"
     networks:
       - my-network
     healthcheck:
-      test:
-        [
-          "CMD",
-          "/opt/mssql-tools/bin/sqlcmd",
-          "-S",
-          "localhost",
-          "-U",
-          "sa",
-          "-P",
-          "Password12*",
-          "-Q",
-          "SELECT 1",
-        ]
-      interval: 10s
-      timeout: 5s
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d profile-db" ]
+      interval: 30s
+      timeout: 10s
       retries: 3
+      start_period: 10s
 
-volumes:
-  postgres_data:

@@ -23,8 +23,4 @@ public class ProfileController(IProfileService service): BaseController
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
         => ApiResult(await service.Delete(id));
-
-    [HttpGet("/health")]
-    public async Task<IActionResult> Health()
-        => Ok(new { status = "Healthy" });
 }
