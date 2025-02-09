@@ -15,15 +15,15 @@ public class ProfileService(AppDbContext context, IConnectionMultiplexer redis, 
 {
     private readonly IDatabase _cache = redis.GetDatabase();
 
-    public async Task<ServiceResponse<ProfileDto>> GetProfile(Guid id)
+    public async Task<ServiceResponse<ProfileDto>> GetProfile(string username)
     {
-        var cacheKey = $"profile_{id}";
+        var cacheKey = $"profile_{username}";
 
         var cachedProfile = await _cache.StringGetAsync(cacheKey);
         if (!cachedProfile.IsNullOrEmpty)
             return ServiceResponse<ProfileDto>.Success(
                 mapper.Map<ProfileDto>(JsonSerializer.Deserialize<Profile>(cachedProfile)), StatusCodes.Status200OK);
-        var profile = await context.Profiles.FirstOrDefaultAsync(x => x.Id == id);
+        var profile = await context.Profiles.FirstOrDefaultAsync(x => x.Username == username);
         if(profile != null)
             await _cache.StringSetAsync(cacheKey, JsonSerializer.Serialize(profile));
         return ServiceResponse<ProfileDto>.Success(mapper.Map<ProfileDto>(profile), StatusCodes.Status200OK);

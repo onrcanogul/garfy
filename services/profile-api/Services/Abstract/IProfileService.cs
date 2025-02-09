@@ -4,7 +4,7 @@ namespace profile_api.Services;
 
 public interface IProfileService
 {
-    Task<ServiceResponse<ProfileDto>> GetProfile(Guid id);
+    Task<ServiceResponse<ProfileDto>> GetProfile(string username);
     Task<ServiceResponse<NoContent>> Create(ProfileDto profile);
     Task<ServiceResponse<NoContent>> Update(ProfileDto profile);
     Task<ServiceResponse<NoContent>> Delete(Guid id);
