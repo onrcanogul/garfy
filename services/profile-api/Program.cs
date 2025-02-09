@@ -13,6 +13,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddSingleton<IConnectionMultiplexer>(opt =>
     ConnectionMultiplexer.Connect($"{builder.Configuration["Redis:Host"]}:{builder.Configuration["Redis:Port"]}"));
 builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<IFriendshipService, FriendshipService>();
 builder.Services.AddAutoMapper(typeof(Mapping));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -26,23 +27,18 @@ builder.Services.AddCors(options =>
                 .AllowAnyHeader();
         });
 });
-
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     dbContext.Database.Migrate();
 }
-
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseHealthChecks("/health");

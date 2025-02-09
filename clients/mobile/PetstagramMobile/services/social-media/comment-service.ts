@@ -1,8 +1,8 @@
 import axios from "axios";
-import { baseUrl } from "../base";
 import { currentUser } from "../auth-service";
+import { socialMediaBasePath } from "../../constants/endpoints";
 
-const url = `${baseUrl}/social-media/api/comment`;
+const url = socialMediaBasePath + "/comment";
 
 export const createComment = (
   model: Partial<Comment>,

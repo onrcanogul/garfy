@@ -1,17 +1,18 @@
 import axios from "axios";
-import { baseUrl } from "../base";
 import Profile from "../../contracts/profile/profile";
+import { profileBasePath } from "../../constants/endpoints";
 
-const url = `${baseUrl}/api/profile`;
+const url = profileBasePath + "/profile";
 
 export const getProfile = (
-  id: string,
+  username: string,
   successCallback: (data: Profile) => void,
   errorCallback: (error: any) => void
 ) => {
+  console.log(username);
   axios
-    .get(`${url}/${id}`)
-    .then((response) => successCallback(response.data))
+    .get(`${url}/${username}`)
+    .then((response) => successCallback(response.data.data))
     .catch((error) => errorCallback(error));
 };
 
@@ -22,7 +23,7 @@ export const createProfile = (
 ) => {
   axios
     .post(url)
-    .then((response) => successCallback(response.data))
+    .then((response) => successCallback(response.data.data))
     .catch((error) => errorCallback(error));
 };
 
@@ -33,7 +34,7 @@ export const updateProfile = (
 ) => {
   axios
     .put(url)
-    .then((response) => successCallback(response.data))
+    .then((response) => successCallback(response.data.data))
     .catch((error) => errorCallback(error));
 };
 
@@ -44,6 +45,6 @@ export const deleteProfile = (
 ) => {
   axios
     .delete(`${url}/${id}`)
-    .then((response) => successCallback(response.data))
+    .then((response) => successCallback(response.data.data))
     .catch((error) => errorCallback(error));
 };

@@ -23,7 +23,7 @@ public class ProfileService(AppDbContext context, IConnectionMultiplexer redis, 
         if (!cachedProfile.IsNullOrEmpty)
             return ServiceResponse<ProfileDto>.Success(
                 mapper.Map<ProfileDto>(JsonSerializer.Deserialize<Profile>(cachedProfile)), StatusCodes.Status200OK);
-        var profile = await context.Profiles.FirstOrDefaultAsync(x => x.Username == username);
+        var profile = await context.Profiles.Include(x => x.Followers).Include(x => x.Following).FirstOrDefaultAsync(x => x.Username == username);
         if(profile != null)
             await _cache.StringSetAsync(cacheKey, JsonSerializer.Serialize(profile));
         return ServiceResponse<ProfileDto>.Success(mapper.Map<ProfileDto>(profile), StatusCodes.Status200OK);

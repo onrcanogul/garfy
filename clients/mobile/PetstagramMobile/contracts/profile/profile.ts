@@ -1,4 +1,5 @@
 import BaseEntity from "../base/base-entitiy";
+import { Friendship } from "./friendship";
 
 interface Profile extends BaseEntity {
   username: string;
@@ -7,6 +8,8 @@ interface Profile extends BaseEntity {
   email: string;
   bio: string;
   rating: number;
+  followers: Friendship[];
+  following: Friendship[];
 }
 
 export default Profile;

@@ -1,19 +1,36 @@
-import React from "react";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {
-  StyleSheet,
-  FlatList,
-  View,
-  Text,
-  TouchableOpacity,
-} from "react-native";
-import ProfileHeader from "../../components/profile/ProfileHeader";
-import ProfileStats from "../../components/profile/ProfileStats";
-import ProfileActions from "../../components/profile/ProfileActions";
+import React, { useEffect } from "react";
+import { StyleSheet, FlatList, View, ActivityIndicator } from "react-native";
 import PostList from "../../components/profile/ProfilePostList";
+import { getProfile } from "../../services/profile/profile-service";
+import { currentUser } from "../../services/auth-service";
+import Profile from "../../contracts/profile/profile";
+import ProfileHeaderScreen from "./ProfileHeaderScreen";
 
 const ProfileScreen: React.FC = () => {
-  const [selectedTab, setSelectedTab] = React.useState("Posts"); // Mevcut sekmeyi takip eder
+  const [profile, setProfile] = React.useState<Profile | null>();
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [selectedTab, setSelectedTab] = React.useState("Posts");
+  useEffect(() => {
+    console.log("useffect run");
+    fetch();
+  }, []);
+  const fetch = async () => {
+    setLoading(true);
+    getProfile(
+      currentUser().username,
+      (data) => {
+        console.log("data");
+        console.log(data);
+        setProfile(data);
+        setLoading(false);
+      },
+      (err) => {
+        console.error(err);
+        setLoading(false);
+      }
+    );
+  };
+  // Mevcut sekmeyi takip eder
 
   const posts = [
     { id: 1, image: "https://picsum.photos/130/150" },
@@ -41,56 +58,27 @@ const ProfileScreen: React.FC = () => {
         return null;
     }
   };
-
-  const renderHeader = () => (
-    <View style={styles.profileHeader}>
-      <ProfileHeader
-        username="JohnDoe"
-        profilePicture="https://picsum.photos/100/150"
-      />
-      <ProfileStats posts={34} followers={1200} following={300} />
-      <ProfileActions />
-      <View style={styles.tabs}>
-        <TouchableOpacity onPress={() => setSelectedTab("Posts")}>
-          <Icon
-            name="grid" // Posts ikon
-            size={24}
-            style={[
-              styles.tabIcon,
-              selectedTab === "Posts" && styles.activeTabIcon,
-            ]}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setSelectedTab("Likes")}>
-          <Icon
-            name="heart-outline" // Likes ikon
-            size={24}
-            style={[
-              styles.tabIcon,
-              selectedTab === "Likes" && styles.activeTabIcon,
-            ]}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setSelectedTab("Saved")}>
-          <Icon
-            name="bookmark-outline" // Saved ikon
-            size={24}
-            style={[
-              styles.tabIcon,
-              selectedTab === "Saved" && styles.activeTabIcon,
-            ]}
-          />
-        </TouchableOpacity>
+  // Eğer yükleniyorsa, yükleme göstergesi göster
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#007bff" />
       </View>
-    </View>
-  );
-
+    );
+  }
   return (
     <FlatList
-      ListHeaderComponent={renderHeader}
+      ListHeaderComponent={
+        <ProfileHeaderScreen
+          profile={profile}
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+          postCount={posts.length}
+        />
+      }
       data={[]}
-      renderItem={null} // İçerik aşağıdaki renderContent ile kontrol ediliyor
-      ListFooterComponent={renderContent()} // Dinamik içerik gösterimi
+      renderItem={null}
+      ListFooterComponent={renderContent()}
       contentContainerStyle={styles.container}
     />
   );
@@ -114,6 +102,11 @@ const styles = StyleSheet.create({
   tab: {
     fontSize: 16,
     color: "#666",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   activeTab: {
     fontWeight: "bold",

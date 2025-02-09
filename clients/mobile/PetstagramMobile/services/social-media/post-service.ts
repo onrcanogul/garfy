@@ -1,9 +1,9 @@
 import axios from "axios";
-import { baseUrl } from "../base";
 import Post from "../../contracts/social-media/post";
 import { currentUser } from "../auth-service";
+import { socialMediaBasePath } from "../../constants/endpoints";
 
-const url = `${baseUrl}/social-media/api/post`;
+const url = socialMediaBasePath + "/post";
 
 export const getPosts = (
   page: number,

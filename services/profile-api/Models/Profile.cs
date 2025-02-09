@@ -9,4 +9,8 @@ public class Profile
     public string Email { get; set; }
     public string Bio { get; set; }
     public decimal Rating { get; set; }
+    public bool IsHidden { get; set; }
+    public int PostCount { get; set; }
+    public List<Friendship> Following { get; set; } = [];
+    public List<Friendship> Followers { get; set; } = [];
 }

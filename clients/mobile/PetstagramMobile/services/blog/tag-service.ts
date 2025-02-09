@@ -1,11 +1,12 @@
 import i18next, { i18n } from "i18next";
 import axios from "axios";
 import Tag from "../../contracts/blog/tag";
-import { baseUrl } from "../base";
 import ServiceResponse from "../../contracts/base/response";
 import NoContent from "../../contracts/base/nocontent";
 import Toast from "react-native-toast-message";
-const url = baseUrl + "blog/api/tag";
+import { blogBasePath } from "../../constants/endpoints";
+
+const url = blogBasePath + "/tag";
 
 export const create = async (model: Partial<Tag>) => {
   const response: ServiceResponse<Tag> = await axios.post(url, model);

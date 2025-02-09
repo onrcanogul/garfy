@@ -8,9 +8,9 @@ namespace profile_api.Controllers;
 [Route("/api/[controller]")]
 public class ProfileController(IProfileService service): BaseController
 {
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> Get(Guid id)
-        => ApiResult(await service.GetProfile(id));
+    [HttpGet("{username}")]
+    public async Task<IActionResult> Get(string username)
+        => ApiResult(await service.GetProfile(username));
 
     [HttpPost]
     public async Task<IActionResult> Create(ProfileDto profile)

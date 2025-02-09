@@ -1,13 +1,13 @@
 import axios from "axios";
 import Answer from "../../contracts/blog/answer";
 import ServiceResponse from "../../contracts/base/response";
-import { baseUrl } from "../base";
 import NoContent from "../../contracts/base/nocontent";
 import Toast from "react-native-toast-message";
 import i18next from "i18next";
 import { currentUser } from "../auth-service";
+import { blogBasePath } from "../../constants/endpoints";
 
-const url = `${baseUrl}/blog/api/answer`;
+const url = blogBasePath + "/answer";
 
 export const createAnswer = async (
   model: Partial<Answer>,
