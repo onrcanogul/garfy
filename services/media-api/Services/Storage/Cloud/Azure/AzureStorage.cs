@@ -1,5 +1,6 @@
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using Azure.Storage.Sas;
 using Google.Protobuf;
 
 namespace media_api.Models.Storage.Cloud.Azure;
@@ -25,29 +26,45 @@ public class AzureStorage : BaseStorage, IAzureStorage
     => _blobServiceClient.GetBlobContainerClient(containerName).GetBlobs().Select(b => b.Name).ToList();
     public bool HasFile(string containerName, string fileName)
     => _blobServiceClient.GetBlobContainerClient(containerName).GetBlobs().Any(b => b.Name == fileName);
-    public async Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(
-        string containerName, 
-        List<(string fileName, ByteString fileContent)> files)
+
+    public async Task<(string UploadUrl, string FileUrl)> GeneratePresignedUrlAsync(string containerName, string fileName)
+    {
+        var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+        var blobClient = containerClient.GetBlobClient(fileName);
+
+        var sasBuilder = new BlobSasBuilder
+        {
+            BlobContainerName = containerName,
+            BlobName = fileName,
+            Resource = "b",
+            StartsOn = DateTimeOffset.UtcNow,
+            ExpiresOn = DateTimeOffset.UtcNow.AddHours(2)
+        };
+        sasBuilder.SetPermissions(BlobSasPermissions.Write);
+
+        var sasToken = containerClient.GenerateSasUri(sasBuilder).Query;
+        var uploadUrl = $"{blobClient.Uri}{sasToken}";
+
+        return (UploadUrl: uploadUrl, FileUrl: blobClient.Uri.ToString());
+    }
+
+    public async Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string containerName, IFormFileCollection files)
     {
         _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
-
         await _blobContainerClient.CreateIfNotExistsAsync();
         await _blobContainerClient.SetAccessPolicyAsync(PublicAccessType.BlobContainer);
 
-        List<(string fileName, string pathOrContainerName)> newFiles = new();
-
-        foreach (var (fileName, fileContent) in files)
+        List<(string fileName, string pathOrContainerName)> datas = new();
+        foreach(IFormFile file in files)
         {
-            var fileNewName = FileRename(containerName, fileName, HasFile);
+            var fileNewName = FileRename(containerName, file.Name, HasFile);
+
             var blobClient = _blobContainerClient.GetBlobClient(fileNewName);
-
-            using var stream = new MemoryStream(fileContent.ToByteArray());
-            await blobClient.UploadAsync(stream);
-
-            newFiles.Add((fileNewName, $"{containerName}/{fileNewName}"));
+            await blobClient.UploadAsync(file.OpenReadStream());
+            datas.Add((fileNewName, $"{containerName}/{fileNewName}"));
         }
+        return datas;
 
-        return newFiles;
     }
 
 

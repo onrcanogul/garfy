@@ -1,6 +1,5 @@
 package com.petstagram.blog.entity.question;
 
-import com.petstagram.blog.GetResponse;
 import com.petstagram.blog.entity.answer.Answer;
 import com.petstagram.blog.entity.base.BaseEntity;
 import com.petstagram.blog.entity.status.QuestionStatus;

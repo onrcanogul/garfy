@@ -2,6 +2,7 @@ package com.petstagram.blog.dto.question;
 
 import com.petstagram.blog.dto.answer.AnswerDto;
 import com.petstagram.blog.dto.base.BaseDto;
+import com.petstagram.blog.dto.file.FileDto;
 import com.petstagram.blog.dto.tag.TagDto;
 import com.petstagram.blog.dto.view.QuestionViewDto;
 import com.petstagram.blog.entity.status.QuestionStatus;
@@ -18,6 +19,7 @@ public class QuestionDto extends BaseDto {
     private List<AnswerDto> answers = new ArrayList<>();
     private List<QuestionViewDto> views = new ArrayList<>();
     private List<TagDto> tags = new ArrayList<>();
+    private List<FileDto> files = new ArrayList<>();
 //    private GetResponse images;
     private QuestionStatus status;
 
@@ -83,6 +85,14 @@ public class QuestionDto extends BaseDto {
 
     public void setShortContent(String shortContent) {
         this.shortContent = shortContent;
+    }
+
+    public List<FileDto> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<FileDto> files) {
+        this.files = files;
     }
 
 //    public GetResponse getImages() {

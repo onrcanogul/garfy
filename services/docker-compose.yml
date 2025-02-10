@@ -68,6 +68,8 @@ services:
     depends_on:
       blog-db:
         condition: service_healthy
+      media-api:
+        condition: service_healthy
     networks:
       - my-network
 
@@ -114,33 +116,7 @@ services:
       retries: 3
       start_period: 10s
 
-  profile-api:
-    build:
-      context: ./profile-api
-      dockerfile: Dockerfile
-    container_name: profile-api
-    restart: always
-    ports:
-      - "9040:8080"
-    depends_on:
-      redis:
-        condition: service_healthy
-      profile-db:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://profile-api:8080/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 30s
-    command: ["sh", "-c", "dotnet ef database update && dotnet profile-api.dll"]
-    environment:
-      - ConnectionStrings__DefaultConnection:Host=profile-db;Port=5432;Database=profile-db;Username=postgres;Password=password
-      - Redis__Host=redis
-      - Redis__Port=6379
-      - ASPNETCORE_ENVIRONMENT=Development
-    networks:
-      - my-network
+
 
   redis:
     image: redis:latest
@@ -174,4 +150,77 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
+
+  profile-api:
+    build:
+      context: ./profile-api
+      dockerfile: Dockerfile
+    container_name: profile-api
+    restart: always
+    ports:
+      - "9040:8080"
+    depends_on:
+      redis:
+        condition: service_healthy
+      profile-db:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://profile-api:8080/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    command: [ "sh", "-c", "dotnet ef database update && dotnet profile-api.dll" ]
+    environment:
+      - ConnectionStrings__DefaultConnection:Host=profile-db;Port=5432;Database=profile-db;Username=postgres;Password=password
+      - Redis__Host=redis
+      - Redis__Port=6379
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - my-network
+
+  media-db:
+    image: postgres:latest
+    container_name: media-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Password12*
+      POSTGRES_DB: media-db
+    ports:
+      - "5434:5432"
+    networks:
+      - my-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d media-db" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  media-api:
+    build:
+      context: ./media-api
+      dockerfile: Dockerfile
+    container_name: media-api
+    restart: always
+    ports:
+      - "9050:8080"
+    depends_on:
+      redis:
+        condition: service_healthy
+      media-db:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://media-api:8080/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    command: [ "sh", "-c", "dotnet ef database update && dotnet media-api.dll" ]
+    environment:
+      - ConnectionStrings__DefaultConnection:Host=media-db;Port=5432;Database=media-db;Username=postgres;Password=Password12*
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - my-network
 

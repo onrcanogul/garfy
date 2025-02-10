@@ -11,10 +11,14 @@ import com.petstagram.blog.repository.base.BaseRepository;
 import com.petstagram.blog.repository.status.QuestionStatusRepository;
 import com.petstagram.blog.repository.view.QuestionViewRepository;
 import com.petstagram.blog.service.base.impl.BaseServiceImpl;
+import com.petstagram.blog.service.file.FileService;
 import com.petstagram.blog.service.grpc.GrpcClientService;
 import com.petstagram.blog.service.question.QuestionService;
+import media.Media;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -26,14 +30,16 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, QuestionDto> 
     private final QuestionViewRepository viewRepository;
     private final Mapper<Question, QuestionDto> mapper;
     private final GrpcClientService grpcService;
+    private final FileService fileService;
 
-    public QuestionServiceImpl(BaseRepository<Question> repository, QuestionStatusRepository statusRepository, QuestionViewRepository viewRepository, Mapper<Question, QuestionDto> mapper, GrpcClientService grpcService) {
+    public QuestionServiceImpl(BaseRepository<Question> repository, QuestionStatusRepository statusRepository, QuestionViewRepository viewRepository, Mapper<Question, QuestionDto> mapper, GrpcClientService grpcService, FileService fileService) {
         super(repository, mapper);
         this.repository = repository;
         this.statusRepository = statusRepository;
         this.viewRepository = viewRepository;
         this.grpcService = grpcService;
         this.mapper = mapper;
+        this.fileService = fileService;
     }
 
     @Override
@@ -73,13 +79,14 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, QuestionDto> 
     }
 
     @Override
-    public ServiceResponse<QuestionDto> add(QuestionDto dto) {
+    public ServiceResponse<QuestionDto> add(QuestionDto dto, List<MultipartFile> files) throws Exception {
         Question question = mapper.toEntity(dto);
         Question createdQuestion = repository.save(question);
         QuestionStatus questionStatus = new QuestionStatus();
         questionStatus.setQuestionId(createdQuestion.getId());
         question.setStatus(questionStatus);
         statusRepository.save(questionStatus);
+        fileService.uploadFiles(question.getId(), files, "blog-images", 2);
         return ServiceResponse.success(mapper.toDto(question), 200);
     }
 

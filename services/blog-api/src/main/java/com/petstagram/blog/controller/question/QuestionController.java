@@ -1,5 +1,8 @@
 package com.petstagram.blog.controller.question;
 
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.petstagram.blog.configuration.response.NoContent;
 import com.petstagram.blog.configuration.response.ServiceResponse;
 import com.petstagram.blog.controller.base.BaseController;
@@ -7,9 +10,12 @@ import com.petstagram.blog.dto.question.QuestionDto;
 import com.petstagram.blog.entity.base.BaseEntity;
 import com.petstagram.blog.service.question.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +24,8 @@ import java.util.UUID;
 public class QuestionController extends BaseController {
     @Autowired
     private QuestionService service;
+    @Autowired
+    private ObjectMapper mapper;
 
     @GetMapping("/{page}/{size}")
     public ResponseEntity<ServiceResponse<List<QuestionDto>>> get(@PathVariable int page, @PathVariable int size) {
@@ -34,9 +42,11 @@ public class QuestionController extends BaseController {
         return controllerResponse(service.getByUser(page, size, userId));
     }
 
-    @PostMapping
-    public ResponseEntity<ServiceResponse<QuestionDto>> create(@RequestBody QuestionDto model) {
-        return controllerResponse(service.add(model));
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ServiceResponse<QuestionDto>> create(
+            @RequestPart("model") String modelJson,
+            @RequestPart("files") List<MultipartFile> files) throws Exception {
+        return controllerResponse(service.add(mapper.readValue(modelJson, QuestionDto.class), files));
     }
 
     @PostMapping("like")

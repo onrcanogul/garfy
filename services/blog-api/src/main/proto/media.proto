@@ -1,24 +1,20 @@
 syntax = "proto3";
 
-option java_multiple_files = true;
+package media;
 
-option java_package = "com.petstagram.blog";
 service MediaProtoService {
   rpc GetFiles (GetRequest) returns (GetResponse);
-  rpc UploadFiles (UploadRequest) returns (UploadResponse);
+  rpc UploadFiles (stream FileChunk) returns (UploadResponse);
+  rpc GetPresignedUrl (PresignedUrlRequest) returns (PresignedUrlResponse);
 }
 
-message FileData {
+message FileChunk {
   string file_name = 1;
   string content_type = 2;
-  bytes file_content = 3;
+  bytes chunk_data = 3;
   string id = 4;
   string pathOrContainer = 5;
   FileType file_type = 6;
-}
-
-message UploadRequest {
-  repeated FileData files = 1;
 }
 
 message UploadResponse {
@@ -43,6 +39,16 @@ message FileModel {
   string id = 1;
   string name = 2;
   string path = 3;
+}
+
+message PresignedUrlRequest {
+  string file_name = 1;
+  string content_type = 2;
+}
+
+message PresignedUrlResponse {
+  string upload_url = 1;
+  string file_url = 2;
 }
 
 enum FileType {
