@@ -86,6 +86,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, QuestionDto> 
         questionStatus.setQuestionId(createdQuestion.getId());
         question.setStatus(questionStatus);
         statusRepository.save(questionStatus);
+        fileService.getFiles(question.getId(), 2);
         fileService.uploadFiles(question.getId(), files, "blog-images", 2);
         return ServiceResponse.success(mapper.toDto(question), 200);
     }

@@ -2,7 +2,9 @@ package com.petstagram.blog.service.file;
 
 import com.petstagram.blog.configuration.response.ServiceResponse;
 import com.petstagram.blog.dto.file.FileDto;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -19,7 +21,7 @@ import java.util.UUID;
 public class FileService {
 
     private final WebClient webClient;
-    private final String dotNetApiUrl = "http://media-api:8081/api/media"; // .NET API URL
+    private final String dotNetApiUrl = "http://media-api:8080/api/media"; // .NET API URL
 
     public FileService(WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder.baseUrl(dotNetApiUrl).build();
@@ -46,23 +48,37 @@ public class FileService {
                 throw new RuntimeException("Dosya işleme hatası: " + file.getOriginalFilename(), e);
             }
         }
+        System.out.println("HaHaHaydi");
         return webClient.post()
                 .uri("/upload")
                 .contentType(MediaType.MULTIPART_FORM_DATA)
-                .bodyValue(BodyInserters.fromMultipartData(body))
+                .bodyValue(body)
                 .retrieve()
-                .bodyToMono(ServiceResponse.class)
-                .doOnError(e -> System.err.println("WebClient Error: " + e.getMessage()))
-                .doOnSuccess(response -> System.out.println("Response received from .NET API: " + response));
+                .bodyToMono(ServiceResponse.class);
     }
 
     /**
      * .NET API'den dosyaları çekme (WebClient ile)
      */
-    public Mono<FileDto> getFiles(UUID id, int fileType) {
+    public ServiceResponse<List<FileDto>> getFiles(UUID id, int fileType) {
+        String requestUrl = dotNetApiUrl + "/" + id.toString() + "/" + fileType;
+        System.out.println("🟢 WebClient GET isteği gönderiliyor: " + requestUrl);
+
         return webClient.get()
-                .uri("/{id}/{fileType}", id, fileType) // Path parametreleri ile çağrı
+                .uri("/{id}/{fileType}", id, fileType)
                 .retrieve()
-                .bodyToMono(FileDto.class);
+                .onStatus(HttpStatusCode::isError, clientResponse ->
+                        clientResponse.bodyToMono(String.class)
+                                .flatMap(errorBody -> {
+                                    System.err.println("❌ WebClient Hata Yanıtı: " + errorBody);
+                                    return Mono.error(new RuntimeException("WebClient Hatası: " + errorBody));
+                                })
+                )
+                .bodyToMono(new ParameterizedTypeReference<ServiceResponse<List<FileDto>>>() {})
+                .doOnError(e -> System.err.println("❌ WebClient Exception: " + e.getMessage()))
+                .doOnSuccess(response -> System.out.println("✅ WebClient Başarılı Yanıt: " + response))
+                .block(); // Blocking çağrı
     }
+
+
 }
