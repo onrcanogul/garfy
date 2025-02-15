@@ -12,6 +12,8 @@ public class ProfileDto
     public string? Bio { get; set; }
     public decimal Rating { get; set; }
 
+    public string? ProfileImageUrl { get; set; }
+
     public List<FriendshipDto> Followers { get; set; } = [];
     public List<FriendshipDto> Following { get; set; } = [];
 }

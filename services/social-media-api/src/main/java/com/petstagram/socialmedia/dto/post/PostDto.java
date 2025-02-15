@@ -16,6 +16,7 @@ public class PostDto extends BaseDto {
     private String description;
     private List<CommentDto> comments = new ArrayList<>();
     private PostStatusDto status;
+    private List<String> imageUrls = new ArrayList<>();
 
     public List<CommentDto> getComments() {
         return comments;
@@ -55,5 +56,13 @@ public class PostDto extends BaseDto {
 
     public void setUserId(UUID userId) {
         this.userId = userId;
+    }
+
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
     }
 }

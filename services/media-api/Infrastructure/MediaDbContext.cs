@@ -10,4 +10,5 @@ public class MediaDbContext(DbContextOptions<MediaDbContext> options) : DbContex
     public DbSet<PostImage> PostImages { get; set; }
     public DbSet<ProfileImage> ProfileImages { get; set; }
     public DbSet<ReelsVideo> ReelVideos { get; set; }
+    public DbSet<QuestionImage> QuestionImages { get; set; }
 }

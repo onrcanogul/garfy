@@ -17,6 +17,7 @@ builder.Services.AddScoped<IFriendshipService, FriendshipService>();
 builder.Services.AddAutoMapper(typeof(Mapping));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",

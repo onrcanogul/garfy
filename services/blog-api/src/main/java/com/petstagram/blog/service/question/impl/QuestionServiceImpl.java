@@ -60,11 +60,8 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, QuestionDto> 
 
     @Override
     public ServiceResponse<List<QuestionDto>> getByTag(int page, int size, UUID tagId) {
-        List<QuestionDto> questions = repository
-                .findAll()
-                .stream()
-                .filter(q -> q.getTags().contains(tagId))
-                .skip(page * size).limit(size)
+        List<QuestionDto> questions = repository.findAll().stream()
+                .filter(q -> q.getTags().contains(tagId)).skip(page * size).limit(size)
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
         return ServiceResponse.success(questions, 200);
@@ -93,7 +90,6 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, QuestionDto> 
         CompletableFuture<ServiceResponse> uploadFuture = fileService.uploadFiles(createdQuestion.getId(), files, "question-images", 2);
         return ServiceResponse.success(mapper.toDto(question), 200);
     }
-
 
     @Override
     public ServiceResponse<NoContent> like(UUID questionId, UUID userId) {

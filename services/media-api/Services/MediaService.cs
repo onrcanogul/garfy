@@ -54,6 +54,13 @@ public class MediaService(MediaDbContext context, IStorageService storageService
                         Path = pathOrContainer, CreatedDate = DateTime.UtcNow
                     });
                     break;
+                case FileType.QuestionImage:
+                    await context.QuestionImages.AddAsync(new()
+                    {
+                        QuestionId = id, Storage = Storage.Azure, Name = file.FileName,
+                        Path = pathOrContainer, CreatedDate = DateTime.UtcNow
+                    });
+                    break;
                 case FileType.Unknown:
                     break;
             }
