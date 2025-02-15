@@ -9,8 +9,8 @@ namespace profile_api.Controllers;
 public class ProfileController(IProfileService service): BaseController
 {
     [HttpGet("{username}")]
-    public async Task<IActionResult> Get([FromRoute] string username, [FromForm] IFormFileCollection files)
-        => ApiResult(await service.GetProfile(username, files));
+    public async Task<IActionResult> Get([FromRoute] string username)
+        => ApiResult(await service.GetProfile(username));
 
     [HttpPost]
     public async Task<IActionResult> Create(ProfileDto profile)
