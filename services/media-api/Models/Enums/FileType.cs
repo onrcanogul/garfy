@@ -5,5 +5,6 @@ public enum FileType
     Unknown = 0,
     PostImage = 1,
     ProfileImage = 2,
-    ReelsVideo = 3
+    QuestionImage = 3,
+    ReelsVideo = 4
 }

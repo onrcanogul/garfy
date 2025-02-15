@@ -29,7 +29,7 @@ public class QuestionController extends BaseController {
 
     @GetMapping("/{page}/{size}")
     public ResponseEntity<ServiceResponse<List<QuestionDto>>> get(@PathVariable int page, @PathVariable int size) {
-        return controllerResponse(service.get(page, size, null));
+        return controllerResponse(service.get(page, size));
     }
 
     @GetMapping("/tag/{page}/{size}/{tagId}")

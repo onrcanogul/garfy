@@ -19,7 +19,7 @@ public class QuestionDto extends BaseDto {
     private List<AnswerDto> answers = new ArrayList<>();
     private List<QuestionViewDto> views = new ArrayList<>();
     private List<TagDto> tags = new ArrayList<>();
-    private List<FileDto> files = new ArrayList<>();
+    private List<String> imageUrls = new ArrayList<>();
 //    private GetResponse images;
     private QuestionStatus status;
 
@@ -87,12 +87,12 @@ public class QuestionDto extends BaseDto {
         this.shortContent = shortContent;
     }
 
-    public List<FileDto> getFiles() {
-        return files;
+    public List<String> getImageUrls() {
+        return imageUrls;
     }
 
-    public void setFiles(List<FileDto> files) {
-        this.files = files;
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
     }
 
 //    public GetResponse getImages() {

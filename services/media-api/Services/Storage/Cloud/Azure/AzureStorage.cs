@@ -22,8 +22,15 @@ public class AzureStorage : BaseStorage, IAzureStorage
         await blobClient.DeleteAsync();
     }
 
-    public List<string> GetFiles(string containerName)
-    => _blobServiceClient.GetBlobContainerClient(containerName).GetBlobs().Select(b => b.Name).ToList();
+    public List<string> GetFiles(string containerName, Guid id)
+    {
+        var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+        return containerClient.GetBlobs()
+            .Where(blobItem => blobItem.Name.Split(".")[0].EndsWith(id.ToString()))
+            .Select(blobItem => containerClient.GetBlobClient(blobItem.Name).Uri.ToString())
+            .ToList();
+    }
+
     public bool HasFile(string containerName, string fileName)
     => _blobServiceClient.GetBlobContainerClient(containerName).GetBlobs().Any(b => b.Name == fileName);
 
@@ -48,23 +55,33 @@ public class AzureStorage : BaseStorage, IAzureStorage
         return (UploadUrl: uploadUrl, FileUrl: blobClient.Uri.ToString());
     }
 
-    public async Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string containerName, IFormFileCollection files)
+    public async Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string containerName, IFormFileCollection files, Guid id)
     {
         _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
-        await _blobContainerClient.CreateIfNotExistsAsync();
-        await _blobContainerClient.SetAccessPolicyAsync(PublicAccessType.BlobContainer);
+        if (!await _blobContainerClient.ExistsAsync())
+        {
+            await _blobContainerClient.CreateAsync();
+            await _blobContainerClient.SetAccessPolicyAsync(PublicAccessType.BlobContainer);
+        }
 
         List<(string fileName, string pathOrContainerName)> datas = new();
-        foreach(IFormFile file in files)
-        {
-            var fileNewName = FileRename(containerName, file.Name, HasFile);
+        var uploadTasks = new List<Task>();
 
+        foreach (var file in files)
+        {
+            var fileNewName = FileRename(containerName, file.FileName, HasFile, id);
             var blobClient = _blobContainerClient.GetBlobClient(fileNewName);
-            await blobClient.UploadAsync(file.OpenReadStream());
+            var uploadTask = Task.Run(async () =>
+            {
+                await blobClient.UploadAsync(file.OpenReadStream());
+            });
+            uploadTasks.Add(uploadTask);
             datas.Add((fileNewName, $"{containerName}/{fileNewName}"));
         }
-        return datas;
+        await Task.WhenAll(uploadTasks);
 
+        Console.WriteLine("Uploading files finished");
+        return datas;
     }
 
 

@@ -2,32 +2,35 @@ using media_api.Infrastructure;
 using media_api.Models.Enums;
 using media_api.Models.Response;
 using media_api.Models.Storage;
-using Microsoft.EntityFrameworkCore;
-using File = media_api.Models.Entities.File;
 using FileType = media_api.Models.Enums.FileType;
 
 namespace media_api.Services;
 
 public class MediaService(MediaDbContext context, IStorageService storageService) : IMediaService
 {
-    public async Task<ServiceResponse<List<File>>> GetFiles(Guid id, FileType fileType)
+    public async Task<ServiceResponse<List<string>>> GetFiles(Guid id, FileType fileType)
     {
-        var query = fileType switch
+        Console.WriteLine("Pingaldo");
+        var containerName = fileType switch
         {
-            FileType.PostImage => context.PostImages.Where(image => image.PostId == id),
-            FileType.ProfileImage => context.ProfileImages.Where(image => image.ProfileId == id),
-            FileType.ReelsVideo => context.ReelVideos.Where(video => video.ProfileId == id),
-            _ => Enumerable.Empty<File>().AsQueryable()
+            FileType.PostImage => "post-images",
+            FileType.ProfileImage => "profile-images",
+            FileType.ReelsVideo => "reels-videos",
+            FileType.QuestionImage => "question-images",
+            FileType.Unknown => "unknown-files",
+            _ => throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null)
         };
-        var files = await query.ToListAsync();
-        return ServiceResponse<List<File>>.Success(files, StatusCodes.Status200OK);
+        var files = storageService.GetFiles(containerName, id);
+        Console.WriteLine("FilesCount: ");
+        Console.WriteLine(files.Count);
+        Console.WriteLine("PingaldoEnd");
+        return ServiceResponse<List<string>>.Success(files, StatusCodes.Status200OK);
     }
     public async Task<ServiceResponse<NoContent>> UploadFiles(IFormFileCollection files, string pathOrContainer, FileType fileType, Guid id )
     {
-        Console.WriteLine("Pingaldo");
+        await storageService.UploadAsync(pathOrContainer, files, id);
         foreach (var file in files)
         {
-            await storageService.UploadAsync(pathOrContainer, files);
             switch (fileType)
             {
                 case FileType.PostImage:

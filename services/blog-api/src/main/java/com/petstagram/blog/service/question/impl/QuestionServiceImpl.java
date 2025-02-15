@@ -14,13 +14,12 @@ import com.petstagram.blog.service.base.impl.BaseServiceImpl;
 import com.petstagram.blog.service.file.FileService;
 import com.petstagram.blog.service.grpc.GrpcClientService;
 import com.petstagram.blog.service.question.QuestionService;
-import media.Media;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,8 +48,13 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, QuestionDto> 
                 .stream()
                 .skip((long) page * size)
                 .limit(size)
-                .map(mapper::toDto)
+                .map(q -> {
+                    QuestionDto dto = mapper.toDto(q);
+                    dto.setImageUrls(fileService.getFiles(q.getId(), 3).getData());
+                    return dto;
+                })
                 .collect(Collectors.toList());
+
         return ServiceResponse.success(questions, 200);
     }
 
@@ -86,10 +90,10 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, QuestionDto> 
         questionStatus.setQuestionId(createdQuestion.getId());
         question.setStatus(questionStatus);
         statusRepository.save(questionStatus);
-        fileService.getFiles(question.getId(), 2);
-        fileService.uploadFiles(question.getId(), files, "blog-images", 2);
+        CompletableFuture<ServiceResponse> uploadFuture = fileService.uploadFiles(createdQuestion.getId(), files, "question-images", 2);
         return ServiceResponse.success(mapper.toDto(question), 200);
     }
+
 
     @Override
     public ServiceResponse<NoContent> like(UUID questionId, UUID userId) {

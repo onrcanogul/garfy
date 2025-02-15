@@ -3,19 +3,16 @@ namespace media_api.Models.Storage;
 public class BaseStorage
 {
     protected delegate bool HasFile(string pathOrContainerName, string fileName);
-    protected string FileRename(string pathOrContainerName, string fileName, HasFile hasFile, int num = 0)
+    protected static string FileRename(string pathOrContainerName, string fileName, HasFile hasFile, Guid id)
     {
-        string newFileName;
         var extension = Path.GetExtension(fileName);
-        if (num == 0)
+        var nameWithoutExtension = NameOperation.CharacterRegulatory(Path.GetFileNameWithoutExtension(fileName));
+        var newFileName = nameWithoutExtension + "_" + id + extension;
+        var num = 0;
+        while (hasFile(pathOrContainerName, newFileName))
         {
-            var oldName = Path.GetFileNameWithoutExtension(fileName);
-            newFileName = NameOperation.CharacterRegulatory(oldName) + extension;
+            newFileName = $"{nameWithoutExtension}-{++num}{extension}";
         }
-        else
-            newFileName = fileName;
-        return hasFile(pathOrContainerName, newFileName) 
-            ? FileRename(pathOrContainerName, $"{Path.GetFileNameWithoutExtension(newFileName)}-{num}{extension}", hasFile, ++num)
-            : newFileName;
+        return newFileName;
     }
 }
