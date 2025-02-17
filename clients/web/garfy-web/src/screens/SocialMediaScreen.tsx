@@ -16,6 +16,8 @@ const SocialMedia = () => {
     }
   }, [dispatch, status]);
 
+  const handleLikeClick = () => {};
+
   if (status === "loading") return <p>Loading...</p>;
   if (status === "failed") return <p>Error: {error}</p>;
 
@@ -29,6 +31,10 @@ const SocialMedia = () => {
             content={post.description}
             date={"18 July 2003"}
             comments={post.comments}
+            imageUrls={post.imageUrls}
+            onLikeClick={() => handleLikeClick}
+            status={post.status}
+            post={post}
           />
         );
       })}

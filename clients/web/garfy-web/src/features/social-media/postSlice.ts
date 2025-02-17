@@ -53,7 +53,7 @@ export const likePost = createAsyncThunk(
       const response = await axios.post(
         `${url}/like/${postId}/${currentUser()}`
       );
-      return response.data;
+      return response.data.successful;
     } catch (error: any) {
       return rejectWithValue(error.response?.data || error.message);
     }

@@ -44,8 +44,10 @@ export const like = (
   successCallback: (data: any) => void,
   errorCallback: (error: any) => void
 ) => {
+  console.log(postId);
+  console.log(currentUser().id);
   axios
-    .post(`${url}/like/${postId}/${currentUser()}`)
+    .post(`${url}/like/${postId}/${currentUser().id}`)
     .then((response) => successCallback(response.data.data))
     .then((error) => errorCallback(error));
 };

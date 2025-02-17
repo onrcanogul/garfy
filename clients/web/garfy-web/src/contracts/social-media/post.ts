@@ -7,6 +7,7 @@ interface Post extends BaseEntity {
   description: string;
   comments: Comment[];
   status: PostStatus;
+  imageUrls: string[];
 }
 
 export default Post;

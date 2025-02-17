@@ -13,44 +13,75 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import ShareIcon from "@mui/icons-material/Share";
 import Comment from "../../contracts/social-media/comment";
+import PostStatus from "../../contracts/social-media/post-status";
+import { like } from "../../services/social-media/post-service";
+import Post from "../../contracts/social-media/post";
+import { currentUser } from "../../services/auth-service";
 
 interface PostProps {
   author: string;
   date: string;
   content: string;
-  image?: string; // Opsiyonel resim alanı
+  imageUrls: string[];
   comments: Comment[];
+  onLikeClick: any;
+  status: PostStatus;
+  post: Post;
 }
 
-const CustomPost = ({ author, date, content, image, comments }: PostProps) => {
-  const [likes, setLikes] = useState(0);
-  const [liked, setLiked] = useState(false);
+const CustomPost = ({ date, imageUrls, post }: PostProps) => {
+  const [likes, setLikes] = useState(post.status.users.length);
+  const [liked, setLiked] = useState(
+    post.status.users.includes(currentUser().id)
+  );
 
-  const handleLike = () => {
+  const handleLike = async () => {
+    like(
+      post.id,
+      (response) => {
+        const isLiked = response === "Like";
+        if (isLiked) {
+          console.log(likes);
+          setLikes(likes + 1);
+          setLiked(true);
+        } else {
+          console.log(likes);
+          setLikes(likes - 1);
+          setLiked(false);
+        }
+      },
+      () => {}
+    );
     setLiked(!liked);
     setLikes(liked ? likes - 1 : likes + 1);
   };
 
   return (
-    <Card sx={{ maxWidth: 500, margin: "20px auto", padding: 2 }}>
+    <Card
+      sx={{
+        maxWidth: 500,
+        margin: "20px auto",
+        padding: 2,
+        fontWeight: "bold",
+      }}
+    >
       <CardHeader
-        avatar={<Avatar>{author}</Avatar>}
-        title={author}
+        avatar={<Avatar>{post.createdBy}</Avatar>}
+        title={"oogul"}
         subheader={date}
       />
 
-      {image && ( // Eğer resim varsa göster
+      {post.imageUrls.length > 0 && ( // Eğer resim varsa göster
         <CardMedia
           component="img"
-          height="250"
-          image={image}
+          height="500"
+          image={imageUrls[0]}
           alt="Post image"
-          sx={{ borderRadius: 2, objectFit: "cover" }}
+          sx={{ borderRadius: 2, objectFit: "contain", width: "100%" }}
         />
       )}
-
       <CardContent>
-        <Typography variant="body1">{content}</Typography>
+        <Typography variant="body1">{post.description}</Typography>
       </CardContent>
 
       <CardActions disableSpacing>
@@ -62,7 +93,7 @@ const CustomPost = ({ author, date, content, image, comments }: PostProps) => {
         <IconButton>
           <ChatBubbleOutlineIcon />
         </IconButton>
-        <Typography>{comments.length}</Typography>
+        <Typography>{post.comments.length}</Typography>
 
         <IconButton sx={{ marginLeft: "auto" }}>
           <ShareIcon />

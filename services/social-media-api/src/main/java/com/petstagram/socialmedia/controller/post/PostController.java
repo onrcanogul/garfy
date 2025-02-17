@@ -43,7 +43,7 @@ public class PostController extends BaseController {
         return controllerResponse(service.create(mapper.readValue(modelJson, PostDto.class), files));
     }
 
-    @PostMapping("/like/{postId}/{userId}")
+    @PostMapping("like/{postId}/{userId}")
     public ResponseEntity<ServiceResponse<String>> like(@PathVariable UUID postId, @PathVariable UUID userId) {
         return controllerResponse(service.like(postId, userId));
     }

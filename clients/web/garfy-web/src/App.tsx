@@ -1,12 +1,12 @@
 import "./App.css";
 import Header from "./components/layout/Header";
-import SocialMedia from "./screens/SocialMediaScreen";
+import BlogScreen from "./screens/BlogScreen";
 
 function App() {
   return (
     <>
       <Header />
-      <SocialMedia />
+      <BlogScreen />
     </>
   );
 }
