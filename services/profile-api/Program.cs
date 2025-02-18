@@ -18,16 +18,6 @@ builder.Services.AddAutoMapper(typeof(Mapping));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll",
-        corsPolicyBuilder =>  
-        {
-            corsPolicyBuilder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-        });
-});
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -41,7 +31,6 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
 }
 app.UseHttpsRedirection();
-app.UseCors("AllowAll");
 app.UseHealthChecks("/health");
 app.MapControllers();
 

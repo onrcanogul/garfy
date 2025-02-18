@@ -5,7 +5,7 @@ import { profileBasePath } from "../../constants/endpoint";
 const url = profileBasePath + "/profile";
 
 export const getProfile = (
-  username: string,
+  username: string | undefined,
   successCallback: (data: Profile) => void,
   errorCallback: (error: any) => void
 ) => {

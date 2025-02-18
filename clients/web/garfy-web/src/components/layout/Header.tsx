@@ -16,6 +16,8 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import CustomDrawer from "./CustomDrawer";
+import { useNavigate } from "react-router-dom";
+import { currentUser } from "../../services/auth-service";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -58,6 +60,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Header() {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -73,9 +76,11 @@ export default function Header() {
     setMobileMoreAnchorEl(null);
   };
 
-  const handleMenuClose = () => {
+  const handleMenuClose = (text: string) => {
     setAnchorEl(null);
     handleMobileMenuClose();
+    if (text === "Profile") navigate("/profile/" + currentUser().username);
+    else if (text === "Settings") navigate("/settings");
   };
 
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -103,8 +108,8 @@ export default function Header() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
+      <MenuItem onClick={() => handleMenuClose("Profile")}>Profile</MenuItem>
+      <MenuItem onClick={() => handleMenuClose("Settings")}>Settings</MenuItem>
     </Menu>
   );
 

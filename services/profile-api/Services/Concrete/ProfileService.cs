@@ -31,9 +31,9 @@ public class ProfileService(
             .FirstOrDefaultAsync(x => x.Username == username);
         if (profile == null)
             throw new KeyNotFoundException("Profile not found");
-        var dto = await GetImages(profile);
+        // var dto = await GetImages(profile);
         await _cache.StringSetAsync(cacheKey, JsonSerializer.Serialize(profile));
-        return ServiceResponse<ProfileDto>.Success(dto, StatusCodes.Status200OK);
+        return ServiceResponse<ProfileDto>.Success(mapper.Map<ProfileDto>(profile), StatusCodes.Status200OK);
     }
     public async Task<ServiceResponse<NoContent>> Create(ProfileDto profile)
     {
@@ -75,7 +75,9 @@ public class ProfileService(
         var dto = mapper.Map<ProfileDto>(profile);
         var response = await client.GetAsync($"{_mediaApiUrl}/{profile.Id}/3");
         await using var stream = await response.Content.ReadAsStreamAsync();
-        dto.ProfileImageUrl = (await JsonSerializer.DeserializeAsync<ServiceResponse<List<string>>>(stream))?.Data!.First();
+        dto.ProfileImageUrl = (await JsonSerializer.DeserializeAsync<ServiceResponse<List<string>>>(stream))?.Data.FirstOrDefault();
+        Console.WriteLine(dto.ProfileImageUrl);
+        Console.WriteLine(dto);
         return dto;
     }
 }

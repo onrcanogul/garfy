@@ -28,6 +28,8 @@ export const getPostById = (
     .catch((error) => errorCallback(error));
 };
 
+// export const getPostsByUser = ()
+
 export const createPost = (
   model: Partial<Post>,
   successCallback: (data: any) => void,

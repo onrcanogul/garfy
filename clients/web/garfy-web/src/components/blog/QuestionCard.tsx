@@ -57,7 +57,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
         <IconButton aria-label="comments">
           <Comment />
         </IconButton>
-        <Typography variant="body2">{question.answers.length} Yorum</Typography>
+        <Typography variant="body2">{question.answers.length}</Typography>
       </CardActions>
     </Card>
   );
@@ -69,7 +69,7 @@ interface QuestionListProps {
 
 const QuestionList: React.FC<QuestionListProps> = ({ questions }) => {
   return (
-    <Grid container spacing={2} justifyContent="center">
+    <Grid container spacing={1} justifyContent="center">
       {questions.map((question) => (
         <Grid item xs={12} sm={6} key={question.id}>
           <QuestionCard question={question} />

@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts } from "../features/social-media/postSlice";
 import { PostState } from "../features/states";
 import CustomPost from "../components/social-media/CustomPost";
+import BlockUI from "../utils/block-ui";
 
 const SocialMedia = () => {
-  const dispatch = useDispatch(); // redux actions
+  const dispatch = useDispatch();
   const { posts, status, error }: PostState = useSelector(
     (state: any) => state.posts
   );
@@ -18,7 +19,10 @@ const SocialMedia = () => {
 
   const handleLikeClick = () => {};
 
-  if (status === "loading") return <p>Loading...</p>;
+  if (status === "loading")
+    return (
+      <BlockUI open={status === "loading"} message="Gönderiler yükleniyor" />
+    );
   if (status === "failed") return <p>Error: {error}</p>;
 
   return (
