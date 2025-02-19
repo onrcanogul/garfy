@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -61,19 +62,19 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, QuestionDto> 
     @Override
     public ServiceResponse<List<QuestionDto>> getByTag(int page, int size, UUID tagId) {
         List<QuestionDto> questions = repository.findAll().stream()
-                .filter(q -> q.getTags().contains(tagId)).skip(page * size).limit(size)
+                .filter(q -> q.getTags().contains(tagId)).skip((long) page * size).limit(size)
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
         return ServiceResponse.success(questions, 200);
     }
 
     @Override
-    public ServiceResponse<List<QuestionDto>> getByUser(int page, int size, UUID userId) {
+    public ServiceResponse<List<QuestionDto>> getByUser(int page, int size, String userName) {
         List<QuestionDto> questions = repository
                 .findAll()
                 .stream()
-                .filter(q -> q.getUserId() == userId)
-                .skip(page * size).limit(size)
+                .filter(q -> Objects.equals(q.getUserName(), userName))
+                .skip((long) page * size).limit(size)
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
         return ServiceResponse.success(questions, 200);
@@ -92,7 +93,7 @@ public class QuestionServiceImpl extends BaseServiceImpl<Question, QuestionDto> 
     }
 
     @Override
-    public ServiceResponse<NoContent> like(UUID questionId, UUID userId) {
+    public ServiceResponse<NoContent> like(UUID questionId, String userId) {
         Question question = repository.findById(questionId).orElseThrow();
         question.getStatus().getUsers().add(userId);
         repository.save(question);

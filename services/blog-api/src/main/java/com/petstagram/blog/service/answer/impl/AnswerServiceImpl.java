@@ -26,7 +26,7 @@ public class AnswerServiceImpl extends BaseServiceImpl<Answer, AnswerDto> implem
     }
 
     @Override
-    public ServiceResponse<String> like(UUID answerId, UUID userId) {
+    public ServiceResponse<String> like(UUID answerId, String userId) {
         String status;
         Answer answer = repository.findById(answerId).orElseThrow();
         boolean isExist = answer.getStatus().getUsers().contains(userId);

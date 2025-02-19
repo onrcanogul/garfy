@@ -10,7 +10,7 @@ import java.util.UUID;
 @Entity
 public class Answer extends BaseEntity {
     private String content;
-    private UUID userId;
+    private String userName;
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
@@ -18,10 +18,10 @@ public class Answer extends BaseEntity {
     @JoinColumn(name = "answer_id")
     private AnswerStatus status;
 
-    public Answer(String content, Question question, UUID userId) {
+    public Answer(String content, Question question, String userName) {
         this.content = content;
         this.question = question;
-        this.userId = userId;
+        this.userName = userName;
     }
 
     public Answer(){
@@ -42,12 +42,20 @@ public class Answer extends BaseEntity {
     public void setQuestion(Question question) {
         this.question = question;
     }
-    public UUID getUserId() {
-        return userId;
-    }
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
+//    public UUID getUserId() {
+//        return userId;
+//    }
+//    public void setUserId(UUID userId) {
+//        this.userId = userId;
+//    }
     public AnswerStatus getStatus() { return status; }
     public void setStatus(AnswerStatus status) { this.status = status; }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }

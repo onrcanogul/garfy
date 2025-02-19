@@ -3,7 +3,7 @@ import Answer from "./answer";
 import Tag from "./tag";
 
 interface Question extends BaseEntity {
-  userId: string;
+  userName: string;
   shortContent: string;
   content: string;
   title: string;

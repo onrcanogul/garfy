@@ -1,6 +1,6 @@
 CREATE TABLE question (
           id BINARY(16) NOT NULL PRIMARY KEY, -- UUID için BINARY(16)
-          user_id BINARY(16) NOT NULL, -- UUID için BINARY(16)
+          userName VARCHAR(100) NOT NULL,
           content TEXT NOT NULL,
           shortContent VARCHAR(300) NOT NULL,
           title VARCHAR(255) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE question (
 CREATE TABLE answer (
         id BINARY(16) NOT NULL PRIMARY KEY, -- UUID için BINARY(16)
         content TEXT NOT NULL,
-        user_id BINARY(16) NOT NULL, -- UUID için BINARY(16)
+        userName VARCHAR(100) NOT NULL, -- UUID için BINARY(16)
         question_id BINARY(16) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -35,7 +35,7 @@ CREATE TABLE question_tags (
 
 CREATE TABLE question_view (
            id BINARY(16) NOT NULL PRIMARY KEY, -- UUID için BINARY(16)
-           user_id BINARY(16) NOT NULL, -- UUID için BINARY(16)
+           userName VARCHAR(100) NOT NULL,
            question_id BINARY(16) NOT NULL,
            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -45,7 +45,7 @@ CREATE TABLE question_view (
 CREATE TABLE answer_status (
             id UUID PRIMARY KEY DEFAULT default_uuid(),
             answer_id UUID UNIQUE REFERENCES comment (id) ON DELETE CASCADE,
-            users UUID[] DEFAULT ARRAY[]::UUID[], -- UUID Listesi
+            users VARCHAR(100)[] DEFAULT ARRAY[]::VARCHAR(100)[],
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -53,7 +53,7 @@ CREATE TABLE answer_status (
 CREATE TABLE question_status (
         id UUID PRIMARY KEY DEFAULT default_uuid(),
         question_id UUID UNIQUE REFERENCES post (id) ON DELETE CASCADE,
-        users UUID[] DEFAULT ARRAY[]::UUID[], -- UUID Listesi
+        users VARCHAR(100)[] DEFAULT ARRAY[]::VARCHAR(100)[],
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

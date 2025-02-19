@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class AnswerDto extends BaseDto {
     private String content;
-    private UUID userId;
+    private String userName;
     private UUID questionId;
     private AnswerStatus status;
 
@@ -17,14 +17,6 @@ public class AnswerDto extends BaseDto {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
     }
 
     public UUID getQuestionId() {
@@ -41,5 +33,13 @@ public class AnswerDto extends BaseDto {
 
     public void setStatus(AnswerStatus status) {
         this.status = status;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

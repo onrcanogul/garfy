@@ -4,9 +4,15 @@ import Profile from "../../contracts/profile/profile";
 
 interface ProfileHeaderProps {
   profile: Profile;
+  postCount: number;
+  questionCount: number;
 }
 
-const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
+const ProfileHeader: React.FC<ProfileHeaderProps> = ({
+  profile,
+  postCount,
+  questionCount,
+}) => {
   return (
     <Box
       sx={{
@@ -51,14 +57,14 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ profile }) => {
             Follow
           </Button>
         </Grid>
-        <Grid item>
+        {/* <Grid item>
           <Button variant="outlined" color="secondary">
             Message
           </Button>
-        </Grid>
-        <Grid item>
+        </Grid> */}
+        {/* <Grid item>
           <Button variant="outlined">Edit Profile</Button>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Box>
   );

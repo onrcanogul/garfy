@@ -9,5 +9,5 @@ import java.util.UUID;
 
 public interface AnswerService extends BaseService<Answer, AnswerDto> {
     ServiceResponse<AnswerDto> create(AnswerDto model);
-    ServiceResponse<String> like(UUID answerId, UUID userId);
+    ServiceResponse<String> like(UUID answerId, String userId);
 }

@@ -14,9 +14,9 @@ import java.util.UUID;
 public interface QuestionService extends BaseService<Question, QuestionDto> {
     ServiceResponse<List<QuestionDto>> get(int page, int size);
     ServiceResponse<List<QuestionDto>> getByTag(int page, int size, UUID tagId);
-    ServiceResponse<List<QuestionDto>> getByUser(int page, int size, UUID userId);
+    ServiceResponse<List<QuestionDto>> getByUser(int page, int size, String userName);
     ServiceResponse<QuestionDto> add(QuestionDto dto, List<MultipartFile> files) throws Exception;
-    ServiceResponse<NoContent> like(UUID questionId, UUID userId);
+    ServiceResponse<NoContent> like(UUID questionId, String userId);
     ServiceResponse<NoContent> addSeen(UUID questionId, UUID userId);
     ServiceResponse<NoContent> delete(UUID id);
 }

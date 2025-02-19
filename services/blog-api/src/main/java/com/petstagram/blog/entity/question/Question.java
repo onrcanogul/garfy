@@ -7,14 +7,12 @@ import com.petstagram.blog.entity.tag.Tag;
 import com.petstagram.blog.entity.view.QuestionView;
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 public class Question extends BaseEntity {
-    private UUID userId;
+    private String userName;
     private String shortContent;
     private String content;
     private String title;
@@ -77,14 +75,6 @@ public class Question extends BaseEntity {
         this.title = title;
     }
 
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
-
     public List<QuestionView> getViews() {
         return views;
     }
@@ -99,5 +89,13 @@ public class Question extends BaseEntity {
 
     public void setStatus(QuestionStatus status) {
         this.status = status;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

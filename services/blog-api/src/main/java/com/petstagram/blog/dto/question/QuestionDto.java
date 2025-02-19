@@ -2,17 +2,15 @@ package com.petstagram.blog.dto.question;
 
 import com.petstagram.blog.dto.answer.AnswerDto;
 import com.petstagram.blog.dto.base.BaseDto;
-import com.petstagram.blog.dto.file.FileDto;
 import com.petstagram.blog.dto.tag.TagDto;
 import com.petstagram.blog.dto.view.QuestionViewDto;
 import com.petstagram.blog.entity.status.QuestionStatus;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class QuestionDto extends BaseDto {
-    private UUID userId;
+    private String userName;
     private String content;
     private String shortContent;
     private String title;
@@ -55,14 +53,6 @@ public class QuestionDto extends BaseDto {
         this.title = title;
     }
 
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
-
     public List<QuestionViewDto> getViews() {
         return views;
     }
@@ -93,6 +83,14 @@ public class QuestionDto extends BaseDto {
 
     public void setImageUrls(List<String> imageUrls) {
         this.imageUrls = imageUrls;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
 //    public GetResponse getImages() {

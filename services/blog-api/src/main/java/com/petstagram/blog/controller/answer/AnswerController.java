@@ -30,7 +30,7 @@ public class AnswerController extends BaseController {
     }
 
     @PostMapping("/like/{answerId}/{userId}")
-    public ResponseEntity<ServiceResponse<String>> like(@PathVariable UUID answerId, @PathVariable UUID userId) {
+    public ResponseEntity<ServiceResponse<String>> like(@PathVariable UUID answerId, @PathVariable String userId) {
         return controllerResponse(service.like(answerId, userId));
     }
 

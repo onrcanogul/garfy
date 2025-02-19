@@ -33,9 +33,9 @@ public class QuestionController extends BaseController {
         return controllerResponse(service.getByTag(page, size, tagId));
     }
 
-    @GetMapping("/user/{page}/{size}/{userId}")
-    public ResponseEntity<ServiceResponse<List<QuestionDto>>> getByUser(@PathVariable int page, @PathVariable int size, @PathVariable UUID userId) {
-        return controllerResponse(service.getByUser(page, size, userId));
+    @GetMapping("/user/{page}/{size}/{userName}")
+    public ResponseEntity<ServiceResponse<List<QuestionDto>>> getByUser(@PathVariable int page, @PathVariable int size, @PathVariable String userName) {
+        return controllerResponse(service.getByUser(page, size, userName));
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -46,7 +46,7 @@ public class QuestionController extends BaseController {
     }
 
     @PostMapping("like")
-    public ResponseEntity<ServiceResponse<NoContent>> create(@RequestBody UUID questionId, @RequestBody UUID userId) {
+    public ResponseEntity<ServiceResponse<NoContent>> create(@RequestBody UUID questionId, @RequestBody String userId) {
         return controllerResponse(service.like(questionId, userId));
     }
 

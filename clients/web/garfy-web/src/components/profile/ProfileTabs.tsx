@@ -1,5 +1,6 @@
 import { Tab, Tabs } from "@mui/material";
-import { FavoriteBorder, BookmarkBorder, GridOn } from "@mui/icons-material";
+import { BookmarkBorder, GridOn } from "@mui/icons-material";
+import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 
 interface ProfileTabsProps {
   selectedTab: number;
@@ -13,7 +14,7 @@ const ProfileTabs: React.FC<ProfileTabsProps> = ({
   return (
     <Tabs value={selectedTab} onChange={onTabChange} centered>
       <Tab icon={<GridOn />} />
-      <Tab icon={<FavoriteBorder />} />
+      <Tab icon={<QuestionMarkIcon />} />
       <Tab icon={<BookmarkBorder />} />
     </Tabs>
   );

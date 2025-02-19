@@ -5,19 +5,18 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @MappedSuperclass
 public abstract class Status extends BaseEntity {
     @ElementCollection
     @Column(name = "users")
-    private List<UUID> users = new ArrayList<>();
+    private List<String> users = new ArrayList<>();
 
-    public List<UUID> getUsers() {
+    public List<String> getUsers() {
         return users;
     }
 
-    public void setUsers(List<UUID> userIds) {
-        this.users = userIds;
+    public void setUsers(List<String> users) {
+        this.users = users;
     }
 }
