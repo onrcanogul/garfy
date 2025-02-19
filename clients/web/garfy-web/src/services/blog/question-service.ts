@@ -29,7 +29,13 @@ export const getByUser = async (
   }
 };
 
-export const createQuestion = async (model: Partial<Question>) => {
+export const createQuestion = async (
+  question: Partial<Question>,
+  files: any
+) => {
+  const model = new FormData();
+  model.append("model", JSON.stringify(question));
+  model.append("files", files);
   const response: ServiceResponse<Question> = await axios.post(url, model);
   if (response.successful) {
     alert("a");
