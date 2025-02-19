@@ -53,17 +53,17 @@ public class CommentServiceImpl extends BaseServiceImpl<Comment, CommentDto> imp
         return ServiceResponse.success(mapper.toDto(comment), 200);
     }
     @Override
-    public ServiceResponse<String> like(UUID commentId, UUID userId) {
+    public ServiceResponse<String> like(UUID commentId, String userName) {
         String status;
         Comment comment = repository.findById(commentId).orElseThrow();
-        boolean isExist = comment.getStatus().getUsers().contains(userId);
+        boolean isExist = comment.getStatus().getUsers().contains(userName);
         if(!isExist) {
             status = "Like";
-            comment.getStatus().getUsers().add(userId);
+            comment.getStatus().getUsers().add(userName);
         }
         else {
             status = "Dislike";
-            comment.getStatus().getUsers().remove(userId);
+            comment.getStatus().getUsers().remove(userName);
         }
         repository.save(comment);
         return ServiceResponse.success(status, 200);

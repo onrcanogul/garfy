@@ -13,13 +13,13 @@ public abstract class Status extends BaseEntity {
     @ElementCollection
     @CollectionTable(name = "status_users", joinColumns = @JoinColumn(name = "status_id"))
     @Column(name = "user_id")
-    private List<UUID> users = new ArrayList<>();
+    private List<String> users = new ArrayList<>();
 
-    public List<UUID> getUsers() {
+    public List<String> getUsers() {
         return users;
     }
 
-    public void setUsers(List<UUID> userIds) {
-        this.users = userIds;
+    public void setUsers(List<String> users) {
+        this.users = users;
     }
 }

@@ -9,6 +9,7 @@ $$ LANGUAGE plpgsql;
 
 CREATE TABLE post (
   id UUID PRIMARY KEY DEFAULT default_uuid(),
+  userName VARCHAR(100) NOT NULL,
   title VARCHAR(255) NOT NULL,
   description TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -17,7 +18,7 @@ CREATE TABLE post (
 
 CREATE TABLE comment (
      id UUID PRIMARY KEY DEFAULT default_uuid(),
-     user_id UUID NOT NULL,
+     userName VARCHAR(100) NOT NULL,
      content TEXT NOT NULL,
      post_id UUID REFERENCES post (id) ON DELETE CASCADE,
      status_id UUID UNIQUE, -- Status ile bire bir ilişki
@@ -28,7 +29,7 @@ CREATE TABLE comment (
 CREATE TABLE comment_status (
     id UUID PRIMARY KEY DEFAULT default_uuid(),
     comment_id UUID UNIQUE REFERENCES comment (id) ON DELETE CASCADE,
-    users UUID[] DEFAULT ARRAY[]::UUID[], -- UUID Listesi
+    users VARCHAR(100)[] DEFAULT ARRAY[]::VARCHAR(100)[],
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -36,7 +37,7 @@ CREATE TABLE comment_status (
 CREATE TABLE post_status (
      id UUID PRIMARY KEY DEFAULT default_uuid(),
      post_id UUID UNIQUE REFERENCES post (id) ON DELETE CASCADE,
-     users UUID[] DEFAULT ARRAY[]::UUID[], -- UUID Listesi
+     users VARCHAR(100)[] DEFAULT ARRAY[]::VARCHAR(100)[],
      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

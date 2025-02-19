@@ -11,5 +11,5 @@ import java.util.UUID;
 public interface CommentService extends BaseService<Comment, CommentDto> {
     ServiceResponse<List<CommentDto>> get(int page, int size, UUID postId);
     ServiceResponse<CommentDto> create(CommentDto model);
-    ServiceResponse<String> like(UUID commentId, UUID userId);
+    ServiceResponse<String> like(UUID commentId, String userName);
 }

@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Entity
 public class Comment extends BaseEntity {
-    private UUID userId;
+    private String userName;
     private String content;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
@@ -42,11 +42,11 @@ public class Comment extends BaseEntity {
         this.status = status;
     }
 
-    public UUID getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(UUID userId) {
-        this.userId = userId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

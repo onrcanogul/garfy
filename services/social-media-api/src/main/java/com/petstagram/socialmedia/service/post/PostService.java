@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface PostService extends BaseService<Post, PostDto> {
     ServiceResponse<List<PostDto>> get(int page, int size);
     ServiceResponse<PostDto> getById(UUID id);
-    ServiceResponse<List<PostDto>> getByUser(UUID userId);
+    ServiceResponse<List<PostDto>> getByUser(String userName);
     ServiceResponse<PostDto> create(PostDto model, List<MultipartFile> files);
-    ServiceResponse<String> like(UUID postId, UUID userId);
+    ServiceResponse<String> like(UUID postId, String userName);
 }

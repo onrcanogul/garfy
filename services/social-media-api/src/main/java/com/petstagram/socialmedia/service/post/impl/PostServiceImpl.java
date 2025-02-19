@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -40,12 +41,12 @@ public class PostServiceImpl extends BaseServiceImpl<Post, PostDto> implements P
         return ServiceResponse.success(posts, 200);
     }
 
-    public ServiceResponse<List<PostDto>> getByUser(UUID userId) {
+    public ServiceResponse<List<PostDto>> getByUser(String userName) {
         List<PostDto> posts = repository.findAll()
                 .stream()
-                .filter(p -> p.getUserId() == userId)
+                .filter(p -> Objects.equals(p.getUserName(), userName))
                 .map(this::getImages)
-                .toList();
+                .toList(); //repositorye çeksek daha hızlı mı olur araştır!
         return ServiceResponse.success(posts, 200);
     }
 
@@ -68,16 +69,16 @@ public class PostServiceImpl extends BaseServiceImpl<Post, PostDto> implements P
     }
 
     @Override
-    public ServiceResponse<String> like(UUID postId, UUID userId) {
+    public ServiceResponse<String> like(UUID postId, String userName) {
         String status;
         Post post = repository.findById(postId).orElseThrow();
-        boolean isExist = post.getStatus().getUsers().contains(userId);
+        boolean isExist = post.getStatus().getUsers().contains(userName);
         if (!isExist) {
             status = "Like";
-            post.getStatus().getUsers().add(userId);
+            post.getStatus().getUsers().add(userName);
         } else {
             status = "Dislike";
-            post.getStatus().getUsers().remove(userId);
+            post.getStatus().getUsers().remove(userName);
         }
         repository.save(post);
         return ServiceResponse.success(status, 200);
