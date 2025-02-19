@@ -31,6 +31,11 @@ public class PostController extends BaseController {
         return controllerResponse(service.get(page, size));
     }
 
+    @GetMapping("/user/{userName}")
+    public ResponseEntity<ServiceResponse<List<PostDto>>> getByUser(@PathVariable String userName) {
+        return controllerResponse(service.getByUser(userName));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ServiceResponse<PostDto>> getById(@PathVariable UUID id) {
         return controllerResponse(service.getSingle(p -> p.getId().equals(id)));

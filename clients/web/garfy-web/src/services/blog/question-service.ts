@@ -3,7 +3,6 @@ import ServiceResponse from "../../contracts/base/response";
 import Question from "../../contracts/blog/question";
 import NoContent from "../../contracts/base/no-content";
 import { blogBasePath } from "../../constants/endpoint";
-import Post from "../../contracts/social-media/comment-status";
 
 const url = blogBasePath + "/question";
 

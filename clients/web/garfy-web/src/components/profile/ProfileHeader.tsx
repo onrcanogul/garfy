@@ -34,7 +34,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       <Grid container spacing={2} justifyContent="center" sx={{ mt: -1.5 }}>
         <Grid item>
           <Typography variant="body1" fontWeight="bold">
-            {12}
+            {postCount}
           </Typography>
           <Typography variant="body2">Posts</Typography>
         </Grid>

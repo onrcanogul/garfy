@@ -9,7 +9,7 @@ import ProfileTabs from "../components/profile/ProfileTabs";
 import ProfileHeader from "../components/profile/ProfileHeader";
 import ProfilePostGrid from "../components/profile/ProfilePostGrid";
 import { getPosts } from "../services/social-media/post-service";
-import Post from "../contracts/social-media/comment-status";
+import Post from "../contracts/social-media/post";
 import Question from "../contracts/blog/question";
 import { getByUser } from "../services/blog/question-service";
 import ProfileQuestionGrid from "../components/profile/ProfileQuestionGrid";

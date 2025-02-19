@@ -1,5 +1,5 @@
 import { Card, CardMedia, Grid } from "@mui/material";
-import Post from "../../contracts/social-media/comment-status";
+import Post from "../../contracts/social-media/post";
 
 interface PostGridProps {
   posts: Post[] | undefined;
@@ -16,10 +16,11 @@ const ProfilePostGrid: React.FC<PostGridProps> = ({ posts }) => {
           <Card>
             <CardMedia
               component="img"
-              height="250"
+              height="350"
               width="250"
-              image={"https://source.unsplash.com/600x400"}
+              image={post.imageUrls[0]}
               alt="Post"
+              sx={{ objectFit: "cover" }}
             />
           </Card>
         </Grid>
