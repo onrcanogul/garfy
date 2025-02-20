@@ -21,7 +21,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
   return (
     <Card
       sx={{
-        maxWidth: 600,
+        maxWidth: "60%",
         margin: "auto",
         boxShadow: 3,
         borderRadius: 2,
@@ -71,7 +71,7 @@ const QuestionList: React.FC<QuestionListProps> = ({ questions }) => {
   return (
     <Grid container spacing={1} justifyContent="center">
       {questions.map((question) => (
-        <Grid item xs={12} sm={6} key={question.id}>
+        <Grid item xs={12} sm={12} key={question.id}>
           <QuestionCard question={question} />
         </Grid>
       ))}

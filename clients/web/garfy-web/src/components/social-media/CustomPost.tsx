@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -17,6 +17,10 @@ import PostStatus from "../../contracts/social-media/post-status";
 import { like } from "../../services/social-media/post-service";
 import Post from "../../contracts/social-media/post";
 import { currentUser } from "../../services/auth-service";
+import { CommentModal } from "./CommentModal";
+import { createComment } from "../../services/social-media/comment-service";
+import ToastrService from "../../services/toastr-service";
+import { Link } from "react-router-dom";
 
 interface PostProps {
   author: string;
@@ -34,6 +38,9 @@ const CustomPost = ({ date, imageUrls, post }: PostProps) => {
   const [liked, setLiked] = useState(
     post.status.users.includes(currentUser().id)
   );
+  const [commentModalOpen, setCommentModalOpen] = useState(false);
+  const [comments, setComments] = useState(post.comments);
+  const commentInputRef = useRef<{ reset: () => void } | null>(null);
 
   const handleLike = async () => {
     like(
@@ -41,11 +48,9 @@ const CustomPost = ({ date, imageUrls, post }: PostProps) => {
       (response) => {
         const isLiked = response === "Like";
         if (isLiked) {
-          console.log(likes);
           setLikes(likes + 1);
           setLiked(true);
         } else {
-          console.log(likes);
           setLikes(likes - 1);
           setLiked(false);
         }
@@ -56,50 +61,91 @@ const CustomPost = ({ date, imageUrls, post }: PostProps) => {
     setLikes(liked ? likes - 1 : likes + 1);
   };
 
+  const handleOpenComments = () => {
+    setCommentModalOpen(true);
+  };
+
+  const handleCloseComments = () => {
+    setCommentModalOpen(false);
+  };
+
+  const handleAddComment = (text: string) => {
+    debugger;
+    createComment(
+      { postId: post.id, content: text, userId: currentUser().id },
+      (data) => {
+        setComments((prev) => [...prev, data]);
+        ToastrService.success("Yorum oluşturuldu.");
+        commentInputRef.current?.reset();
+      },
+      (error) => {
+        toastr.error("Yorüm oluşturulurken hata meydana geldi");
+      }
+    );
+  };
+
   return (
-    <Card
-      sx={{
-        maxWidth: 500,
-        margin: "20px auto",
-        padding: 2,
-        fontWeight: "bold",
-      }}
-    >
-      <CardHeader
-        avatar={<Avatar>{post.createdBy}</Avatar>}
-        title={"oogul"}
-        subheader={date}
-      />
-
-      {post.imageUrls.length > 0 && ( // Eğer resim varsa göster
-        <CardMedia
-          component="img"
-          height="500"
-          image={imageUrls[0]}
-          alt="Post image"
-          sx={{ borderRadius: 2, objectFit: "contain", width: "100%" }}
+    <>
+      <Card
+        sx={{
+          maxWidth: "60%",
+          margin: "20px auto",
+          padding: 2,
+          fontWeight: "bold",
+        }}
+      >
+        <CardHeader
+          avatar={<Avatar>{post.createdBy}</Avatar>}
+          title={
+            <Link
+              to={`/profile/oogul`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              oogul
+            </Link>
+          }
+          subheader={date}
         />
-      )}
-      <CardContent>
-        <Typography variant="body1">{post.description}</Typography>
-      </CardContent>
 
-      <CardActions disableSpacing>
-        <IconButton onClick={handleLike} color={liked ? "error" : "default"}>
-          <FavoriteIcon />
-        </IconButton>
-        <Typography>{likes}</Typography>
+        {post.imageUrls.length > 0 && (
+          <CardMedia
+            component="img"
+            height="500"
+            image={imageUrls[0]}
+            alt="Post image"
+            sx={{ borderRadius: 2, objectFit: "contain", width: "100%" }}
+          />
+        )}
+        <CardContent>
+          <Typography variant="body1">{post.description}</Typography>
+        </CardContent>
 
-        <IconButton>
-          <ChatBubbleOutlineIcon />
-        </IconButton>
-        <Typography>{post.comments.length}</Typography>
+        <CardActions disableSpacing>
+          <IconButton onClick={handleLike} color={liked ? "error" : "default"}>
+            <FavoriteIcon />
+          </IconButton>
+          <Typography>{likes}</Typography>
 
-        <IconButton sx={{ marginLeft: "auto" }}>
-          <ShareIcon />
-        </IconButton>
-      </CardActions>
-    </Card>
+          <IconButton onClick={handleOpenComments}>
+            <ChatBubbleOutlineIcon />
+          </IconButton>
+          <Typography>{comments.length}</Typography>
+
+          <IconButton sx={{ marginLeft: "auto" }}>
+            <ShareIcon />
+          </IconButton>
+        </CardActions>
+      </Card>
+
+      {/* Yorum Modalı */}
+      <CommentModal
+        comments={comments}
+        handleCloseComments={handleCloseComments}
+        commentModalOpen={commentModalOpen}
+        handleAddComment={handleAddComment}
+        ref={commentInputRef}
+      />
+    </>
   );
 };
 

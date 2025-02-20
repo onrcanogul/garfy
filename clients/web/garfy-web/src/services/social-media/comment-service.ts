@@ -1,6 +1,7 @@
 import axios from "axios";
 import { currentUser } from "../auth-service";
 import { socialMediaBasePath } from "../../constants/endpoint";
+import Comment from "../../contracts/social-media/comment";
 
 const url = socialMediaBasePath + "/comment";
 
@@ -11,7 +12,7 @@ export const createComment = (
 ) => {
   axios
     .post(url, model)
-    .then((response) => successCallback(response.data))
+    .then((response) => successCallback(response.data.data))
     .catch((error) => errorCallback(error));
 };
 

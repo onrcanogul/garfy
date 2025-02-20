@@ -7,10 +7,13 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { useNavigate } from "react-router-dom";
 import { currentUser } from "../../services/auth-service";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 
 interface CustomDrawerProps {
   open: boolean;
@@ -53,7 +56,15 @@ export default function CustomDrawer({ open, setOpen }: CustomDrawerProps) {
           <ListItem key={text} disablePadding>
             <ListItemButton onClick={() => handleNavigate(text)}>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {text === "Social Media" ? (
+                  <CameraAltIcon />
+                ) : text === "Blog" ? (
+                  <QuestionMarkIcon />
+                ) : text === "Profile" ? (
+                  <AccountCircleIcon />
+                ) : (
+                  <ListItemIcon />
+                )}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
