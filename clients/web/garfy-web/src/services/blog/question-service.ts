@@ -3,6 +3,8 @@ import ServiceResponse from "../../contracts/base/response";
 import Question from "../../contracts/blog/question";
 import NoContent from "../../contracts/base/no-content";
 import { blogBasePath } from "../../constants/endpoint";
+import { currentUser } from "../auth-service";
+import ToastrService from "../toastr-service";
 
 const url = blogBasePath + "/question";
 
@@ -31,16 +33,20 @@ export const getByUser = async (
 
 export const createQuestion = async (
   question: Partial<Question>,
-  files: any
+  files: any[]
 ) => {
+  question.userName = currentUser().username;
   const model = new FormData();
   model.append("model", JSON.stringify(question));
-  model.append("files", files);
-  const response: ServiceResponse<Question> = await axios.post(url, model);
-  if (response.successful) {
-    alert("a");
+  files.forEach((image) => {
+    model.append("files", image); // 'images' key'i Spring Boot ile eşleşmeli
+  });
+  const response: any = await axios.post(url, model);
+  debugger;
+  if (response.data.successful) {
+    ToastrService.success("Soru başarıyla yüklendi.");
   } else {
-    alert("b");
+    ToastrService.error("Soru yüklenirken hata meydana geldi.");
   }
 };
 

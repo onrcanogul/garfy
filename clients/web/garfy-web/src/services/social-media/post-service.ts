@@ -31,10 +31,16 @@ export const getPostById = (
 // export const getPostsByUser = ()
 
 export const createPost = (
-  model: Partial<Post>,
+  post: Partial<Post>,
+  files: File[],
   successCallback: (data: any) => void,
   errorCallback: (error: any) => void
 ) => {
+  const model = new FormData();
+  model.append("model", JSON.stringify(post));
+  files.forEach((file) => {
+    model.append("files", file);
+  });
   axios
     .post(`${url}`, model)
     .then((response) => successCallback(response.data))

@@ -1,0 +1,4 @@
+#toast-container > .toast {
+  font-family: "Arial", sans-serif !important; /* Özel font */
+  font-size: 16px; /* Yazı boyutu */
+}

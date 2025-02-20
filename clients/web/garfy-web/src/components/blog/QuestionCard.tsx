@@ -29,7 +29,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question }) => {
       }}
     >
       <CardHeader
-        avatar={<Avatar>{question.userName.charAt(0).toUpperCase()}</Avatar>}
+        avatar={<Avatar>{question.userName ?? "oogul"}</Avatar>}
         title={question.title}
         subheader={question.shortContent}
       />
