@@ -29,7 +29,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           window.location.origin + "/silent-check-sso.html",
       })
       .then((authenticated) => {
-        setIsAuthenticated(true);
+        setIsAuthenticated(false);
         console.log(authenticated);
       })
       .catch(() => {

@@ -18,6 +18,7 @@ import { Close } from "@mui/icons-material";
 import Question from "../../contracts/blog/question";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
+import { useAuth } from "../../contexts/AuthContext";
 
 interface Comment {
   id: number;
@@ -38,6 +39,7 @@ const BlogDetailModal: React.FC<BlogDetailModalProps> = ({
   onClose,
   question,
 }) => {
+  const { isAuthenticated } = useAuth();
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [newComment, setNewComment] = useState("");
@@ -158,23 +160,25 @@ const BlogDetailModal: React.FC<BlogDetailModalProps> = ({
         </List>
 
         {/* Yorum Ekleme Inputu */}
-        <Box sx={{ display: "flex", alignItems: "center", marginTop: 2 }}>
-          <TextField
-            fullWidth
-            variant="outlined"
-            placeholder="Write a comment..."
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleAddComment}
-            sx={{ marginLeft: 2 }}
-          >
-            Send
-          </Button>
-        </Box>
+        {isAuthenticated && (
+          <Box sx={{ display: "flex", alignItems: "center", marginTop: 2 }}>
+            <TextField
+              fullWidth
+              variant="outlined"
+              placeholder="Write a comment..."
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleAddComment}
+              sx={{ marginLeft: 2 }}
+            >
+              Send
+            </Button>
+          </Box>
+        )}
       </DialogContent>
     </Dialog>
   );

@@ -15,6 +15,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import CustomDrawer from "./CustomDrawer";
 import { useNavigate } from "react-router-dom";
 import { currentUser } from "../../services/auth-service";
+import { useAuth } from "../../contexts/AuthContext";
 
 // const Search = styled("div")(({ theme }) => ({
 //   position: "relative",
@@ -57,6 +58,7 @@ import { currentUser } from "../../services/auth-service";
 // }));
 
 export default function Header() {
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -78,6 +80,8 @@ export default function Header() {
     handleMobileMenuClose();
     if (text === "Profile") navigate("/profile/" + currentUser().username);
     else if (text === "Settings") navigate("/settings");
+    else if (text === "Login") navigate("/login");
+    else if (text === "Register") navigate("/register");
   };
 
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -105,8 +109,23 @@ export default function Header() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => handleMenuClose("Profile")}>Profile</MenuItem>
-      <MenuItem onClick={() => handleMenuClose("Settings")}>Settings</MenuItem>
+      {isAuthenticated ? (
+        <>
+          <MenuItem onClick={() => handleMenuClose("Profile")}>
+            Profile
+          </MenuItem>
+          <MenuItem onClick={() => handleMenuClose("Settings")}>
+            Settings
+          </MenuItem>{" "}
+        </>
+      ) : (
+        <>
+          <MenuItem onClick={() => handleMenuClose("Login")}>Login</MenuItem>
+          <MenuItem onClick={() => handleMenuClose("Register")}>
+            Register
+          </MenuItem>
+        </>
+      )}
     </Menu>
   );
 
