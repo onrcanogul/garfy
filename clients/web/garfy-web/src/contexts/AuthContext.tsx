@@ -25,6 +25,10 @@ interface AuthContextType {
   login: () => void;
   logout: () => void;
   getToken: () => Promise<string | null>;
+  getCurrentUser: () => Promise<{
+    userId: string | undefined;
+    username: string | undefined;
+  } | null>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -95,6 +99,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     localStorage.removeItem("kc-refresh-token");
   };
 
+  const getCurrentUser = async (): Promise<{
+    userId: string | undefined;
+    username: string | undefined;
+  } | null> => {
+    if (!keycloak.tokenParsed) return null;
+    return {
+      userId: keycloak.tokenParsed.sub,
+      username: keycloak.tokenParsed.preferred_username,
+    };
+  };
+
   const getToken = async (): Promise<string | null> => {
     console.log("🔄 Token alınıyor...");
     if (keycloak.token) {
@@ -112,7 +127,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, getToken }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, login, logout, getToken, getCurrentUser }}
+    >
       {children}
     </AuthContext.Provider>
   );
