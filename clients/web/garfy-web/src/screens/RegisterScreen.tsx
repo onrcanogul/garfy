@@ -2,8 +2,10 @@ import { useState } from "react";
 import { TextField, Button, Typography, Container, Paper } from "@mui/material";
 import { registerUser } from "../services/auth-service";
 import ToastrService from "../services/toastr-service";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,11 +16,12 @@ const Register = () => {
       ToastrService.warning("Şifreler uyuşmuyor");
       return;
     }
-    const result = await registerUser(username, email, password);
-    if (result) {
+    const statusCode = await registerUser(username, email, password);
+    if (statusCode === 201) {
       ToastrService.success("Kayıt işlemi başarılı.");
-    } else {
-      ToastrService.error("Kayıt işlemi sırasında hata meydana geldi.");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
     }
   };
 

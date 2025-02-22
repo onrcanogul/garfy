@@ -77,7 +77,7 @@ export const getAdminToken = async () => {
     const response = await axios.post(
       `${KEYCLOAK_URL}/realms/master/protocol/openid-connect/token`,
       new URLSearchParams({
-        client_id: "admin-cli",
+        client_id: "react-client",
         username: ADMIN_USERNAME,
         password: ADMIN_PASSWORD,
         grant_type: "password",

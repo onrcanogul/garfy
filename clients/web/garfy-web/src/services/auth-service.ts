@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getAdminToken } from "../contexts/AuthContext";
+import ToastrService from "./toastr-service";
 
 const KEYCLOAK_URL = "http://localhost:8070";
 const REALM = "garfyrealm";
@@ -14,7 +15,6 @@ export const registerUser = async (
     console.error("Admin token alınamadı, işlem durduruldu.");
     return null;
   }
-
   try {
     const response = await axios.post(
       `${KEYCLOAK_URL}/admin/realms/${REALM}/users`,
@@ -37,11 +37,11 @@ export const registerUser = async (
         },
       }
     );
-
-    console.log("Kullanıcı kaydı başarılı:", response.data);
-    return response.data;
-  } catch (error) {
-    console.error("Kullanıcı kayıt hatası:", error);
+    console.log(response);
+    console.log("Kullanıcı kaydı başarılı:", response.status);
+    return response.status;
+  } catch (error: any) {
+    ToastrService.error(error.response.data.errorMessage);
     return null;
   }
 };

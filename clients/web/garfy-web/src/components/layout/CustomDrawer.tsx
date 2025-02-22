@@ -63,7 +63,6 @@ export default function CustomDrawer({ open, setOpen }: CustomDrawerProps) {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      (
       <List>
         {rows.map((text) => (
           <ListItem key={text} disablePadding>
@@ -88,7 +87,7 @@ export default function CustomDrawer({ open, setOpen }: CustomDrawerProps) {
           </ListItem>
         ))}
       </List>
-      )
+
       <Divider />
       {isAuthenticated && (
         <List>
