@@ -1,5 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import Keycloak from "keycloak-js";
+import axios from "axios";
+import {
+  ADMIN_PASSWORD,
+  ADMIN_USERNAME,
+  KEYCLOAK_URL,
+} from "../constants/keycloak";
 
 const keycloak = new Keycloak({
   url: "http://localhost:8070",
@@ -64,6 +70,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const getAdminToken = async () => {
+  try {
+    const response = await axios.post(
+      `${KEYCLOAK_URL}/realms/master/protocol/openid-connect/token`,
+      new URLSearchParams({
+        client_id: "admin-cli",
+        username: ADMIN_USERNAME,
+        password: ADMIN_PASSWORD,
+        grant_type: "password",
+      }),
+      {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      }
+    );
+    return response.data.access_token;
+  } catch (error) {
+    console.error("Admin token alınamadı:", error);
+    return null;
+  }
 };
 
 export const useAuth = (): AuthContextType => {

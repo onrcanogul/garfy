@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getAdminToken } from "../contexts/AuthContext";
 
 const KEYCLOAK_URL = "http://localhost:8070";
 const REALM = "garfyrealm";
@@ -8,6 +9,12 @@ export const registerUser = async (
   email: string,
   password: string
 ) => {
+  const adminToken = await getAdminToken();
+  if (!adminToken) {
+    console.error("Admin token alınamadı, işlem durduruldu.");
+    return null;
+  }
+
   try {
     const response = await axios.post(
       `${KEYCLOAK_URL}/admin/realms/${REALM}/users`,
@@ -25,15 +32,16 @@ export const registerUser = async (
       },
       {
         headers: {
-          Authorization: `Bearer ADMIN_ACCESS_TOKEN`, // Burada Admin Token gerekli
+          Authorization: `Bearer ${adminToken}`,
           "Content-Type": "application/json",
         },
       }
     );
 
+    console.log("Kullanıcı kaydı başarılı:", response.data);
     return response.data;
   } catch (error) {
-    console.error("Kullanıcı kaydedilirken hata oluştu:", error);
+    console.error("Kullanıcı kayıt hatası:", error);
     return null;
   }
 };
