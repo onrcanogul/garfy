@@ -12,7 +12,6 @@ import {
   KEYCLOAK_URL,
 } from "../constants/keycloak";
 import axios from "axios";
-import ToastrService from "../services/toastr-service";
 
 const keycloak: KeycloakInstance = new Keycloak({
   url: "http://localhost:8070",
@@ -59,7 +58,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           startTokenRefresh();
         }
       })
-      .catch((err) => {
+      .catch(() => {
         setIsAuthenticated(false);
       });
   }, []);
