@@ -6,6 +6,7 @@ import SocialMedia from "./screens/SocialMediaScreen";
 import { ProfileScreen } from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import Login from "./screens/Login";
+import ProtectedRoute from "./screens/ProtectedRoute";
 
 function App() {
   return (
@@ -15,7 +16,9 @@ function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/social-media" element={<SocialMedia />} />
         <Route path="/profile/:username" element={<ProfileScreen />} />
-        <Route path="/settings" element={<SettingsScreen />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/settings" element={<SettingsScreen />} />
+        </Route>
         <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
