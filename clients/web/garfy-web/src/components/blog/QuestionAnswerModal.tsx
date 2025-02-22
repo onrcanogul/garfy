@@ -26,7 +26,7 @@ const AnswerSection: React.FC<AnswerSectionProps> = ({
   return (
     <>
       <Typography variant="h6" sx={{ marginTop: 4 }}>
-        Comments
+        Answers
       </Typography>
       <List>
         {comments.map((comment) => (
@@ -61,7 +61,7 @@ const AnswerSection: React.FC<AnswerSectionProps> = ({
         <TextField
           fullWidth
           variant="outlined"
-          placeholder="Write a comment..."
+          placeholder="Write an answer..."
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
         />

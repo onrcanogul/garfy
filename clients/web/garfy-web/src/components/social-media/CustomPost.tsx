@@ -28,7 +28,6 @@ interface PostProps {
   content: string;
   imageUrls: string[];
   comments: Comment[];
-  onLikeClick: any;
   status: PostStatus;
   post: Post;
 }
