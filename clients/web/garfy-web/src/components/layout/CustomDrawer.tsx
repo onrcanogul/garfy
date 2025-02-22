@@ -14,6 +14,9 @@ import { useNavigate } from "react-router-dom";
 import { currentUser } from "../../services/auth-service";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
+import { useAuth } from "../../contexts/AuthContext";
+import LoginIcon from "@mui/icons-material/Login";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
 
 interface CustomDrawerProps {
   open: boolean;
@@ -21,6 +24,7 @@ interface CustomDrawerProps {
 }
 
 export default function CustomDrawer({ open, setOpen }: CustomDrawerProps) {
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const handleNavigate = (text: string) => {
@@ -28,6 +32,8 @@ export default function CustomDrawer({ open, setOpen }: CustomDrawerProps) {
     else if (text === "Blog") navigate("/blog");
     else if (text === "Profile") navigate("/profile/" + currentUser().username);
     else if (text === "Settings") navigate("/settings");
+    else if (text === "Login") navigate("/login");
+    else if (text === "Register") navigate("/register");
   };
 
   const toggleDrawer =
@@ -44,6 +50,12 @@ export default function CustomDrawer({ open, setOpen }: CustomDrawerProps) {
       setOpen(open);
     };
 
+  const rows =
+    isAuthenticated === true
+      ? ["Social Media", "Blog", "Profile"]
+      : ["Login", "Register"];
+
+  console.log(rows);
   const list = (
     <Box
       sx={{ width: 250 }}
@@ -51,8 +63,9 @@ export default function CustomDrawer({ open, setOpen }: CustomDrawerProps) {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
+      (
       <List>
-        {["Social Media", "Blog", "Profile"].map((text, index) => (
+        {rows.map((text) => (
           <ListItem key={text} disablePadding>
             <ListItemButton onClick={() => handleNavigate(text)}>
               <ListItemIcon>
@@ -62,6 +75,10 @@ export default function CustomDrawer({ open, setOpen }: CustomDrawerProps) {
                   <QuestionMarkIcon />
                 ) : text === "Profile" ? (
                   <AccountCircleIcon />
+                ) : text === "Login" ? (
+                  <LoginIcon />
+                ) : text === "Register" ? (
+                  <HowToRegIcon />
                 ) : (
                   <ListItemIcon />
                 )}
@@ -71,19 +88,22 @@ export default function CustomDrawer({ open, setOpen }: CustomDrawerProps) {
           </ListItem>
         ))}
       </List>
+      )
       <Divider />
-      <List>
-        {["Settings"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton onClick={() => handleNavigate(text)}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      {isAuthenticated && (
+        <List>
+          {["Settings"].map((text, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton onClick={() => handleNavigate(text)}>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      )}
     </Box>
   );
 

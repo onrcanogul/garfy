@@ -10,7 +10,7 @@ import AddButton from "../utils/add-button";
 import { useAuth } from "../contexts/AuthContext";
 
 const SocialMedia = () => {
-  const { isAuthenticated, login } = useAuth();
+  const { isAuthenticated } = useAuth();
   const dispatch = useDispatch();
   const { posts, status, error }: PostState = useSelector(
     (state: any) => state.posts
@@ -51,10 +51,8 @@ const SocialMedia = () => {
           />
         );
       })}
-      {isAuthenticated ? (
+      {isAuthenticated && (
         <AddButton text="Gönderi Oluştur" onClick={() => handleOpen()} />
-      ) : (
-        ""
       )}
 
       <CreatePostModal

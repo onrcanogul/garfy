@@ -5,11 +5,13 @@ import QuestionList from "../components/blog/QuestionCard";
 import BlockUI from "../utils/block-ui";
 import AddButton from "../utils/add-button";
 import CreateQuestionModal from "../components/blog/CreateQuestionModal";
+import { useAuth } from "../contexts/AuthContext";
 
 const Blog = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [open, setOpen] = useState(false);
+  const { isAuthenticated } = useAuth();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -29,13 +31,18 @@ const Blog = () => {
   return (
     <>
       <QuestionList questions={questions} />
+      {isAuthenticated && (
+        <>
+          <CreateQuestionModal
+            open={open}
+            handleClose={handleClose}
+            setQuestions={setQuestions}
+          />
+          <AddButton text="Soru Oluştur" onClick={() => handleOpen()} />
+        </>
+      )}
+
       <BlockUI open={loading} message="Sorular Yükleniyor" />
-      <AddButton text="Soru Oluştur" onClick={() => handleOpen()} />
-      <CreateQuestionModal
-        open={open}
-        handleClose={handleClose}
-        setQuestions={setQuestions}
-      />
     </>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { Avatar, Box, Button, Grid, Typography } from "@mui/material";
 import Profile from "../../contracts/profile/profile";
+import { useAuth } from "../../contexts/AuthContext";
 
 interface ProfileHeaderProps {
   profile: Profile;
@@ -11,8 +12,9 @@ interface ProfileHeaderProps {
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   profile,
   postCount,
-  questionCount,
 }) => {
+  const { isAuthenticated } = useAuth();
+
   return (
     <Box
       sx={{
@@ -51,21 +53,23 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           <Typography variant="body2">Following</Typography>
         </Grid>
       </Grid>
-      <Grid container spacing={2} justifyContent="center" sx={{ mt: 0 }}>
-        <Grid item>
-          <Button variant="contained" color="primary">
-            Follow
-          </Button>
-        </Grid>
-        {/* <Grid item>
+      {isAuthenticated && (
+        <Grid container spacing={2} justifyContent="center" sx={{ mt: 0 }}>
+          <Grid item>
+            <Button variant="contained" color="primary">
+              Follow
+            </Button>
+          </Grid>
+          {/* <Grid item>
           <Button variant="outlined" color="secondary">
             Message
           </Button>
         </Grid> */}
-        {/* <Grid item>
+          {/* <Grid item>
           <Button variant="outlined">Edit Profile</Button>
         </Grid> */}
-      </Grid>
+        </Grid>
+      )}
     </Box>
   );
 };

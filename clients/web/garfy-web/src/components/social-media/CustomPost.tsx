@@ -21,6 +21,7 @@ import { CommentModal } from "./CommentModal";
 import { createComment } from "../../services/social-media/comment-service";
 import ToastrService from "../../services/toastr-service";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
 interface PostProps {
   author: string;
@@ -33,6 +34,7 @@ interface PostProps {
 }
 
 const CustomPost = ({ date, imageUrls, post }: PostProps) => {
+  const { isAuthenticated } = useAuth();
   const [likes, setLikes] = useState(post.status.users.length);
   const [liked, setLiked] = useState(
     post.status.users.includes(currentUser().id)
@@ -42,6 +44,10 @@ const CustomPost = ({ date, imageUrls, post }: PostProps) => {
   const commentInputRef = useRef<{ reset: () => void } | null>(null);
 
   const handleLike = async () => {
+    if (isAuthenticated === false) {
+      ToastrService.error("Öncelikle giriş yapmalısınız");
+      return;
+    }
     like(
       post.id,
       (response) => {
@@ -77,8 +83,8 @@ const CustomPost = ({ date, imageUrls, post }: PostProps) => {
         ToastrService.success("Yorum oluşturuldu.");
         commentInputRef.current?.reset();
       },
-      (error) => {
-        toastr.error("Yorüm oluşturulurken hata meydana geldi");
+      () => {
+        toastr.error("Yorum oluşturulurken hata meydana geldi");
       }
     );
   };

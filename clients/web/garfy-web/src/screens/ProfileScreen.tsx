@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import Profile from "../contracts/profile/profile";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import ProfileCard from "../components/profile/ProfileCard";
 import { useEffect, useState } from "react";
 import { getProfile } from "../services/profile/profile-service";
@@ -55,11 +55,7 @@ const ProfileScreen: React.FC = () => {
   };
 
   if (!profile) {
-    return (
-      <Typography variant="h6" color="error" align="center">
-        Profile not found
-      </Typography>
-    );
+    return <BlockUI open={loading} message="Profil yükleniyor" />;
   }
 
   if (loading) {

@@ -16,6 +16,7 @@ import {
 import { forwardRef, useImperativeHandle, useState } from "react";
 import Comment from "../../contracts/social-media/comment";
 import AddCommentIcon from "@mui/icons-material/AddComment";
+import { useAuth } from "../../contexts/AuthContext";
 
 interface CommentModalProps {
   comments: Comment[];
@@ -84,11 +85,14 @@ export const CommentModal = forwardRef(
     }: CommentModalProps,
     ref
   ) => {
+    const { isAuthenticated } = useAuth();
     return (
       <Dialog open={commentModalOpen} onClose={handleCloseComments} fullWidth>
         <DialogTitle>Yorumlar ({comments.length})</DialogTitle>
         <DialogContent>
-          <CommentInput ref={ref} handleAddComment={handleAddComment} />
+          {isAuthenticated && (
+            <CommentInput ref={ref} handleAddComment={handleAddComment} />
+          )}
 
           {comments.length > 0 ? (
             <List>
