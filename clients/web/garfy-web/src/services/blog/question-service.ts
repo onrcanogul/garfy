@@ -45,6 +45,7 @@ export const createQuestion = async (
   debugger;
   if (response.data.successful) {
     ToastrService.success("Soru başarıyla yüklendi.");
+    return response.data.data;
   } else {
     ToastrService.error("Soru yüklenirken hata meydana geldi.");
   }

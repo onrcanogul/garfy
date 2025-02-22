@@ -17,15 +17,18 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { createQuestion } from "../../services/blog/question-service";
+import Question from "../../contracts/blog/question";
 
 interface CreateQuestionModalProps {
   open: boolean;
   handleClose: () => void;
+  setQuestions: React.Dispatch<React.SetStateAction<Question[]>>;
 }
 
 const CreateQuestionModal: React.FC<CreateQuestionModalProps> = ({
   open,
   handleClose,
+  setQuestions,
 }) => {
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [tags, setTags] = useState<string[]>([]);
@@ -60,9 +63,12 @@ const CreateQuestionModal: React.FC<CreateQuestionModalProps> = ({
   };
 
   const handleCreate = async () => {
-    await createQuestion(
+    const createdQuestion = await createQuestion(
       { title, shortContent, content: description },
       selectedImages
+    );
+    setQuestions((prev) =>
+      [...prev, createdQuestion].sort((a, b) => b.likes - a.likes)
     );
     handleClose();
   };

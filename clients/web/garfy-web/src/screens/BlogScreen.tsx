@@ -31,7 +31,11 @@ const Blog = () => {
       <QuestionList questions={questions} />
       <BlockUI open={loading} message="Sorular Yükleniyor" />
       <AddButton text="Soru Oluştur" onClick={() => handleOpen()} />
-      <CreateQuestionModal open={open} handleClose={handleClose} />
+      <CreateQuestionModal
+        open={open}
+        handleClose={handleClose}
+        setQuestions={setQuestions}
+      />
     </>
   );
 };

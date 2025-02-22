@@ -9,6 +9,7 @@ interface Question extends BaseEntity {
   title: string;
   tags: Tag[];
   answers: Answer[];
+  imageUrls: string[];
 }
 
 export default Question;
