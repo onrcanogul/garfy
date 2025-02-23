@@ -39,26 +39,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const isInitialized = useRef<boolean>(false); // Bir kere çalıştırmayı sağlamak için useRef ekliyoruz
 
   useEffect(() => {
-    if (isInitialized.current) return; // Eğer zaten init çalıştıysa tekrar başlatma
+    if (isInitialized.current) return;
     isInitialized.current = true;
 
     console.log("🔍 Keycloak başlatılıyor...");
+
+    const storedToken = localStorage.getItem("kc-token");
+    const storedRefreshToken = localStorage.getItem("kc-refresh-token");
+
     keycloak
       .init({
-        onLoad: "login-required",
+        onLoad: storedToken ? "check-sso" : "login-required", // Eğer token varsa SSO kontrolü yap
+        token: storedToken || undefined,
+        refreshToken: storedRefreshToken || undefined,
         silentCheckSsoRedirectUri:
           window.location.origin + "/silent-check-sso.html",
         checkLoginIframe: false,
       })
       .then((authenticated) => {
         setIsAuthenticated(authenticated);
+
         if (authenticated) {
+          console.log("✅ Kullanıcı giriş yaptı.");
           localStorage.setItem("kc-token", keycloak.token || "");
           localStorage.setItem("kc-refresh-token", keycloak.refreshToken || "");
-          startTokenRefresh();
+          startTokenRefresh(); // Token yenileme mekanizmasını başlat
+        } else {
+          console.log("⚠ Kullanıcı giriş yapmadı.");
         }
       })
       .catch(() => {
+        console.log("❌ Keycloak başlatma başarısız.");
         setIsAuthenticated(false);
       });
   }, []);
