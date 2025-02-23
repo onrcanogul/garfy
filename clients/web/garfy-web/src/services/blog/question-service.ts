@@ -9,7 +9,7 @@ import ToastrService from "../toastr-service";
 const url = blogBasePath + "/question";
 
 export const getQuestion = async (page: number, size: number) => {
-  const response = await axios.get(`${url}//${page}/${size}`);
+  const response = await axios.get(`${url}/${page}/${size}`);
   if (response.data) return response.data.data;
   else {
     alert("a");
@@ -41,7 +41,11 @@ export const createQuestion = async (
   files.forEach((image) => {
     model.append("files", image); // 'images' key'i Spring Boot ile eşleşmeli
   });
-  const response: any = await axios.post(url, model);
+  const response: any = await axios.post(url, model, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("kc-token")}`,
+    },
+  });
   debugger;
   if (response.data.successful) {
     ToastrService.success("Soru başarıyla yüklendi.");

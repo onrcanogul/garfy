@@ -8,6 +8,7 @@ import SettingsScreen from "./screens/SettingsScreen";
 import Login from "./screens/Login";
 import ProtectedRoute from "./screens/ProtectedRoute";
 import Register from "./screens/RegisterScreen";
+import ProfileCreateScreen from "./components/profile/ProfileCreateScreen";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/create-profile" element={<ProfileCreateScreen />} />
       </Routes>
     </Router>
   );

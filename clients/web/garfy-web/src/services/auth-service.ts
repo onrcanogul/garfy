@@ -3,7 +3,7 @@ import { getAdminToken } from "../contexts/AuthContext";
 import ToastrService from "./toastr-service";
 
 const KEYCLOAK_URL = "http://localhost:8070";
-const REALM = "garfyrealm";
+const REALM = "master";
 
 export const registerUser = async (
   username: string,

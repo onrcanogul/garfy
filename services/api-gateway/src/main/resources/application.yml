@@ -40,7 +40,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://keycloak/auth/realms/garfyrealm
+          jwk-set-uri: "http://localhost:8070/realms/master/protocol/openid-connect/certs"
 logging:
   level:
     root: DEBUG

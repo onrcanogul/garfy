@@ -15,7 +15,7 @@ import axios from "axios";
 
 const keycloak: KeycloakInstance = new Keycloak({
   url: "http://localhost:8070",
-  realm: "garfyrealm",
+  realm: "master",
   clientId: "react-client",
 });
 

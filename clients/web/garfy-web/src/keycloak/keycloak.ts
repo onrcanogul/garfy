@@ -3,7 +3,7 @@ import ToastrService from "../services/toastr-service";
 
 const keycloak = new Keycloak({
   url: "http://localhost:8070",
-  realm: "garfyrealm",
+  realm: "master",
   clientId: "react-client",
 });
 
