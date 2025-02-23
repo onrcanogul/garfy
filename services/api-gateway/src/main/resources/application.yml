@@ -35,7 +35,11 @@ spring:
             - Path=/prof/**
           filters:
             - RewritePath=/prof/(?<segment>.*), /$\{segment}
-
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://keycloak/auth/realms/garfyrealm
 logging:
   level:
     root: DEBUG

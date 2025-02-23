@@ -15,14 +15,11 @@ spring:
       max-request-size: 50MB
 server:
   port: 8080
-
-
 logging:
   level:
     org:
       hibernate:
         SQL: debug
-
 grpc:
   client:
     media-service:
