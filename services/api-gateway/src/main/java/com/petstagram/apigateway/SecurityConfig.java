@@ -1,6 +1,5 @@
-package com.example.gatewayserver.config;
+package com.petstagram.apigateway;
 
-import com.petstagram.apigateway.KeycloakRoleConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
