@@ -14,11 +14,8 @@ export const createAnswer = async (
 ) => {
   const response: ServiceResponse<Answer> = (await axios.post(url, model)).data;
   if (response.successful) {
-    alert("a");
-    console.log(response.data);
     successCallback(response.data);
   } else {
-    alert("b");
     errorCallback();
   }
 };

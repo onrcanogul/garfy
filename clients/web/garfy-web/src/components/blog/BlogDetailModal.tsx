@@ -19,14 +19,9 @@ import Question from "../../contracts/blog/question";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import { useAuth } from "../../contexts/AuthContext";
-
-interface Comment {
-  id: number;
-  username: string;
-  avatarUrl: string;
-  content: string;
-  createdAt: string;
-}
+import Answer from "../../contracts/blog/answer";
+import { createAnswer } from "../../services/blog/answer-service";
+import ToastrService from "../../services/toastr-service";
 
 interface BlogDetailModalProps {
   open: boolean;
@@ -39,28 +34,13 @@ const BlogDetailModal: React.FC<BlogDetailModalProps> = ({
   onClose,
   question,
 }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, getCurrentUser } = useAuth();
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [newComment, setNewComment] = useState("");
-  const [comments, setComments] = useState<Comment[]>([]);
+  const [comments, setComments] = useState<Answer[]>(question.answers);
   const [page, setPage] = useState(1);
   const commentsContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Simulating API call for paginated comments
-    const fetchComments = () => {
-      const newComments = Array.from({ length: 10 }, (_, index) => ({
-        id: comments.length + index + 1,
-        username: `User ${comments.length + index + 1}`,
-        avatarUrl: "https://i.pravatar.cc/40",
-        content: "This is a dynamically loaded comment.",
-        createdAt: new Date().toISOString().split("T")[0],
-      }));
-      setComments((prev) => [...prev, ...newComments]);
-    };
-    fetchComments();
-  }, [page]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -81,20 +61,21 @@ const BlogDetailModal: React.FC<BlogDetailModalProps> = ({
     setImageModalOpen(true);
   };
 
-  const handleAddComment = () => {
-    if (newComment.trim() !== "") {
-      setComments([
-        ...comments,
-        {
-          id: comments.length + 1,
-          username: "New User",
-          avatarUrl: "https://i.pravatar.cc/42",
-          content: newComment,
-          createdAt: new Date().toISOString().split("T")[0],
-        },
-      ]);
-      setNewComment("");
-    }
+  const handleAddComment = async () => {
+    await createAnswer(
+      {
+        content: newComment,
+        questionId: question.id,
+        userName: (await getCurrentUser())?.username,
+      },
+      (data) => {
+        setComments((prev) => [...prev, data!]);
+        ToastrService.success("Yorum eklendi.");
+      },
+      () => {
+        ToastrService.error("Yorum eklenirken bir hata meydana geldi");
+      }
+    );
   };
 
   return (
@@ -135,10 +116,10 @@ const BlogDetailModal: React.FC<BlogDetailModalProps> = ({
           {comments.map((comment) => (
             <ListItem key={comment.id} alignItems="flex-start">
               <ListItemAvatar>
-                <Avatar src={comment.avatarUrl} />
+                <Avatar />
               </ListItemAvatar>
               <ListItemText
-                primary={comment.username}
+                primary={comment.userName}
                 secondary={
                   <>
                     <Typography
@@ -150,7 +131,7 @@ const BlogDetailModal: React.FC<BlogDetailModalProps> = ({
                     </Typography>
                     <br />
                     <Typography variant="caption" color="textSecondary">
-                      {comment.createdAt}
+                      {"18 July 2003"}
                     </Typography>
                   </>
                 }
