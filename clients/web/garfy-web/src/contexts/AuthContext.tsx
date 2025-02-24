@@ -12,8 +12,7 @@ import {
   KEYCLOAK_URL,
 } from "../constants/keycloak";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { currentUser } from "../services/auth-service";
+import ToastrService from "../services/toastr-service";
 
 const keycloak: KeycloakInstance = new Keycloak({
   url: "http://localhost:8070",
@@ -43,9 +42,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (isInitialized.current) return;
     isInitialized.current = true;
-
-    console.log("🔍 Keycloak başlatılıyor...");
-
     const storedToken = localStorage.getItem("kc-token");
     const storedRefreshToken = localStorage.getItem("kc-refresh-token");
 
@@ -62,12 +58,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         setIsAuthenticated(authenticated);
 
         if (authenticated) {
-          console.log("✅ Kullanıcı giriş yaptı.");
           localStorage.setItem("kc-token", keycloak.token || "");
           localStorage.setItem("kc-refresh-token", keycloak.refreshToken || "");
+          ToastrService.success("Giriş işlemi başarılı.");
           startTokenRefresh(); // Token yenileme mekanizmasını başlat
         } else {
-          console.log("⚠ Kullanıcı giriş yapmadı.");
+          ToastrService.error("Giriş işlemi sırasında bir sorun oluştu.");
         }
       })
       .catch(() => {

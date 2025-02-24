@@ -24,7 +24,6 @@ const Blog = () => {
     setLoading(true);
     const questionsFromBackend = await getQuestion(0, 10);
     setQuestions(questionsFromBackend);
-    console.log(questions);
     setLoading(false);
   };
 

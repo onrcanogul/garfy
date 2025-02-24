@@ -14,6 +14,8 @@ import { createProfile } from "../../services/profile/profile-service";
 import ToastrService from "../../services/toastr-service";
 import axios from "axios";
 import { baseUrl } from "../../constants/endpoint";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
 const StyledDialog = styled(Dialog)({
   "& .MuiPaper-root": {
@@ -47,17 +49,18 @@ const ProfileCreateScreen: React.FC<ProfileCreateScreenProps> = ({
   open,
   setOpen,
 }) => {
-  const [avatarPreview, setAvatarPreview] = useState<string>(""); // Önizleme için
-  const [avatarFile, setAvatarFile] = useState<File | null>(null); // Dosya objesi
+  const { getCurrentUser } = useAuth();
+  const navigate = useNavigate();
+  const [avatarPreview, setAvatarPreview] = useState<string>("");
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [username, setUsername] = useState<string>("");
   const [fullname, setFullname] = useState<string>("");
   const [bio, setBio] = useState<string>("");
 
-  // **Resim Yükleme Event'i**
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      setAvatarFile(file); // Dosya saklanıyor
+      setAvatarFile(file);
 
       const reader = new FileReader();
       reader.onload = (e) => setAvatarPreview(e.target?.result as string);
@@ -65,12 +68,10 @@ const ProfileCreateScreen: React.FC<ProfileCreateScreenProps> = ({
     }
   };
 
-  // **Profil ve Resmi Kaydetme İşlemi**
   const handleSave = async () => {
     try {
       const profileData = { bio, fullName: fullname, username: username };
 
-      // 1. Profil Oluştur
       const profile = await new Promise<any>((resolve, reject) => {
         createProfile(
           profileData,
@@ -92,10 +93,11 @@ const ProfileCreateScreen: React.FC<ProfileCreateScreenProps> = ({
           headers: { "Content-Type": "multipart/form-data" },
         });
         ToastrService.success("Profil resmi yüklendi.");
+        setTimeout(() => {}, 1500);
+        navigate(`/profile/${(await getCurrentUser())?.username}`);
       }
       setOpen(false);
     } catch (error) {
-      console.error("Hata:", error);
       ToastrService.error("Profil oluştururken bir hata meydana geldi.");
     }
   };

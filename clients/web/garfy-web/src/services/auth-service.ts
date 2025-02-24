@@ -37,8 +37,6 @@ export const registerUser = async (
         },
       }
     );
-    console.log(response);
-    console.log("Kullanıcı kaydı başarılı:", response.status);
     return response.status;
   } catch (error: any) {
     ToastrService.error(error.response.data.errorMessage);

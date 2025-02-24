@@ -28,7 +28,6 @@ export const like = async (
   const response: ServiceResponse<NoContent> = (
     await axios.post(`${url}/like/${answerId}/${currentUser()}`)
   ).data;
-  console.log(response);
   if (response.successful) {
     successCallback(response.data);
   } else {

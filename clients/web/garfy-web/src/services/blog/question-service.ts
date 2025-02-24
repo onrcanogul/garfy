@@ -39,14 +39,13 @@ export const createQuestion = async (
   const model = new FormData();
   model.append("model", JSON.stringify(question));
   files.forEach((image) => {
-    model.append("files", image); // 'images' key'i Spring Boot ile eşleşmeli
+    model.append("files", image);
   });
   const response: any = await axios.post(url, model, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("kc-token")}`,
     },
   });
-  debugger;
   if (response.data.successful) {
     ToastrService.success("Soru başarıyla yüklendi.");
     return response.data.data;

@@ -9,7 +9,6 @@ export const getProfile = (
   successCallback: (data: Profile) => void,
   errorCallback: (error: any) => void
 ) => {
-  console.log(username);
   axios
     .get(`${url}/${username}`)
     .then((response) => successCallback(response.data.data))

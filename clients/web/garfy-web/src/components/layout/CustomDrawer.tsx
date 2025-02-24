@@ -55,7 +55,6 @@ export default function CustomDrawer({ open, setOpen }: CustomDrawerProps) {
       ? ["Social Media", "Blog", "Profile"]
       : ["Login", "Register"];
 
-  console.log(rows);
   const list = (
     <Box
       sx={{ width: 250 }}
@@ -109,7 +108,7 @@ export default function CustomDrawer({ open, setOpen }: CustomDrawerProps) {
   return (
     <SwipeableDrawer
       anchor="left"
-      open={open} // Header'dan gelen state kullanılıyor
+      open={open}
       onClose={toggleDrawer(false)}
       onOpen={toggleDrawer(true)}
     >

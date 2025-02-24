@@ -8,14 +8,14 @@ import { PostState } from "../states";
 const url = `${socialMediaBasePath}/post`;
 
 export const fetchPosts = createAsyncThunk(
-  "posts/fetchPosts", // Reduxtaki action
+  "posts/fetchPosts",
   async (
-    { page, size }: { page: number; size: number }, // params
-    { rejectWithValue } // if we get errors
+    { page, size }: { page: number; size: number },
+    { rejectWithValue }
   ) => {
     try {
-      const response = await axios.get(`${url}/${page}/${size}`); // API Call
-      return response.data.data; // Add to redux store
+      const response = await axios.get(`${url}/${page}/${size}`);
+      return response.data.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data || error.message);
     }

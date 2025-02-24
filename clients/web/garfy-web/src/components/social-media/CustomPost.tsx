@@ -75,7 +75,6 @@ const CustomPost = ({ date, imageUrls, post }: PostProps) => {
   };
 
   const handleAddComment = (text: string) => {
-    debugger;
     createComment(
       { postId: post.id, content: text, userId: currentUser().id },
       (data) => {

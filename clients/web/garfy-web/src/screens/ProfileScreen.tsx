@@ -30,19 +30,16 @@ const ProfileScreen: React.FC = () => {
   }, []);
 
   const fetch = async () => {
-    console.log(username);
     setLoading(true);
     getProfile(
       username,
       (profile) => {
-        debugger;
         setProfile(profile);
         if (profile === null) {
           setOpenCreateProfile(true);
         }
       },
-      (error) => {
-        debugger;
+      () => {
         ToastrService.error("Profil bulunamadı.");
       }
     );
@@ -51,14 +48,12 @@ const ProfileScreen: React.FC = () => {
       10,
       (data) => {
         setUserPosts(data.data);
-        console.log(data.data);
       },
       (error) => {
         alert(error);
       }
     );
     setUserQuestions(await getByUser(0, 10, "oogul"));
-    console.log(userQuestions);
     setLoading(false);
   };
 
