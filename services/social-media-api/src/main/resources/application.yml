@@ -20,9 +20,4 @@ logging:
     org:
       hibernate:
         SQL: debug
-grpc:
-  client:
-    media-service:
-      address: static://localhost:9050
-      negotiationType: plaintext
 

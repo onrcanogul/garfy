@@ -13,6 +13,7 @@ import Post from "../contracts/social-media/post";
 import Question from "../contracts/blog/question";
 import { getByUser } from "../services/blog/question-service";
 import ProfileQuestionGrid from "../components/profile/ProfileQuestionGrid";
+import ProfileCreateScreen from "../components/profile/ProfileCreateScreen";
 
 const ProfileScreen: React.FC = () => {
   const { username } = useParams<{ username: string }>();
@@ -21,6 +22,7 @@ const ProfileScreen: React.FC = () => {
   const [userQuestions, setUserQuestions] = useState<Question[]>();
   const [userPosts, setUserPosts] = useState<Post[]>();
   const [selectedTab, setSelectedTab] = useState(0);
+  const [openCreateProfile, setOpenCreateProfile] = useState<boolean>(false);
 
   useEffect(() => {
     fetch();
@@ -33,6 +35,9 @@ const ProfileScreen: React.FC = () => {
       username,
       (profile) => {
         setProfile(profile);
+        if (profile === null) {
+          setOpenCreateProfile(true);
+        }
       },
       (error) => {
         alert(error);
@@ -78,6 +83,11 @@ const ProfileScreen: React.FC = () => {
         {selectedTab === 1 && <ProfileQuestionGrid questions={userQuestions} />}
         {selectedTab === 2 && <ProfilePostGrid posts={userPosts} />}
       </Box>
+
+      <ProfileCreateScreen
+        open={openCreateProfile}
+        setOpen={setOpenCreateProfile}
+      />
     </Box>
   );
 };

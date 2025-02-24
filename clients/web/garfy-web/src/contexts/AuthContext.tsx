@@ -12,6 +12,8 @@ import {
   KEYCLOAK_URL,
 } from "../constants/keycloak";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { currentUser } from "../services/auth-service";
 
 const keycloak: KeycloakInstance = new Keycloak({
   url: "http://localhost:8070",
@@ -35,8 +37,9 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const isInitialized = useRef<boolean>(false); // Bir kere çalıştırmayı sağlamak için useRef ekliyoruz
+  const isInitialized = useRef<boolean>(false);
 
   useEffect(() => {
     if (isInitialized.current) return;
@@ -96,9 +99,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }, 60000);
   };
 
-  const login = () => {
-    console.log("🔑 Kullanıcı giriş yapıyor...");
+  const login = async () => {
     keycloak.login();
+    const username = (await getCurrentUser())?.username;
+    setTimeout(() => {
+      navigate(`/profile/${username}`);
+    }, 1000);
   };
 
   const logout = () => {

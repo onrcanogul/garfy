@@ -5,7 +5,7 @@ import Blog from "./screens/BlogScreen";
 import SocialMedia from "./screens/SocialMediaScreen";
 import { ProfileScreen } from "./screens/ProfileScreen";
 import SettingsScreen from "./screens/SettingsScreen";
-import Login from "./screens/Login";
+import Login from "./screens/LoginScreen";
 import ProtectedRoute from "./screens/ProtectedRoute";
 import Register from "./screens/RegisterScreen";
 

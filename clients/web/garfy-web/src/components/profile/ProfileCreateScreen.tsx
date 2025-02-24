@@ -10,6 +10,10 @@ import {
   DialogActions,
 } from "@mui/material";
 import { styled } from "@mui/system";
+import { createProfile } from "../../services/profile/profile-service";
+import ToastrService from "../../services/toastr-service";
+import axios from "axios";
+import { baseUrl } from "../../constants/endpoint";
 
 const StyledDialog = styled(Dialog)({
   "& .MuiPaper-root": {
@@ -43,22 +47,57 @@ const ProfileCreateScreen: React.FC<ProfileCreateScreenProps> = ({
   open,
   setOpen,
 }) => {
-  const [avatar, setAvatar] = useState<string>("");
+  const [avatarPreview, setAvatarPreview] = useState<string>(""); // Önizleme için
+  const [avatarFile, setAvatarFile] = useState<File | null>(null); // Dosya objesi
   const [username, setUsername] = useState<string>("");
   const [fullname, setFullname] = useState<string>("");
   const [bio, setBio] = useState<string>("");
 
+  // **Resim Yükleme Event'i**
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      setAvatarFile(file); // Dosya saklanıyor
+
       const reader = new FileReader();
-      reader.onload = (e) => setAvatar(e.target?.result as string);
-      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (e) => setAvatarPreview(e.target?.result as string);
+      reader.readAsDataURL(file);
     }
   };
 
-  const handleSave = () => {
-    console.log("Profile Saved:", { username, fullname, bio, avatar });
-    setOpen(false);
+  // **Profil ve Resmi Kaydetme İşlemi**
+  const handleSave = async () => {
+    try {
+      const profileData = { bio, fullName: fullname, username: username };
+
+      // 1. Profil Oluştur
+      const profile = await new Promise<any>((resolve, reject) => {
+        createProfile(
+          profileData,
+          (data) => resolve(data),
+          (error) => reject(error)
+        );
+      });
+
+      ToastrService.success("Profil oluşturuldu.");
+
+      if (avatarFile) {
+        const formData = new FormData();
+        formData.append("files", avatarFile);
+        formData.append("id", profile.id);
+        formData.append("fileType", "2");
+        formData.append("container", "media");
+
+        await axios.post(`${baseUrl}/media/api/media`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        ToastrService.success("Profil resmi yüklendi.");
+      }
+      setOpen(false);
+    } catch (error) {
+      console.error("Hata:", error);
+      ToastrService.error("Profil oluştururken bir hata meydana geldi.");
+    }
   };
 
   return (
@@ -76,7 +115,9 @@ const ProfileCreateScreen: React.FC<ProfileCreateScreenProps> = ({
               accept="image/*"
               onChange={handleAvatarChange}
             />
-            <StyledAvatar src={avatar}>{!avatar && "Resim"}</StyledAvatar>
+            <StyledAvatar src={avatarPreview}>
+              {!avatarPreview && "Resim"}
+            </StyledAvatar>
           </label>
         </Box>
 
