@@ -34,12 +34,19 @@ const StyledButton = styled(Button)({
   fontWeight: "bold",
 });
 
-const ProfileCreateScreen: React.FC = () => {
+interface ProfileCreateScreenProps {
+  open: boolean;
+  setOpen: any;
+}
+
+const ProfileCreateScreen: React.FC<ProfileCreateScreenProps> = ({
+  open,
+  setOpen,
+}) => {
   const [avatar, setAvatar] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [fullname, setFullname] = useState<string>("");
   const [bio, setBio] = useState<string>("");
-  const [open, setOpen] = useState<boolean>(true);
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {

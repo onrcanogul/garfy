@@ -35,6 +35,12 @@ spring:
             - Path=/prof/**
           filters:
             - RewritePath=/prof/(?<segment>.*), /$\{segment}
+        - id: media-api
+          uri: http://media-api:8080
+          predicates:
+            - Path=/media/**
+          filters:
+            - RewritePath=/media/(?<segment>.*), /$\{segment}
 
   security:
     oauth2:
