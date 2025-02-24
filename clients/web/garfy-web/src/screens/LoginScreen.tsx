@@ -8,9 +8,11 @@ import {
 } from "@mui/material";
 import { useAuth } from "../contexts/AuthContext";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { login } = useAuth();
+  const { login, getCurrentUser } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <Container component="main" maxWidth="xs">
@@ -63,7 +65,13 @@ const Login = () => {
             bgcolor: "primary.main",
             "&:hover": { bgcolor: "primary.dark" },
           }}
-          onClick={login}
+          onClick={async () => {
+            login();
+            const username = (await getCurrentUser())?.username;
+            setTimeout(() => {
+              navigate(`/profile/${username}`);
+            }, 1000);
+          }}
         >
           Giriş Yap
         </Button>

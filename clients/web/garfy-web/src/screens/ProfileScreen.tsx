@@ -14,6 +14,7 @@ import Question from "../contracts/blog/question";
 import { getByUser } from "../services/blog/question-service";
 import ProfileQuestionGrid from "../components/profile/ProfileQuestionGrid";
 import ProfileCreateScreen from "../components/profile/ProfileCreateScreen";
+import ToastrService from "../services/toastr-service";
 
 const ProfileScreen: React.FC = () => {
   const { username } = useParams<{ username: string }>();
@@ -34,13 +35,15 @@ const ProfileScreen: React.FC = () => {
     getProfile(
       username,
       (profile) => {
+        debugger;
         setProfile(profile);
         if (profile === null) {
           setOpenCreateProfile(true);
         }
       },
       (error) => {
-        alert(error);
+        debugger;
+        ToastrService.error("Profil bulunamadı.");
       }
     );
     getPosts(

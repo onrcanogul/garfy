@@ -37,7 +37,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const isInitialized = useRef<boolean>(false);
 
@@ -72,7 +71,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       })
       .catch(() => {
-        console.log("❌ Keycloak başlatma başarısız.");
         setIsAuthenticated(false);
       });
   }, []);
@@ -101,14 +99,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const login = async () => {
     keycloak.login();
-    const username = (await getCurrentUser())?.username;
-    setTimeout(() => {
-      navigate(`/profile/${username}`);
-    }, 1000);
   };
 
   const logout = () => {
-    console.log("🚪 Kullanıcı çıkış yapıyor...");
     keycloak.logout();
     setIsAuthenticated(false);
     localStorage.removeItem("kc-token");
@@ -127,11 +120,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const getToken = async (): Promise<string | null> => {
-    console.log("🔄 Token alınıyor...");
     if (keycloak.token) {
       try {
         await keycloak.updateToken(30);
-        console.log("✅ Güncellenmiş Token:", keycloak.token);
         localStorage.setItem("kc-token", keycloak.token);
         return keycloak.token;
       } catch (error) {
